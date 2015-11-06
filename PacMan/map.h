@@ -44,9 +44,11 @@ public:
 
     // IMap interface
 public:
+    vector<vector<int> > &matrix();
+    vector<Position> legalMov(Position &p,vector< vector< int > >* visited=NULL);
+    vector<Position> legalMov(vector<Position> &p, vector<vector<int> > *visited);
     void mapgen();
     void setup(Game &game, int cols, int rows, int width, int height);
-    vector<vector<int> > &matrix();
     int cols();
     int rows();
     int width();

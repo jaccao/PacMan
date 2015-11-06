@@ -16,6 +16,8 @@
 
 TEMPLATE = app
 
+CONFIG += c++11
+
 QT += serialport
 
 SOURCES += \

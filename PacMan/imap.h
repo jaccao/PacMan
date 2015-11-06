@@ -25,6 +25,51 @@ using std::vector;
 
 class Game;
 
+class Position
+{
+public:
+    int x,y;
+    Position* p;
+    Position(int x,int y)
+    {
+        this->x=x;
+        this->y=y;
+        this->p=NULL;
+    }
+    Position():
+        Position(0,0)
+    {
+    }
+    Position(const Position& p,int x,int y):
+        Position(x,y)
+    {
+        assign(p);
+    }
+    Position(const Position& p):
+        Position(p.x,p.y)
+    {
+        if(p.p) assign(*p.p);
+    }
+    ~Position()
+    {
+        if(p) delete p;
+    }
+    Position& operator=(const Position& o)
+    {
+        if(p) delete p;
+        this->x=o.x;
+        this->y=o.y;
+        this->p=NULL;
+        if(o.p) assign(*o.p);
+        return *this;
+    }
+private:
+    void assign(const Position& p)
+    {
+        this->p=new Position(p);
+    }
+};
+
 class IMap: public IGlut
 {
 public:
@@ -36,6 +81,8 @@ public:
     virtual int rows();
     virtual int width();
     virtual int height();
+    virtual vector<Position> legalMov(Position &p,vector< vector< int > >* visited=NULL);
+    virtual vector<Position> legalMov(vector<Position> &p,vector< vector< int > >* visited=NULL);
 };
 
 #endif // IMAP_H

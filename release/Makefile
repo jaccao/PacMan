@@ -178,6 +178,7 @@ Makefile: ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resolve_config.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf \
+		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf \
@@ -315,6 +316,7 @@ F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/default_pre.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resolve_config.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf:
+F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf:

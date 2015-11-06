@@ -229,3 +229,60 @@ int Map::height()
 {
     return h;
 }
+
+vector<Position> Map::legalMov(Position &p,vector< vector< int > >* visited)
+{
+    vector< Position > ret;
+    if(p.x>0){
+        if(!(m[p.x-1][p.y]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x-1][p.y]==IMap::TileBlock)) ret.push_back(Position(p,p.x-1,p.y));
+            }else{
+                ret.push_back(Position(p,p.x-1,p.y));
+            }
+        }
+    }
+    if(p.y>0){
+        if(!(m[p.x][p.y-1]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x][p.y-1]==IMap::TileBlock)) ret.push_back(Position(p,p.x,p.y-1));
+            }else{
+                ret.push_back(Position(p,p.x,p.y-1));
+            }
+        }
+    }
+    if(p.x<c-1){
+        if(!(m[p.x+1][p.y]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x+1][p.y]==IMap::TileBlock)) ret.push_back(Position(p,p.x+1,p.y));
+            }else{
+                ret.push_back(Position(p,p.x+1,p.y));
+            }
+        }
+    }
+    if(p.y<r-1){
+        if(!(m[p.x][p.y+1]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x][p.y+1]==IMap::TileBlock)) ret.push_back(Position(p,p.x,p.y+1));
+            }else{
+                ret.push_back(Position(p,p.x,p.y+1));
+            }
+        }
+    }
+    if(visited)
+        for(unsigned int i=0;i<ret.size();i++)
+            (*visited)[ret.at(i).x][ret.at(i).y]=IMap::TileBlock;
+    return ret;
+}
+
+
+vector<Position> Map::legalMov(vector<Position> &p, vector<vector<int> > *visited)
+{
+    vector< Position > ret;
+    for(unsigned int i=0;i<p.size();i++)
+    {
+        vector<Position> n=legalMov(p.at(i),visited);
+        ret.insert(ret.end(), n.begin(), n.end());
+    }
+    return ret;
+}
