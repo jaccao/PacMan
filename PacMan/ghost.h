@@ -27,6 +27,7 @@ private:
     double ghostX,ghostY,ghostSpeed;
     double lastX,lastY;
     double analogX,analogY;
+    bool isScared;
 public:
     Ghost();
 
@@ -42,6 +43,7 @@ public:
     double X(double x=-1);
     double Y(double y=-1);
     double speed(double s=-1);
+    bool scared(int s=-1);
     void setDirection(double x, double y);
 };
 

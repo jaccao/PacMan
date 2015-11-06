@@ -121,11 +121,11 @@ void Game::displayImp()
     }
     if(state==Game::Win)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,128,128,128," YOU WIN ");
+        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1," YOU WIN ");
     }
     if(state==Game::GameOver)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,128,128,128,"GAME OVER");
+        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1,"GAME OVER");
     }
     glutSwapBuffers();
 }
