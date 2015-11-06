@@ -46,7 +46,8 @@ void Map::setup(Game &game, int cols, int rows, int width, int height)
     srand(time(NULL));
     mapgen();
     game.pacman->X((cols/2+0.5)*width);
-    game.pacman->Y((rows/2-4+0.5)*height);
+    game.pacman->Y(1.5*height);
+//    game.pacman->Y((rows/2-4+0.5)*height);
     game.pacman->speed(128);
     unsigned int c=0;
     for(int j=-2;j<=0;j++)
