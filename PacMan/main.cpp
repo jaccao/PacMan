@@ -1,5 +1,8 @@
 /*
-# Copyright (C) 2015, 2016 Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# Copyright (C) 2015, 2016
+# Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# William Malheiros Evangelista <williammalheiros_2@hotmail.com>
+# Jose David Oliveira Nunes <david.nunes.co@hotmail.com>
 # This file is part of PacMan Project - UdL/FACENS Sem Fronteira.
 #
 # PacMan is free software: you can redistribute it and/or modify
@@ -22,21 +25,5 @@
 
 int main(int argc,char *argv[])
 {
-    Game::setup(V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowPosition(64,64);
-    glutInitWindowSize(V_WIDTH*V_COLUMNS, V_HEIGHT*V_ROWS);
-    glutCreateWindow("PacMan");
-
-    glutDisplayFunc(Game::display);
-    glutKeyboardFunc(Game::keyboard);
-    glutKeyboardUpFunc(Game::keyboardUp);
-    glutIdleFunc(Game::idle);
-
-    glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0,V_WIDTH*V_COLUMNS-1,0,V_HEIGHT*V_ROWS-1);
-
-    glutMainLoop();
-    return 0;
+    return Game::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
 }

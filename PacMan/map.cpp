@@ -1,5 +1,8 @@
 /*
-# Copyright (C) 2015, 2016 Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# Copyright (C) 2015, 2016
+# Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# William Malheiros Evangelista <williammalheiros_2@hotmail.com>
+# Jose David Oliveira Nunes <david.nunes.co@hotmail.com>
 # This file is part of PacMan Project - UdL/FACENS Sem Fronteira.
 #
 # PacMan is free software: you can redistribute it and/or modify
@@ -193,7 +196,7 @@ void Map::mapgen()
         {
             m[i][j]=0;
         }
-    m[c/2][r/2-3]=3;
+    m[c/2][r/2-3]=5;
     // mirror matrix
     for(int i=0;i<=c/2;i++)
         for(int j=0;j<r;j++)

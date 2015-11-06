@@ -1,5 +1,8 @@
 /*
-# Copyright (C) 2015, 2016 Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# Copyright (C) 2015, 2016
+# Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# William Malheiros Evangelista <williammalheiros_2@hotmail.com>
+# Jose David Oliveira Nunes <david.nunes.co@hotmail.com>
 # This file is part of PacMan Project - UdL/FACENS Sem Fronteira.
 #
 # PacMan is free software: you can redistribute it and/or modify
@@ -67,38 +70,46 @@ void PacMan::idle(Game &game)
         int y=((int)(pacY/map->height()))+dy;
         if(!((map->matrix()[x][y])&1))
         {
-            if(dx&&((((int)pacY)-map->height()/2)%map->height()<1))
+            if(dx) if(((((int)pacY)-map->height()/2)%map->height()<2))
             {
-                lastX=controller->digitalX();
+                lastX=dx;
                 lastY=0;
             }
-            if(dy&&((((int)pacX)-map->width()/2)%map->width()<1))
+            if(dy) if(((((int)pacX)-map->width()/2)%map->width()<2))
             {
-                lastY=controller->digitalY();
+                lastY=dy;
                 lastX=0;
             }
         }
-        x=((int)(pacX/map->width()))+(int)lastX;
-        y=((int)(pacY/map->height()))+(int)lastY;
-        if((map->matrix()[x][y])&1)
+    }
+    int x=((int)(pacX/map->width()))+(int)lastX;
+    int y=((int)(pacY/map->height()))+(int)lastY;
+    if((map->matrix()[x][y])&1)
+    {
+        if(lastX)
         {
-            if(lastX)
+            double d=(pacX-(x+0.5)*map->width())/map->width();
+            if(-1.0<d&&d<1.0)
             {
-                double d=(pacX-(x+0.5)*map->width())/map->width();
-                if(-1.0<d&&d<1.0) lastX=0;
-            }
-            if(lastY)
-            {
-                double d=(pacY-(y+0.5)*map->height())/map->height();
-                if(-1.0<d&&d<1.0) lastY=0;
+                pacX=((int)(pacX/map->width()))*map->width()+map->width()/2.0;
+                lastX=0;
             }
         }
-        pacX+=lastX*pacSpeed*(ellap/1000.0);
-        pacY+=lastY*pacSpeed*(ellap/1000.0);
-        x=((int)(pacX/map->width()));
-        y=((int)(pacY/map->height()));
-        if(map->matrix()[x][y]==2) map->matrix()[x][y]=0;
+        if(lastY)
+        {
+            double d=(pacY-(y+0.5)*map->height())/map->height();
+            if(-1.0<d&&d<1.0)
+            {
+                pacY=((int)(pacY/map->height()))*map->height()+map->height()/2.0;
+                lastY=0;
+            }
+        }
     }
+    pacX+=lastX*pacSpeed*(ellap/1000.0);
+    pacY+=lastY*pacSpeed*(ellap/1000.0);
+    x=((int)(pacX/map->width()));
+    y=((int)(pacY/map->height()));
+    if(map->matrix()[x][y]==2) map->matrix()[x][y]=0;
 }
 
 double PacMan::X(double x)

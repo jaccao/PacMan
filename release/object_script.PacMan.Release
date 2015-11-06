@@ -1,0 +1,12 @@
+INPUT(
+./release/main.o
+./release/arduinocontroller.o
+./release/fakecontroller.o
+./release/game.o
+./release/keyboardcontroller.o
+./release/map.o
+./release/pacman.o
+./release/ghost.o
+./release/fakeartificialintelligence.o
+./release/moc_arduinocontroller.o
+);

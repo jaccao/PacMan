@@ -1,5 +1,8 @@
 /*
-# Copyright (C) 2015, 2016 Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# Copyright (C) 2015, 2016
+# Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# William Malheiros Evangelista <williammalheiros_2@hotmail.com>
+# Jose David Oliveira Nunes <david.nunes.co@hotmail.com>
 # This file is part of PacMan Project - UdL/FACENS Sem Fronteira.
 #
 # PacMan is free software: you can redistribute it and/or modify
@@ -31,9 +34,26 @@ void Game::keyboardUp(unsigned char c, int x, int y)
     instance().keyboardUpImp(c,x,y);
 }
 
-void Game::setup(int cols, int rows, int width, int height)
+int Game::setup(int argc,char *argv[],int cols, int rows, int width, int height)
 {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowPosition(64,64);
+    glutInitWindowSize(width*cols, height*rows);
+    glutCreateWindow("PacMan");
+
+    glutDisplayFunc(Game::display);
+    glutKeyboardFunc(Game::keyboard);
+    glutKeyboardUpFunc(Game::keyboardUp);
+    glutIdleFunc(Game::idle);
+
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0,width*cols-1,0,height*rows-1);
+
     instance().setupImp(cols,rows, width, height);
+
+    glutMainLoop();
+    return 0;
 }
 
 void Game::idle()
