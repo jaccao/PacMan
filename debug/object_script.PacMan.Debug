@@ -7,7 +7,6 @@ INPUT(
 ./debug/map.o
 ./debug/pacman.o
 ./debug/ghost.o
-./debug/distanceartificialintelligence.o
 ./debug/fakeartificialintelligence.o
 ./debug/moc_arduinocontroller.o
 );

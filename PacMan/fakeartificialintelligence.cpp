@@ -46,53 +46,35 @@ void FakeArtificialIntelligence::keyboardUp(Game &game, unsigned char c, int x, 
 
 void FakeArtificialIntelligence::idle(Game &game)
 {
-    vector< vector< int > > visited;
-    vector< Position > pg;
-    for(unsigned int g=0;g<game.ghosts.size();g++)
-    {
-        IGhost* gh=game.ghosts[g];
-        pg.push_back(Position(gh->X()/game.map->width(),gh->Y()/game.map->height()));
-    }
-    pg.resize(game.ghosts.size());
-    visited.resize(game.map->cols(),vector<int>(game.map->rows(),0));
-    Position p(game.pacman->X()/game.map->width(),game.pacman->Y()/game.map->height());
-    vector< Position > ps=game.map->legalMov(p,&visited);
-    while (ps.size())
-    {
-        for(unsigned int i=0;i<ps.size();i++)
-        {
-            for(unsigned int g=0;g<pg.size();g++)
-            {
-                if(ps[i].x==pg[g].x) if(ps[i].y==pg[g].y)
-                {
-                    pg[g]=ps[i];
-                }
-            }
-        }
-        ps=game.map->legalMov(ps,&visited);
-    }
-    for(unsigned int c=0;c<pg.size();c++)
+    double px=game.pacman->X();
+    double py=game.pacman->Y();
+    for(unsigned int c=0;c<game.ghosts.size();c++)
     {
         IGhost *g=game.ghosts.at(c);
-        Position* pa=&pg.at(c);
-        if(pa->p)
+        double gx=g->X();
+        double gy=g->Y();
+        if(py==gy) py-=0.1;
+        double r=(px-gx)/(py-gy);
+        if(r>1||r<-1)
         {
-            Position* pp=pg[c].p;
-            if(pa->x<pp->x)
-            {
-                g->setDirection(1,0);
-            }
-            else if(pa->x>pp->x)
+            if(px<gx)
             {
                 g->setDirection(-1,0);
             }
-            else if(pa->y<pp->y)
+            else
             {
-                g->setDirection(0,1);
+                g->setDirection(1,0);
             }
-            else if(pa->y>pp->y)
+        }
+        else
+        {
+            if(py<gy)
             {
                 g->setDirection(0,-1);
+            }
+            else
+            {
+                g->setDirection(0,1);
             }
         }
     }

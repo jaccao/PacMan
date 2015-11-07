@@ -110,6 +110,11 @@ void PacMan::idle(Game &game)
     x=((int)(pacX/map->width()));
     y=((int)(pacY/map->height()));
     if(map->matrix()[x][y]==IMap::TileFood) map->matrix()[x][y]=IMap::TileNone;
+    if(map->matrix()[x][y]==IMap::TilePower)
+    {
+        map->matrix()[x][y]=IMap::TileNone;
+        for(unsigned int c=0;c<game.ghosts.size();c++) game.ghosts[c]->scared(true);
+    }
 }
 
 double PacMan::X(double x)

@@ -47,14 +47,14 @@ void Map::setup(Game &game, int cols, int rows, int width, int height)
     mapgen();
     game.pacman->X((cols/2+0.5)*width);
     game.pacman->Y(1.5*height);
-    game.pacman->speed(128);
+    game.pacman->speed(96);
     unsigned int c=0;
     for(int j=-2;j<=0;j++)
         for(int i=-2;i<=2;i++)
             if(c<game.ghosts.size())
             {
                 IGhost *g=game.ghosts.at(c);
-                g->speed((96-32)+rand()%32);
+                g->speed((96-16)+rand()%32);
                 g->X((cols/2+i+0.5)*width);
                 g->Y((rows/2+j+0.5)*height);
                 c++;
@@ -82,6 +82,11 @@ void Map::display(Game &game)
             {
                 glColor3f(0.8,0.0,0.0);
                 glRecti(i*w+14,j*h+14,(i+1)*w-14,(j+1)*h-14);
+            }
+            if(m[i][j]==IMap::TilePower)
+            {
+                glColor3f(1,1,1);
+                glRecti(i*w+10,j*h+10,(i+1)*w-10,(j+1)*h-10);
             }
         }
 }
@@ -190,6 +195,8 @@ void Map::mapgen()
         {
             if(m[i][j]==0) m[i][j]=IMap::TileFood;
         }
+    // power
+    m[1][1]=IMap::TilePower;
     // open pandora box
     for(int i=c/2-2;i<=c/2;i++)
         for(int j=r/2-2;j<r/2+1;j++)

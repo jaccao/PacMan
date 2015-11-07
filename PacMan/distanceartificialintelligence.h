@@ -16,21 +16,15 @@
 # GNU General Public License for more details.
 */
 
-#ifndef GHOST_H
-#define GHOST_H
+#ifndef DISTANCEARTIFICIALINTELLIGENCE_H
+#define DISTANCEARTIFICIALINTELLIGENCE_H
 
 #include "game.h"
 
-class Ghost: public IGhost
+class DistanceArtificialIntelligence: public IArtificialIntelligence
 {
-private:
-    double ghostX,ghostY,ghostSpeed;
-    double lastX,lastY;
-    double analogX,analogY;
-    bool isScared;
-    int scaredTime;
 public:
-    Ghost();
+    DistanceArtificialIntelligence();
 
     // IGlut interface
 public:
@@ -38,14 +32,10 @@ public:
     void keyboard(Game &game, unsigned char c, int x, int y);
     void keyboardUp(Game &game, unsigned char c, int x, int y);
     void idle(Game &game);
-
-    // IGhost interface
-public:
-    double X(double x=-1);
-    double Y(double y=-1);
-    double speed(double s=-1);
-    bool scared(int s=-1);
-    void setDirection(double x, double y);
+private:
+    vector<State> generateStates(Game &game);
+    vector<State> generateStates(Game &game, vector<Position> &ps_pac, vector<vector<Position> > &vps_ghosts, unsigned int ps);
+    double evalState(Game &game, State &state);
 };
 
-#endif // GHOST_H
+#endif // FAKEARTIFICIALINTELLIGENCE_H

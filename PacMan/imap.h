@@ -22,6 +22,7 @@
 #include <vector>
 using std::vector;
 #include "iglut.h"
+#include "ighost.h"
 
 class Game;
 
@@ -30,11 +31,13 @@ class Position
 public:
     int x,y;
     Position* p;
+    IGhost* g;
     Position(int x,int y)
     {
         this->x=x;
         this->y=y;
         this->p=NULL;
+        this->g=NULL;
     }
     Position():
         Position(0,0)
@@ -43,11 +46,13 @@ public:
     Position(const Position& p,int x,int y):
         Position(x,y)
     {
+        this->g=p.g;
         assign(p);
     }
     Position(const Position& p):
         Position(p.x,p.y)
     {
+        this->g=p.g;
         if(p.p) assign(*p.p);
     }
     ~Position()
@@ -60,13 +65,47 @@ public:
         this->x=o.x;
         this->y=o.y;
         this->p=NULL;
+        this->g=o.g;
         if(o.p) assign(*o.p);
         return *this;
+    }
+    int directionX()
+    {
+        if(p)
+        {
+            if(p->x>this->x) return 1;
+            else if(p->x<this->x) return -1;
+        }
+        return 0;
+    }
+    int directionY()
+    {
+        if(p)
+        {
+            if(p->y>this->y) return 1;
+            else if(p->y<this->y) return -1;
+        }
+        return 0;
     }
 private:
     void assign(const Position& p)
     {
         this->p=new Position(p);
+    }
+};
+
+class State
+{
+public:
+    Position pacman;
+    vector< Position > ghosts;
+    State()
+    {
+    }
+    State(Position pacman,vector< Position > ghosts)
+    {
+        this->pacman=pacman;
+        this->ghosts=ghosts;
     }
 };
 

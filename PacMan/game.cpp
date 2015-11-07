@@ -88,17 +88,18 @@ Game::Game()
     pacman=p;
     gluts.push_back(p);
     // Ghosts
-    for(int c=0;c<7;c++)
+    for(int c=0;c<3;c++)
     {
         IGhost *g=new Ghost();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new FakeArtificialIntelligence();
+    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 }
+
 void Game::displayText( float x, float y, int r, int g, int b, const char *string )
 {
     int j = strlen( string );
@@ -135,6 +136,11 @@ void Game::keyboardImp(unsigned char c, int x, int y)
     if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
         gluts.at(i)->keyboard(*this,c,x,y);
+    }
+    else if(c==' ')
+    {
+        map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
+        state=Game::Running;
     }
     glutPostRedisplay();
 }

@@ -35,7 +35,7 @@
 #include "map.h"
 #include "pacman.h"
 #include "ghost.h"
-#include "fakeartificialintelligence.h"
+#include "distanceartificialintelligence.h"
 
 class Game
 {

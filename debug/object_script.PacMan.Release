@@ -7,7 +7,6 @@ INPUT(
 ./release/map.o
 ./release/pacman.o
 ./release/ghost.o
-./release/distanceartificialintelligence.o
 ./release/fakeartificialintelligence.o
 ./release/moc_arduinocontroller.o
 );

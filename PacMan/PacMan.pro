@@ -29,6 +29,7 @@ SOURCES += \
     map.cpp \
     pacman.cpp \
     ghost.cpp \
+    distanceartificialintelligence.cpp \
     fakeartificialintelligence.cpp
 
 LIBS += -lglutk32
@@ -49,6 +50,7 @@ HEADERS += \
     ighost.h \
     ghost.h \
     iartificialintelligence.h \
+    distanceartificialintelligence.h \
     fakeartificialintelligence.h
 
 DEFINES += NO_USE_QT

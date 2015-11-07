@@ -25,6 +25,7 @@ Ghost::Ghost()
     analogX=0;
     analogY=0;
     isScared=false;
+    scaredTime=0;
 }
 
 void Ghost::display(Game &game)
@@ -55,8 +56,11 @@ void Ghost::keyboardUp(Game &game, unsigned char c, int x, int y)
 
 void Ghost::idle(Game &game)
 {
+
     IMap *map=game.map;
     int ellap=game.ellapsed;
+    if(scaredTime) scaredTime-=ellap;
+    if(scaredTime<0){scaredTime=0;isScared=false;}
 
     if(true)
     {
@@ -132,6 +136,10 @@ void Ghost::setDirection(double x, double y)
 
 bool Ghost::scared(int s)
 {
-    if(s>=0) isScared=s;
+    if(s>=0)
+    {
+        isScared=s;
+        if(isScared) scaredTime=8000;
+    }
     return isScared;
 }
