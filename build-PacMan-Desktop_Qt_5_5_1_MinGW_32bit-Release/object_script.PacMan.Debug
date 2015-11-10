@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\arduinocontroller.o
+./debug\fakecontroller.o
+./debug\game.o
+./debug\keyboardcontroller.o
+./debug\map.o
+./debug\pacman.o
+./debug\ghost.o
+./debug\fakeartificialintelligence.o
+./debug\moc_arduinocontroller.o
+);
