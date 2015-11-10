@@ -20,6 +20,7 @@
 #define GAME_H
 
 #include <sys/timeb.h>
+#include <string.h>
 
 #include "imap.h"
 #include "ipacman.h"
@@ -34,7 +35,7 @@
 #include "map.h"
 #include "pacman.h"
 #include "ghost.h"
-#include "fakeartificialintelligence.h"
+#include "distanceartificialintelligence.h"
 
 class Game
 {
@@ -43,6 +44,8 @@ private:
     struct timeb last;
     Game();
 public:
+    enum State{Running,Win,GameOver};
+    State state;
     int ellapsed;
     IController *controller;
     IMap *map;
@@ -63,6 +66,7 @@ private:
     void keyboardImp(unsigned char c,int x,int y);
     void keyboardUpImp(unsigned char c,int x,int y);
     void idleImp();
+    void displayText(float x, float y, int r, int g, int b, const char *string);
 };
 
 #endif // BOARD_H

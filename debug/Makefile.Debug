@@ -51,7 +51,6 @@ SOURCES       = ../PacMan/main.cpp \
 		../PacMan/map.cpp \
 		../PacMan/pacman.cpp \
 		../PacMan/ghost.cpp \
-		../PacMan/distanceartificialintelligence.cpp \
 		../PacMan/fakeartificialintelligence.cpp debug/moc_arduinocontroller.cpp
 OBJECTS       = debug/main.o \
 		debug/arduinocontroller.o \
@@ -61,7 +60,6 @@ OBJECTS       = debug/main.o \
 		debug/map.o \
 		debug/pacman.o \
 		debug/ghost.o \
-		debug/distanceartificialintelligence.o \
 		debug/fakeartificialintelligence.o \
 		debug/moc_arduinocontroller.o
 
@@ -78,7 +76,6 @@ DIST          =  ../PacMan/icontroller.h \
 		../PacMan/ighost.h \
 		../PacMan/ghost.h \
 		../PacMan/iartificialintelligence.h \
-		../PacMan/distanceartificialintelligence.h \
 		../PacMan/fakeartificialintelligence.h ../PacMan/main.cpp \
 		../PacMan/arduinocontroller.cpp \
 		../PacMan/fakecontroller.cpp \
@@ -87,7 +84,6 @@ DIST          =  ../PacMan/icontroller.h \
 		../PacMan/map.cpp \
 		../PacMan/pacman.cpp \
 		../PacMan/ghost.cpp \
-		../PacMan/distanceartificialintelligence.cpp \
 		../PacMan/fakeartificialintelligence.cpp
 QMAKE_TARGET  = PacMan
 DESTDIR        = debug/ #avoid trailing-slash linebreak
@@ -119,7 +115,7 @@ $(DESTDIR_TARGET):  $(OBJECTS)
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) object_script.PacMan.Debug  $(LIBS)
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-g++ -o Makefile.Debug ../PacMan/PacMan.pro
+	@$(QMAKE) -spec win32-g++ CONFIG+=debug -o Makefile.Debug ../PacMan/PacMan.pro
 
 qmake_all: FORCE
 
@@ -127,7 +123,7 @@ dist:
 	$(ZIP) PacMan.zip $(SOURCES) $(DIST) ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/spec_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/qdevice.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/device_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/qconfig.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcollision.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcollision_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcore.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcore_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dinput.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dinput_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dlogic.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dlogic_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquick.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquick_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquickrenderer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquickrenderer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3drenderer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3drenderer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axbase.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axbase_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axcontainer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axcontainer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axserver.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axserver_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bluetooth.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bluetooth_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bootstrap_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_clucene_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_concurrent.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_concurrent_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_core.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_core_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_dbus.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_dbus_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_declarative.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_declarative_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designercomponents_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_enginio.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_enginio_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_gui.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_gui_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_help.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_help_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_location.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_location_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimedia.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimedia_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimediawidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimediawidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_network.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_network_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_nfc.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_nfc_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_opengl.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_opengl_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_openglextensions.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_openglextensions_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_platformsupport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_positioning.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_positioning_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_printsupport.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_printsupport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qml.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qml_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmldevtools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmltest.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmltest_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quick.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quick_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickparticles_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickwidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickwidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_script.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_script_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_scripttools.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_scripttools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sensors.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sensors_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_serialport.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_serialport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sql.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sql_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_svg.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_svg_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_testlib.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_testlib_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uiplugin.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uitools.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uitools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webchannel.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webchannel_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkit.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkit_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkitwidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkitwidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_websockets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_websockets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_widgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_widgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_winextras.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_winextras_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xml.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xml_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xmlpatterns.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xmlpatterns_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt_functions.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/qt_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++/qmake.conf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/spec_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/default_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resolve_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/build_pass.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resources.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/moc.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/opengl.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/windows.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/testcase_targets.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exceptions.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/yacc.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/lex.prf ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/lib/qtmaind.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Guid.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5SerialPortd.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Cored.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug/main.o debug/arduinocontroller.o debug/fakecontroller.o debug/game.o debug/keyboardcontroller.o debug/map.o debug/pacman.o debug/ghost.o debug/distanceartificialintelligence.o debug/fakeartificialintelligence.o debug/moc_arduinocontroller.o
+	-$(DEL_FILE) debug/main.o debug/arduinocontroller.o debug/fakecontroller.o debug/game.o debug/keyboardcontroller.o debug/map.o debug/pacman.o debug/ghost.o debug/fakeartificialintelligence.o debug/moc_arduinocontroller.o
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -357,7 +353,7 @@ debug/moc_arduinocontroller.cpp: F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtS
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h \
+		../PacMan/fakeartificialintelligence.h \
 		../PacMan/arduinocontroller.h
 	'F:\programs\Qt5.5.1\5.5\mingw492_32\bin\moc.exe' $(DEFINES) -D__GNUC__ -DWIN32 -IF:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++ -IF:/Pessoal/Udl/Sem1/Projects/PacMan/PacMan -IF:/programs/Qt5.5.1/5.5/mingw492_32/include -IF:/programs/Qt5.5.1/5.5/mingw492_32/include/QtGui -IF:/programs/Qt5.5.1/5.5/mingw492_32/include/QtANGLE -IF:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort -IF:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore -I. ../PacMan/arduinocontroller.h -o debug/moc_arduinocontroller.cpp
 
@@ -586,7 +582,7 @@ debug/main.o: ../PacMan/main.cpp ../PacMan/game.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/main.o ../PacMan/main.cpp
 
 debug/arduinocontroller.o: ../PacMan/arduinocontroller.cpp ../PacMan/arduinocontroller.h \
@@ -800,7 +796,7 @@ debug/arduinocontroller.o: ../PacMan/arduinocontroller.cpp ../PacMan/arduinocont
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/arduinocontroller.o ../PacMan/arduinocontroller.cpp
 
 debug/fakecontroller.o: ../PacMan/fakecontroller.cpp ../PacMan/fakecontroller.h \
@@ -1014,7 +1010,7 @@ debug/fakecontroller.o: ../PacMan/fakecontroller.cpp ../PacMan/fakecontroller.h 
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/fakecontroller.o ../PacMan/fakecontroller.cpp
 
 debug/game.o: ../PacMan/game.cpp ../PacMan/game.h \
@@ -1228,7 +1224,7 @@ debug/game.o: ../PacMan/game.cpp ../PacMan/game.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/game.o ../PacMan/game.cpp
 
 debug/keyboardcontroller.o: ../PacMan/keyboardcontroller.cpp ../PacMan/keyboardcontroller.h \
@@ -1442,7 +1438,7 @@ debug/keyboardcontroller.o: ../PacMan/keyboardcontroller.cpp ../PacMan/keyboardc
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/keyboardcontroller.o ../PacMan/keyboardcontroller.cpp
 
 debug/map.o: ../PacMan/map.cpp ../PacMan/map.h \
@@ -1656,7 +1652,7 @@ debug/map.o: ../PacMan/map.cpp ../PacMan/map.h \
 		../PacMan/keyboardcontroller.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/map.o ../PacMan/map.cpp
 
 debug/pacman.o: ../PacMan/pacman.cpp ../PacMan/pacman.h \
@@ -1870,7 +1866,7 @@ debug/pacman.o: ../PacMan/pacman.cpp ../PacMan/pacman.h \
 		../PacMan/keyboardcontroller.h \
 		../PacMan/map.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/pacman.o ../PacMan/pacman.cpp
 
 debug/ghost.o: ../PacMan/ghost.cpp ../PacMan/ghost.h \
@@ -2084,222 +2080,8 @@ debug/ghost.o: ../PacMan/ghost.cpp ../PacMan/ghost.h \
 		../PacMan/keyboardcontroller.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/fakeartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/ghost.o ../PacMan/ghost.cpp
-
-debug/distanceartificialintelligence.o: ../PacMan/distanceartificialintelligence.cpp ../PacMan/distanceartificialintelligence.h \
-		../PacMan/game.h \
-		../PacMan/imap.h \
-		../PacMan/iglut.h \
-		../PacMan/ipacman.h \
-		../PacMan/ighost.h \
-		../PacMan/icontroller.h \
-		../PacMan/iartificialintelligence.h \
-		../PacMan/arduinocontroller.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/QtSerialPort \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/QtSerialPortDepends \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QtCore \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QtCoreDepends \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractanimation.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnamespace.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobal.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qconfig.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfeatures.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsystemdetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qprocessordetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcompilerdetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypeinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypetraits.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsysinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlogging.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qflags.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbasicatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_bootstrap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qgenericatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_cxx11.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_gcc.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_msvc.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv7.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv6.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv5.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_ia64.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_mips.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_x86.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_unix.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobalstatic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmutex.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnumeric.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs_impl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstring.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qchar.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qrefcount.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qarraydata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringbuilder.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qalgorithms.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiterator.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearraylist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringlist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregexp.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringmatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreevent.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qscopedpointer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmetatype.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvarlengtharray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontainerfwd.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qisenum.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject_impl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qanimationgroup.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qparallelanimationgroup.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpauseanimation.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpropertyanimation.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariantanimation.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeasingcurve.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpair.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsequentialanimationgroup.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextcodec.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qendian.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlibraryinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdatetime.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbuffer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdatastream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdir.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfileinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfile.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfiledevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdiriterator.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfileselector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QObject \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QStringList \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfilesystemwatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlockfile.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qloggingcategory.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qprocess.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qresource.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsavefile.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsettings.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstandardpaths.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstorageinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtemporarydir.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QScopedPointer \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtemporaryfile.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qurl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qurlquery.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractitemmodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractproxymodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qidentityproxymodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qitemselectionmodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsortfilterproxymodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringlistmodel.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qjsonarray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qjsonvalue.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qjsondocument.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qjsonobject.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstracteventdispatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventloop.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractnativeeventfilter.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbasictimer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmath.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmetaobject.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmimedata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectcleanuphandler.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpointer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsharedpointer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsharedpointer_impl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsharedmemory.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsignalmapper.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsocketnotifier.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsystemsemaphore.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtimer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtranslator.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qwineventnotifier.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmimedatabase.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmimetype.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfactoryinterface.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlibrary.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qplugin.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpluginloader.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/quuid.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstractstate.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qabstracttransition.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qeventtransition.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfinalstate.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhistorystate.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsignaltransition.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstate.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstatemachine.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qexception.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfuture.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfutureinterface.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qrunnable.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qresultstore.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfuturesynchronizer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfuturewatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qreadwritelock.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsemaphore.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qthread.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qthreadpool.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qthreadstorage.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qwaitcondition.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qarraydataops.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qarraydatapointer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbitarray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearraymatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcache.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcollator.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcommandlineoption.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcommandlineparser.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcryptographichash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qelapsedtimer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qline.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlinkedlist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmargins.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmessageauthenticationcode.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qqueue.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qrect.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsize.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregularexpression.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qscopedvaluerollback.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstack.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextboundaryfinder.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtimeline.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtimezone.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qxmlstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtcoreversion.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/qserialport.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/qserialportglobal.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/qserialportinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtSerialPort/qtserialportversion.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QThread \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QTimer \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QCoreApplication \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QJsonObject \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QJsonValue \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QJsonDocument \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QMutex \
-		../PacMan/fakecontroller.h \
-		../PacMan/keyboardcontroller.h \
-		../PacMan/map.h \
-		../PacMan/pacman.h \
-		../PacMan/ghost.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/distanceartificialintelligence.o ../PacMan/distanceartificialintelligence.cpp
 
 debug/fakeartificialintelligence.o: ../PacMan/fakeartificialintelligence.cpp ../PacMan/fakeartificialintelligence.h \
 		../PacMan/game.h \
@@ -2512,8 +2294,7 @@ debug/fakeartificialintelligence.o: ../PacMan/fakeartificialintelligence.cpp ../
 		../PacMan/keyboardcontroller.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
-		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h
+		../PacMan/ghost.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/fakeartificialintelligence.o ../PacMan/fakeartificialintelligence.cpp
 
 debug/moc_arduinocontroller.o: debug/moc_arduinocontroller.cpp 

@@ -68,7 +68,7 @@ void PacMan::idle(Game &game)
         }
         int x=((int)(pacX/map->width()))+dx;
         int y=((int)(pacY/map->height()))+dy;
-        if(!((map->matrix()[x][y])&1))
+        if(!((map->matrix()[x][y])&IMap::TileBlock))
         {
             if(dx) if(((((int)pacY)-map->height()/2)%map->height()<2))
             {
@@ -84,7 +84,7 @@ void PacMan::idle(Game &game)
     }
     int x=((int)(pacX/map->width()))+(int)lastX;
     int y=((int)(pacY/map->height()))+(int)lastY;
-    if((map->matrix()[x][y])&1)
+    if((map->matrix()[x][y])&IMap::TileBlock)
     {
         if(lastX)
         {
@@ -109,7 +109,12 @@ void PacMan::idle(Game &game)
     pacY+=lastY*pacSpeed*(ellap/1000.0);
     x=((int)(pacX/map->width()));
     y=((int)(pacY/map->height()));
-    if(map->matrix()[x][y]==2) map->matrix()[x][y]=0;
+    if(map->matrix()[x][y]==IMap::TileFood) map->matrix()[x][y]=IMap::TileNone;
+    if(map->matrix()[x][y]==IMap::TilePower)
+    {
+        map->matrix()[x][y]=IMap::TileNone;
+        for(unsigned int c=0;c<game.ghosts.size();c++) game.ghosts[c]->scared(true);
+    }
 }
 
 double PacMan::X(double x)

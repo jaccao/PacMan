@@ -24,12 +24,17 @@ Ghost::Ghost()
     lastY=0;
     analogX=0;
     analogY=0;
+    isScared=false;
+    scaredTime=0;
 }
 
 void Ghost::display(Game &game)
 {
     (void)game;
-    glColor3f(0.0,0.0,0.8);
+    if(scared())
+        glColor3f(0.8,0.8,0.8);
+    else
+        glColor3f(0.0,0.0,0.8);
     glRecti(ghostX-12,ghostY-12,ghostX+12,ghostY+12);
 }
 
@@ -51,8 +56,11 @@ void Ghost::keyboardUp(Game &game, unsigned char c, int x, int y)
 
 void Ghost::idle(Game &game)
 {
+
     IMap *map=game.map;
     int ellap=game.ellapsed;
+    if(scaredTime) scaredTime-=ellap;
+    if(scaredTime<0){scaredTime=0;isScared=false;}
 
     if(true)
     {
@@ -60,7 +68,7 @@ void Ghost::idle(Game &game)
         int dy=analogY;
         int x=((int)(ghostX/map->width()))+dx;
         int y=((int)(ghostY/map->height()))+dy;
-        if((!((map->matrix()[x][y])&1))||((map->matrix()[x][y])&4))
+        if((!((map->matrix()[x][y])&1))||((map->matrix()[x][y])==IMap::TileGate))
         {
             if(dx) if(((((int)ghostY)-map->height()/2)%map->height()<2))
             {
@@ -77,7 +85,7 @@ void Ghost::idle(Game &game)
 
     int x=((int)(ghostX/map->width()))+(int)lastX;
     int y=((int)(ghostY/map->height()))+(int)lastY;
-    if((map->matrix()[x][y])&1) if((map->matrix()[x][y])!=5)
+    if((map->matrix()[x][y])&IMap::TileBlock) if((map->matrix()[x][y])!=IMap::TileGate)
     {
         if(lastX)
         {
@@ -124,4 +132,14 @@ void Ghost::setDirection(double x, double y)
 {
     analogX=x;
     analogY=y;
+}
+
+bool Ghost::scared(int s)
+{
+    if(s>=0)
+    {
+        isScared=s;
+        if(isScared) scaredTime=8000;
+    }
+    return isScared;
 }

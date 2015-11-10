@@ -46,15 +46,15 @@ void Map::setup(Game &game, int cols, int rows, int width, int height)
     srand(time(NULL));
     mapgen();
     game.pacman->X((cols/2+0.5)*width);
-    game.pacman->Y((rows/2-4+0.5)*height);
-    game.pacman->speed(128);
+    game.pacman->Y(1.5*height);
+    game.pacman->speed(96);
     unsigned int c=0;
     for(int j=-2;j<=0;j++)
         for(int i=-2;i<=2;i++)
             if(c<game.ghosts.size())
             {
                 IGhost *g=game.ghosts.at(c);
-                g->speed((96-32)+rand()%32);
+                g->speed((96-16)+rand()%32);
                 g->X((cols/2+i+0.5)*width);
                 g->Y((rows/2+j+0.5)*height);
                 c++;
@@ -70,7 +70,7 @@ void Map::display(Game &game)
         for(j=0;j<r;j++)
         {
             switch (m[i][j]) {
-            case 1:
+            case IMap::TileBlock:
                 glColor3f(0.8,0.8,0.8);
                 break;
             default:
@@ -78,10 +78,15 @@ void Map::display(Game &game)
                 break;
             }
             glRecti(i*w,j*h,(i+1)*w,(j+1)*h);
-            if(m[i][j]==2)
+            if(m[i][j]==IMap::TileFood)
             {
                 glColor3f(0.8,0.0,0.0);
                 glRecti(i*w+14,j*h+14,(i+1)*w-14,(j+1)*h-14);
+            }
+            if(m[i][j]==IMap::TilePower)
+            {
+                glColor3f(1,1,1);
+                glRecti(i*w+10,j*h+10,(i+1)*w-10,(j+1)*h-10);
             }
         }
 }
@@ -114,14 +119,14 @@ void Map::mapgen()
         for(int j=0;j<r;j++)
         {
             if(i==0||j==0||i==c-1||j==r-1) m[i][j]=1;
-            else  m[i][j]=0;
+            else  m[i][j]=IMap::TileNone;
         }
     // DO: adjust the box
     // pandora box
     for(int i=c/2-3;i<=c/2;i++)
         for(int j=r/2-3;j<r/2+2;j++)
         {
-            m[i][j]=1;
+            m[i][j]=IMap::TileBlock;
         }
     // random wall
     for(int t=0;t<1000;t++)
@@ -133,7 +138,7 @@ void Map::mapgen()
         if(sumArea(px,py)==0)
         {
             // set first pixel
-            m[px][py]=1;
+            m[px][py]=IMap::TileBlock;
             int tries=2000;
             // random to continue
             while ((rand()%100<97))
@@ -141,7 +146,7 @@ void Map::mapgen()
                 tries--;
                 if(!tries)
                 {
-                    m[px][py]=2;
+                    m[px][py]=IMap::TileDebug;
                     return;
                 }
                 int tx=px;
@@ -172,7 +177,7 @@ void Map::mapgen()
                         // set pixel
                         px=tx;
                         py=ty;
-                        m[px][py]=1;
+                        m[px][py]=IMap::TileBlock;
                     }
                 }
             }
@@ -182,21 +187,23 @@ void Map::mapgen()
     for(int i=0;i<c;i++)
         for(int j=0;j<r;j++)
         {
-            if(j%2==0&&i%2==0) m[i][j]=1;
+            if(j%2==0&&i%2==0) m[i][j]=IMap::TileBlock;
         }
     // food
     for(int i=0;i<=c/2;i++)
         for(int j=0;j<r;j++)
         {
-            if(m[i][j]==0) m[i][j]=2;
+            if(m[i][j]==0) m[i][j]=IMap::TileFood;
         }
+    // power
+    m[1][1]=IMap::TilePower;
     // open pandora box
     for(int i=c/2-2;i<=c/2;i++)
         for(int j=r/2-2;j<r/2+1;j++)
         {
-            m[i][j]=0;
+            m[i][j]=IMap::TileNone;
         }
-    m[c/2][r/2-3]=5;
+    m[c/2][r/2-3]=IMap::TileGate;
     // mirror matrix
     for(int i=0;i<=c/2;i++)
         for(int j=0;j<r;j++)
@@ -228,4 +235,61 @@ int Map::width()
 int Map::height()
 {
     return h;
+}
+
+vector<Position> Map::legalMov(Position &p,vector< vector< int > >* visited)
+{
+    vector< Position > ret;
+    if(p.x>0){
+        if(!(m[p.x-1][p.y]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x-1][p.y]==IMap::TileBlock)) ret.push_back(Position(p,p.x-1,p.y));
+            }else{
+                ret.push_back(Position(p,p.x-1,p.y));
+            }
+        }
+    }
+    if(p.y>0){
+        if(!(m[p.x][p.y-1]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x][p.y-1]==IMap::TileBlock)) ret.push_back(Position(p,p.x,p.y-1));
+            }else{
+                ret.push_back(Position(p,p.x,p.y-1));
+            }
+        }
+    }
+    if(p.x<c-1){
+        if(!(m[p.x+1][p.y]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x+1][p.y]==IMap::TileBlock)) ret.push_back(Position(p,p.x+1,p.y));
+            }else{
+                ret.push_back(Position(p,p.x+1,p.y));
+            }
+        }
+    }
+    if(p.y<r-1){
+        if(!(m[p.x][p.y+1]==IMap::TileBlock)){
+            if(visited){
+                if(!((*visited)[p.x][p.y+1]==IMap::TileBlock)) ret.push_back(Position(p,p.x,p.y+1));
+            }else{
+                ret.push_back(Position(p,p.x,p.y+1));
+            }
+        }
+    }
+    if(visited)
+        for(unsigned int i=0;i<ret.size();i++)
+            (*visited)[ret.at(i).x][ret.at(i).y]=IMap::TileBlock;
+    return ret;
+}
+
+
+vector<Position> Map::legalMov(vector<Position> &p, vector<vector<int> > *visited)
+{
+    vector< Position > ret;
+    for(unsigned int i=0;i<p.size();i++)
+    {
+        vector<Position> n=legalMov(p.at(i),visited);
+        ret.insert(ret.end(), n.begin(), n.end());
+    }
+    return ret;
 }

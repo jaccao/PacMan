@@ -68,6 +68,7 @@ void Game::display()
 
 Game::Game()
 {
+    state=Game::Running;
     ftime(&last);
     // Controller
     IController* k;
@@ -87,16 +88,28 @@ Game::Game()
     pacman=p;
     gluts.push_back(p);
     // Ghosts
-    for(int c=0;c<7;c++)
+    for(int c=0;c<3;c++)
     {
         IGhost *g=new Ghost();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new FakeArtificialIntelligence();
+    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
+}
+
+void Game::displayText( float x, float y, int r, int g, int b, const char *string )
+{
+    int j = strlen( string );
+
+    glColor3f( r, g, b );
+    glRasterPos2f( x, y );
+    for( int i = 0; i < j; i++ )
+    {
+        glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, string[i] );
+    }
 }
 
 void Game::displayImp()
@@ -107,21 +120,34 @@ void Game::displayImp()
     {
         gluts.at(i)->display(*this);
     }
+    if(state==Game::Win)
+    {
+        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1," YOU WIN ");
+    }
+    if(state==Game::GameOver)
+    {
+        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1,"GAME OVER");
+    }
     glutSwapBuffers();
 }
 
 void Game::keyboardImp(unsigned char c, int x, int y)
 {
-    for(unsigned int i=0;i<gluts.size();i++)
+    if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
         gluts.at(i)->keyboard(*this,c,x,y);
+    }
+    else if(c==' ')
+    {
+        map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
+        state=Game::Running;
     }
     glutPostRedisplay();
 }
 
 void Game::keyboardUpImp(unsigned char c, int x, int y)
 {
-    for(unsigned int i=0;i<gluts.size();i++)
+    if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
         gluts.at(i)->keyboardUp(*this,c,x,y);
     }
@@ -139,9 +165,24 @@ void Game::idleImp()
     ftime(&now);
     ellapsed=(now.time-last.time)*1000.0+now.millitm-last.millitm;
     last=now;
-    for(unsigned int i=0;i<gluts.size();i++)
+    if(state==Game::Running)
     {
-        gluts.at(i)->idle(*this);
+        for(unsigned int i=0;i<gluts.size();i++)
+        {
+            gluts.at(i)->idle(*this);
+        }
+        for(unsigned int i=0;i<ghosts.size();i++)
+        {
+            IGhost *g=ghosts.at(i);
+            int x=(int)(pacman->X()/map->width())-(int)(g->X()/map->width());
+            int y=(int)(pacman->Y()/map->height())-(int)(g->Y()/map->height());
+            if(!x) if(!y) state=Game::GameOver;
+        }
+        bool food=false;
+        for(int y=0;y<map->rows();y++)
+            for(int x=0;x<map->cols();x++)
+                if(map->matrix()[x][y]==2) food=true;
+        if(food==false) state=Game::Win;
     }
     glutPostRedisplay();
 }
