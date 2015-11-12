@@ -23,20 +23,12 @@ DistanceArtificialIntelligence::DistanceArtificialIntelligence()
 
 }
 
-void DistanceArtificialIntelligence::display(Game &game)
+void DistanceArtificialIntelligence::display(IGame &game)
 {
     (void)game;
 }
 
-void DistanceArtificialIntelligence::keyboard(Game &game, unsigned char c, int x, int y)
-{
-    (void)game;
-    (void)c;
-    (void)x;
-    (void)y;
-}
-
-void DistanceArtificialIntelligence::keyboardUp(Game &game, unsigned char c, int x, int y)
+void DistanceArtificialIntelligence::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -44,7 +36,15 @@ void DistanceArtificialIntelligence::keyboardUp(Game &game, unsigned char c, int
     (void)y;
 }
 
-vector< State > DistanceArtificialIntelligence::generateStates(Game& game, vector< Position >& ps_pac,vector< vector< Position > >& vps_ghosts,unsigned int ps)
+void DistanceArtificialIntelligence::keyboardUp(IGame &game, unsigned char c, int x, int y)
+{
+    (void)game;
+    (void)c;
+    (void)x;
+    (void)y;
+}
+
+vector< State > DistanceArtificialIntelligence::generateStates(IGame& game, vector< Position >& ps_pac,vector< vector< Position > >& vps_ghosts,unsigned int ps)
 {
     vector< State > ret;
     vector< Position > gps=vps_ghosts[ps];
@@ -80,29 +80,29 @@ vector< State > DistanceArtificialIntelligence::generateStates(Game& game, vecto
     return(ret);
 }
 
-vector< State > DistanceArtificialIntelligence::generateStates(Game& game)
+vector< State > DistanceArtificialIntelligence::generateStates(IGame& game)
 {
-    Position p_pac(game.pacman->X()/game.map->width(),game.pacman->Y()/game.map->height());
-    vector< Position > ps_pac=game.map->legalMov(p_pac);
+    Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
+    vector< Position > ps_pac=game.getMap()->legalMov(p_pac);
     vector< vector< Position > > vps_ghosts;
-    for(unsigned int c=0;c<game.ghosts.size();c++)
+    for(unsigned int c=0;c<game.getGhosts().size();c++)
     {
-        IGhost* g=game.ghosts[c];
-        Position p_ghost(g->X()/game.map->width(),g->Y()/game.map->height());
+        IGhost* g=game.getGhosts()[c];
+        Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
         p_ghost.g=g;
-        vps_ghosts.push_back(game.map->legalMov(p_ghost));
+        vps_ghosts.push_back(game.getMap()->legalMov(p_ghost));
     }
     vector< State > ret=generateStates(game,ps_pac,vps_ghosts,0);
     return ret;
 }
 
-double DistanceArtificialIntelligence::evalState(Game& game,State& state)
+double DistanceArtificialIntelligence::evalState(IGame& game,State& state)
 {
     vector< vector< int > > visited;
-    visited.resize(game.map->cols(),vector<int>(game.map->rows(),0));
+    visited.resize(game.getMap()->cols(),vector<int>(game.getMap()->rows(),0));
     vector< Position > pg=state.ghosts;
     unsigned int visg=0;
-    vector< Position > ps=game.map->legalMov(state.pacman,&visited);
+    vector< Position > ps=game.getMap()->legalMov(state.pacman,&visited);
     int steps=0,max_steps=0;
     while(ps.size())
     {
@@ -133,15 +133,15 @@ double DistanceArtificialIntelligence::evalState(Game& game,State& state)
             }
         }
         if(visg>=pg.size()) break;
-        ps=game.map->legalMov(ps,&visited);
+        ps=game.getMap()->legalMov(ps,&visited);
     }
-    return (double)max_steps/(double)game.ghosts.size();
+    return (double)max_steps/(double)game.getGhosts().size();
 }
 
-void DistanceArtificialIntelligence::idle(Game &game)
+void DistanceArtificialIntelligence::idle(IGame &game)
 {
     static int ellap=0;
-    ellap+=game.ellapsed;
+    ellap+=game.getEllapsed();
     if(ellap>200)
     {
         ellap=0;

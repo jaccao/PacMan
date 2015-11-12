@@ -114,7 +114,7 @@ class IMap: public IGlut
 public:
     enum Tile{TileNone=0,TileBlock=1,TileFood=2,TilePower=4,TileGate=9,TileDebug=128};
     virtual void mapgen();
-    virtual void setup(Game &game,int cols, int rows, int width, int height);
+    virtual void setup(IGame &game,int cols, int rows, int width, int height);
     virtual vector< vector< int > > &matrix();
     virtual int cols();
     virtual int rows();

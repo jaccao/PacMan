@@ -24,12 +24,12 @@ KeyboardController::KeyboardController()
     dAnalogY=0;
 }
 
-void KeyboardController::display(Game &game)
+void KeyboardController::display(IGame &game)
 {
     (void)game;
 }
 
-void KeyboardController::keyboard(Game &game, unsigned char c, int x, int y)
+void KeyboardController::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)x;
     (void)y;
@@ -51,7 +51,7 @@ void KeyboardController::keyboard(Game &game, unsigned char c, int x, int y)
     }
 }
 
-void KeyboardController::idle(Game &game)
+void KeyboardController::idle(IGame &game)
 {
     (void)game;
 }
@@ -67,7 +67,7 @@ double KeyboardController::analogY()
 }
 
 
-void KeyboardController::keyboardUp(Game &game, unsigned char c, int x, int y)
+void KeyboardController::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
     (void)x;
     (void)y;

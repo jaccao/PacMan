@@ -36,7 +36,7 @@ Map::Map()
 {
 }
 
-void Map::setup(Game &game, int cols, int rows, int width, int height)
+void Map::setup(IGame &game, int cols, int rows, int width, int height)
 {
     this->c=cols;
     this->r=rows;
@@ -45,15 +45,15 @@ void Map::setup(Game &game, int cols, int rows, int width, int height)
     m.resize(cols,vector<int>(rows,0));
     srand(time(NULL));
     mapgen();
-    game.pacman->X((cols/2+0.5)*width);
-    game.pacman->Y(1.5*height);
-    game.pacman->speed(96);
+    game.getPacman()->X((cols/2+0.5)*width);
+    game.getPacman()->Y(1.5*height);
+    game.getPacman()->speed(96);
     unsigned int c=0;
     for(int j=-2;j<=0;j++)
         for(int i=-2;i<=2;i++)
-            if(c<game.ghosts.size())
+            if(c<game.getGhosts().size())
             {
-                IGhost *g=game.ghosts.at(c);
+                IGhost *g=game.getGhosts().at(c);
                 g->speed((96-16)+rand()%32);
                 g->X((cols/2+i+0.5)*width);
                 g->Y((rows/2+j+0.5)*height);
@@ -61,7 +61,7 @@ void Map::setup(Game &game, int cols, int rows, int width, int height)
             }
 }
 
-void Map::display(Game &game)
+void Map::display(IGame &game)
 {
     (void)game;
     int i,j;
@@ -91,7 +91,7 @@ void Map::display(Game &game)
         }
 }
 
-void Map::keyboard(Game &game, unsigned char c, int x, int y)
+void Map::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)x;
@@ -99,7 +99,7 @@ void Map::keyboard(Game &game, unsigned char c, int x, int y)
     if(c==' ') mapgen();
 }
 
-void Map::keyboardUp(Game &game, unsigned char c, int x, int y)
+void Map::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -107,7 +107,7 @@ void Map::keyboardUp(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void Map::idle(Game &game)
+void Map::idle(IGame &game)
 {
     (void)game;
 }

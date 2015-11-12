@@ -28,7 +28,7 @@ Ghost::Ghost()
     scaredTime=0;
 }
 
-void Ghost::display(Game &game)
+void Ghost::display(IGame &game)
 {
     (void)game;
     if(scared())
@@ -38,7 +38,7 @@ void Ghost::display(Game &game)
     glRecti(ghostX-12,ghostY-12,ghostX+12,ghostY+12);
 }
 
-void Ghost::keyboard(Game &game, unsigned char c, int x, int y)
+void Ghost::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -46,7 +46,7 @@ void Ghost::keyboard(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void Ghost::keyboardUp(Game &game, unsigned char c, int x, int y)
+void Ghost::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -54,11 +54,11 @@ void Ghost::keyboardUp(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void Ghost::idle(Game &game)
+void Ghost::idle(IGame &game)
 {
 
-    IMap *map=game.map;
-    int ellap=game.ellapsed;
+    IMap *map=game.getMap();
+    int ellap=game.getEllapsed();
     if(scaredTime) scaredTime-=ellap;
     if(scaredTime<0){scaredTime=0;isScared=false;}
 

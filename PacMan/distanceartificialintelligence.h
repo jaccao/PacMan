@@ -19,7 +19,7 @@
 #ifndef DISTANCEARTIFICIALINTELLIGENCE_H
 #define DISTANCEARTIFICIALINTELLIGENCE_H
 
-#include "game.h"
+#include "igame.h"
 
 class DistanceArtificialIntelligence: public IArtificialIntelligence
 {
@@ -28,14 +28,14 @@ public:
 
     // IGlut interface
 public:
-    void display(Game &game);
-    void keyboard(Game &game, unsigned char c, int x, int y);
-    void keyboardUp(Game &game, unsigned char c, int x, int y);
-    void idle(Game &game);
+    void display(IGame &game);
+    void keyboard(IGame &game, unsigned char c, int x, int y);
+    void keyboardUp(IGame &game, unsigned char c, int x, int y);
+    void idle(IGame &game);
 private:
-    vector<State> generateStates(Game &game);
-    vector<State> generateStates(Game &game, vector<Position> &ps_pac, vector<vector<Position> > &vps_ghosts, unsigned int ps);
-    double evalState(Game &game, State &state);
+    vector<State> generateStates(IGame &game);
+    vector<State> generateStates(IGame &game, vector<Position> &ps_pac, vector<vector<Position> > &vps_ghosts, unsigned int ps);
+    double evalState(IGame &game, State &state);
 };
 
 #endif // FAKEARTIFICIALINTELLIGENCE_H

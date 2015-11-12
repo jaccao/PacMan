@@ -20,15 +20,15 @@
 #define IGLUT_H
 
 #include <GL/glut.h>
-class Game;
+class IGame;
 
 class IGlut
 {
 public:
-    virtual void display(Game &game);
-    virtual void keyboard(Game &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(Game &game,unsigned char c,int x,int y);
-    virtual void idle(Game &game);
+    virtual void display(IGame &game);
+    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
+    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
+    virtual void idle(IGame &game);
 };
 
 #endif // IGLUT_H

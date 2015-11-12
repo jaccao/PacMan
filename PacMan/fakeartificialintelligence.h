@@ -19,7 +19,7 @@
 #ifndef FAKEARTIFICIALINTELLIGENCE_H
 #define FAKEARTIFICIALINTELLIGENCE_H
 
-#include "game.h"
+#include "igame.h"
 
 class FakeArtificialIntelligence: public IArtificialIntelligence
 {
@@ -28,10 +28,10 @@ public:
 
     // IGlut interface
 public:
-    void display(Game &game);
-    void keyboard(Game &game, unsigned char c, int x, int y);
-    void keyboardUp(Game &game, unsigned char c, int x, int y);
-    void idle(Game &game);
+    void display(IGame &game);
+    void keyboard(IGame &game, unsigned char c, int x, int y);
+    void keyboardUp(IGame &game, unsigned char c, int x, int y);
+    void idle(IGame &game);
 };
 
 #endif // FAKEARTIFICIALINTELLIGENCE_H

@@ -9,5 +9,6 @@ INPUT(
 ./debug/ghost.o
 ./debug/distanceartificialintelligence.o
 ./debug/fakeartificialintelligence.o
+./debug/game3d.o
 ./debug/moc_arduinocontroller.o
 );

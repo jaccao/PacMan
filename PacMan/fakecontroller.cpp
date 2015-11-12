@@ -28,20 +28,12 @@ double FakeController::analogY()
     return(rand()%3-1);
 }
 
-void FakeController::display(Game &game)
+void FakeController::display(IGame &game)
 {
     (void)game;
 }
 
-void FakeController::keyboard(Game &game, unsigned char c, int x, int y)
-{
-    (void)game;
-    (void)c;
-    (void)x;
-    (void)y;
-}
-
-void FakeController::keyboardUp(Game &game, unsigned char c, int x, int y)
+void FakeController::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -49,7 +41,15 @@ void FakeController::keyboardUp(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void FakeController::idle(Game &game)
+void FakeController::keyboardUp(IGame &game, unsigned char c, int x, int y)
+{
+    (void)game;
+    (void)c;
+    (void)x;
+    (void)y;
+}
+
+void FakeController::idle(IGame &game)
 {
     (void)game;
 }

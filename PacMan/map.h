@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "game.h"
+#include "igame.h"
 
 class Map: public IMap
 {
@@ -37,10 +37,10 @@ public:
 
     // IGlut interface
 public:
-    void display(Game &game);
-    void keyboard(Game &game, unsigned char c, int x, int y);
-    void keyboardUp(Game &game, unsigned char c, int x, int y);
-    void idle(Game &game);
+    void display(IGame &game);
+    void keyboard(IGame &game, unsigned char c, int x, int y);
+    void keyboardUp(IGame &game, unsigned char c, int x, int y);
+    void idle(IGame &game);
 
     // IMap interface
 public:
@@ -48,7 +48,7 @@ public:
     vector<Position> legalMov(Position &p,vector< vector< int > >* visited=NULL);
     vector<Position> legalMov(vector<Position> &p, vector<vector<int> > *visited);
     void mapgen();
-    void setup(Game &game, int cols, int rows, int width, int height);
+    void setup(IGame &game, int cols, int rows, int width, int height);
     int cols();
     int rows();
     int width();

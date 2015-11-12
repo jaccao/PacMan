@@ -23,20 +23,12 @@ FakeArtificialIntelligence::FakeArtificialIntelligence()
 
 }
 
-void FakeArtificialIntelligence::display(Game &game)
+void FakeArtificialIntelligence::display(IGame &game)
 {
     (void)game;
 }
 
-void FakeArtificialIntelligence::keyboard(Game &game, unsigned char c, int x, int y)
-{
-    (void)game;
-    (void)c;
-    (void)x;
-    (void)y;
-}
-
-void FakeArtificialIntelligence::keyboardUp(Game &game, unsigned char c, int x, int y)
+void FakeArtificialIntelligence::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -44,13 +36,21 @@ void FakeArtificialIntelligence::keyboardUp(Game &game, unsigned char c, int x, 
     (void)y;
 }
 
-void FakeArtificialIntelligence::idle(Game &game)
+void FakeArtificialIntelligence::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
-    double px=game.pacman->X();
-    double py=game.pacman->Y();
-    for(unsigned int c=0;c<game.ghosts.size();c++)
+    (void)game;
+    (void)c;
+    (void)x;
+    (void)y;
+}
+
+void FakeArtificialIntelligence::idle(IGame &game)
+{
+    double px=game.getPacman()->X();
+    double py=game.getPacman()->Y();
+    for(unsigned int c=0;c<game.getGhosts().size();c++)
     {
-        IGhost *g=game.ghosts.at(c);
+        IGhost *g=game.getGhosts().at(c);
         double gx=g->X();
         double gy=g->Y();
         if(py==gy) py-=0.1;

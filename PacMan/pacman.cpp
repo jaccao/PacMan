@@ -23,14 +23,14 @@ PacMan::PacMan()
 
 }
 
-void PacMan::display(Game &game)
+void PacMan::display(IGame &game)
 {
     (void)game;
     glColor3f(0.8,0.8,0.0);
     glRecti(pacX-12,pacY-12,pacX+12,pacY+12);
 }
 
-void PacMan::keyboard(Game &game, unsigned char c, int x, int y)
+void PacMan::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -38,7 +38,7 @@ void PacMan::keyboard(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void PacMan::keyboardUp(Game &game, unsigned char c, int x, int y)
+void PacMan::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -46,12 +46,12 @@ void PacMan::keyboardUp(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void PacMan::idle(Game &game)
+void PacMan::idle(IGame &game)
 {
     static int lastX=0,lastY=0;
-    IController *controller=game.controller;
-    IMap *map=game.map;
-    int ellap=game.ellapsed;
+    IController *controller=game.getController();
+    IMap *map=game.getMap();
+    int ellap=game.getEllapsed();
     if(controller)
     {
         double ax=controller->analogX()*controller->digitalX();
@@ -113,7 +113,7 @@ void PacMan::idle(Game &game)
     if(map->matrix()[x][y]==IMap::TilePower)
     {
         map->matrix()[x][y]=IMap::TileNone;
-        for(unsigned int c=0;c<game.ghosts.size();c++) game.ghosts[c]->scared(true);
+        for(unsigned int c=0;c<game.getGhosts().size();c++) game.getGhosts()[c]->scared(true);
     }
 }
 

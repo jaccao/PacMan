@@ -100,6 +100,41 @@ Game::Game()
     gluts.push_back(a);
 }
 
+int Game::getEllapsed()
+{
+    return ellapsed;
+}
+
+Game::State Game::getState()
+{
+    return state;
+}
+
+IController *Game::getController()
+{
+    return controller;
+}
+
+IMap *Game::getMap()
+{
+    return map;
+}
+
+IPacMan *Game::getPacman()
+{
+    return pacman;
+}
+
+vector<IGhost *> Game::getGhosts()
+{
+    return ghosts;
+}
+
+IArtificialIntelligence *Game::getAi()
+{
+    return ai;
+}
+
 void Game::displayText( float x, float y, int r, int g, int b, const char *string )
 {
     int j = strlen( string );

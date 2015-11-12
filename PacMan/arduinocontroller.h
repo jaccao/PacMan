@@ -30,7 +30,7 @@
 #include <QJsonDocument>
 #include <QMutex>
 
-#include "game.h"
+#include "igame.h"
 
 class ArduinoController : public QThread,public IController
 {

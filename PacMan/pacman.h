@@ -19,8 +19,11 @@
 #ifndef PACMAN_H
 #define PACMAN_H
 
-#include "game.h"
+#include <sys/timeb.h>
+#include <string.h>
 #include <math.h>
+
+#include "igame.h"
 
 class PacMan: public IPacMan
 {
@@ -31,10 +34,10 @@ public:
 
     // IGlut interface
 public:
-    void display(Game &game);
-    void keyboard(Game &game, unsigned char c, int x, int y);
-    void keyboardUp(Game &game, unsigned char c, int x, int y);
-    void idle(Game &game);
+    void display(IGame &game);
+    void keyboard(IGame &game, unsigned char c, int x, int y);
+    void keyboardUp(IGame &game, unsigned char c, int x, int y);
+    void idle(IGame &game);
 
     // IPacMan interface
 public:
