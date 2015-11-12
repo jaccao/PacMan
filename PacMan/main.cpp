@@ -26,5 +26,5 @@
 
 int main(int argc,char *argv[])
 {
-    return Game3D::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
+    return Game::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
 }
