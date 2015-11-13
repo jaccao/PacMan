@@ -10,5 +10,8 @@ INPUT(
 ./release/distanceartificialintelligence.o
 ./release/fakeartificialintelligence.o
 ./release/game3d.o
+./release/map3d.o
+./release/pacman3d.o
+./release/ghost3d.o
 ./release/moc_arduinocontroller.o
 );

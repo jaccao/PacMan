@@ -27,7 +27,7 @@
 
 class PacMan: public IPacMan
 {
-private:
+protected:
     double pacX,pacY,pacSpeed;
 public:
     PacMan();

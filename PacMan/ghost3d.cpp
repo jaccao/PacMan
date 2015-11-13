@@ -16,21 +16,30 @@
 # GNU General Public License for more details.
 */
 
-#ifndef IGLUT_H
-#define IGLUT_H
+#include "ghost3d.h"
 
-#define PI 3.141592
-
-#include <GL/glut.h>
-class IGame;
-
-class IGlut
+Ghost3D::Ghost3D()
 {
-public:
-    virtual void display(IGame &game);
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
-    virtual void idle(IGame &game);
-};
+    lastX=0;
+    lastY=0;
+    analogX=0;
+    analogY=0;
+    isScared=false;
+    scaredTime=0;
+}
 
-#endif // IGLUT_H
+void Ghost3D::display(IGame &game)
+{
+    (void)game;
+    if(scared())
+        glColor3f(0.8,0.8,0.8);
+    else
+        glColor3f(0.0,0.0,0.8);
+    glPushMatrix();
+
+    glTranslated(ghostX,ghostY,16.0);
+    glScaled(16.0,16.0,16.0);
+    glutSolidTetrahedron();
+
+    glPopMatrix();
+}

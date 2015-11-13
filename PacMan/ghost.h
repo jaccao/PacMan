@@ -23,7 +23,7 @@
 
 class Ghost: public IGhost
 {
-private:
+protected:
     double ghostX,ghostY,ghostSpeed;
     double lastX,lastY;
     double analogX,analogY;

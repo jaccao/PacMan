@@ -27,7 +27,7 @@
 
 class Map: public IMap
 {
-private:
+protected:
     int c,r,w,h;
     vector< vector< int > > m;
     int sumArea(int px, int py);

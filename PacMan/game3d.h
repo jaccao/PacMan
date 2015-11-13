@@ -1,3 +1,21 @@
+/*
+# Copyright (C) 2015, 2016
+# Luiz Fernando Jaccao <luizfernandojaccao@gmail.com>
+# William Malheiros Evangelista <williammalheiros_2@hotmail.com>
+# Jose David Oliveira Nunes <david.nunes.co@hotmail.com>
+# This file is part of PacMan Project - UdL/FACENS Sem Fronteira.
+#
+# PacMan is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PacMan is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+*/
+
 #ifndef GAME3D_H
 #define GAME3D_H
 
@@ -15,18 +33,18 @@
 #include "arduinocontroller.h"
 #include "fakecontroller.h"
 #include "keyboardcontroller.h"
-#include "map.h"
-#include "pacman.h"
-#include "ghost.h"
+#include "map3d.h"
+#include "pacman3d.h"
+#include "ghost3d.h"
 #include "distanceartificialintelligence.h"
 
 class Game3D: public IGame
 {
-private:
+protected:
     vector< IGlut* > gluts;
     struct timeb last;
     Game3D();
-private:
+protected:
     IGame::State state;
     int ellapsed;
     IController *controller;
@@ -34,7 +52,7 @@ private:
     IPacMan *pacman;
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
-private:
+protected:
     static Game3D &instance();
 public:
     static int setup(int argc, char *argv[], int cols, int rows, int width, int height);
@@ -42,22 +60,15 @@ public:
     static void keyboard(unsigned char c,int x,int y);
     static void keyboardUp(unsigned char c,int x,int y);
     static void idle();
-private:
+protected:
     void setupImp(int cols,int rows,int width,int height);
     void displayImp();
     void keyboardImp(unsigned char c,int x,int y);
     void keyboardUpImp(unsigned char c,int x,int y);
     void idleImp();
     void displayText(float x, float y, int r, int g, int b, const char *string);
-    void positionObserver(float alpha, float beta, int radi);
-private:
-    /*--- Global variables that determine the viewpoint location ---*/
-    int anglealpha;
-    int anglebeta;
-    int width;
-    int height;
 
-    // IGame3D interface
+    // IGame interface
 public:
     int getEllapsed();
     State getState();
@@ -66,6 +77,10 @@ public:
     IPacMan *getPacman();
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
+private:
+    void positionObserverZ();
+    int width,height;
+    double phi,theta;
 };
 
-#endif // GAME3D_H
+#endif // BOARD_H

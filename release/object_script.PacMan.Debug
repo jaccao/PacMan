@@ -10,5 +10,8 @@ INPUT(
 ./debug/distanceartificialintelligence.o
 ./debug/fakeartificialintelligence.o
 ./debug/game3d.o
+./debug/map3d.o
+./debug/pacman3d.o
+./debug/ghost3d.o
 ./debug/moc_arduinocontroller.o
 );

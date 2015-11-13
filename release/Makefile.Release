@@ -53,7 +53,10 @@ SOURCES       = ../PacMan/main.cpp \
 		../PacMan/ghost.cpp \
 		../PacMan/distanceartificialintelligence.cpp \
 		../PacMan/fakeartificialintelligence.cpp \
-		../PacMan/game3d.cpp release/moc_arduinocontroller.cpp
+		../PacMan/game3d.cpp \
+		../PacMan/map3d.cpp \
+		../PacMan/pacman3d.cpp \
+		../PacMan/ghost3d.cpp release/moc_arduinocontroller.cpp
 OBJECTS       = release/main.o \
 		release/arduinocontroller.o \
 		release/fakecontroller.o \
@@ -65,6 +68,9 @@ OBJECTS       = release/main.o \
 		release/distanceartificialintelligence.o \
 		release/fakeartificialintelligence.o \
 		release/game3d.o \
+		release/map3d.o \
+		release/pacman3d.o \
+		release/ghost3d.o \
 		release/moc_arduinocontroller.o
 
 DIST          =  ../PacMan/icontroller.h \
@@ -83,7 +89,10 @@ DIST          =  ../PacMan/icontroller.h \
 		../PacMan/distanceartificialintelligence.h \
 		../PacMan/fakeartificialintelligence.h \
 		../PacMan/igame.h \
-		../PacMan/game3d.h ../PacMan/main.cpp \
+		../PacMan/game3d.h \
+		../PacMan/map3d.h \
+		../PacMan/pacman3d.h \
+		../PacMan/ghost3d.h ../PacMan/main.cpp \
 		../PacMan/arduinocontroller.cpp \
 		../PacMan/fakecontroller.cpp \
 		../PacMan/game.cpp \
@@ -93,7 +102,10 @@ DIST          =  ../PacMan/icontroller.h \
 		../PacMan/ghost.cpp \
 		../PacMan/distanceartificialintelligence.cpp \
 		../PacMan/fakeartificialintelligence.cpp \
-		../PacMan/game3d.cpp
+		../PacMan/game3d.cpp \
+		../PacMan/map3d.cpp \
+		../PacMan/pacman3d.cpp \
+		../PacMan/ghost3d.cpp
 QMAKE_TARGET  = PacMan
 DESTDIR        = release/ #avoid trailing-slash linebreak
 TARGET         = PacMan.exe
@@ -132,7 +144,7 @@ dist:
 	$(ZIP) PacMan.zip $(SOURCES) $(DIST) ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/spec_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/qdevice.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/device_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/qconfig.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcollision.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcollision_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcore.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dcore_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dinput.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dinput_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dlogic.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dlogic_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquick.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquick_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquickrenderer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3dquickrenderer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3drenderer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_3drenderer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axbase.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axbase_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axcontainer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axcontainer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axserver.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_axserver_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bluetooth.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bluetooth_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_bootstrap_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_clucene_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_concurrent.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_concurrent_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_core.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_core_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_dbus.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_dbus_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_declarative.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_declarative_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designer.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designer_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_designercomponents_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_enginio.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_enginio_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_gui.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_gui_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_help.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_help_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_location.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_location_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimedia.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimedia_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimediawidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_multimediawidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_network.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_network_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_nfc.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_nfc_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_opengl.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_opengl_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_openglextensions.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_openglextensions_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_platformsupport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_positioning.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_positioning_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_printsupport.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_printsupport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qml.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qml_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmldevtools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmltest.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qmltest_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quick.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quick_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickparticles_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickwidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_quickwidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_script.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_script_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_scripttools.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_scripttools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sensors.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sensors_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_serialport.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_serialport_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sql.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_sql_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_svg.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_svg_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_testlib.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_testlib_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uiplugin.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uitools.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_uitools_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webchannel.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webchannel_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkit.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkit_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkitwidgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_webkitwidgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_websockets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_websockets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_widgets.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_widgets_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_winextras.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_winextras_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xml.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xml_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xmlpatterns.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/modules/qt_lib_xmlpatterns_private.pri F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt_functions.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/qt_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32-g++/qmake.conf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/spec_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/default_pre.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resolve_config.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/build_pass.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resources.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/moc.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/opengl.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/windows.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/testcase_targets.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exceptions.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/yacc.prf F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/lex.prf ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/lib/qtmain.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Gui.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5SerialPort.prl F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release/main.o release/arduinocontroller.o release/fakecontroller.o release/game.o release/keyboardcontroller.o release/map.o release/pacman.o release/ghost.o release/distanceartificialintelligence.o release/fakeartificialintelligence.o release/game3d.o release/moc_arduinocontroller.o
+	-$(DEL_FILE) release/main.o release/arduinocontroller.o release/fakecontroller.o release/game.o release/keyboardcontroller.o release/map.o release/pacman.o release/ghost.o release/distanceartificialintelligence.o release/fakeartificialintelligence.o release/game3d.o release/map3d.o release/pacman3d.o release/ghost3d.o release/moc_arduinocontroller.o
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -586,7 +598,10 @@ release/main.o: ../PacMan/main.cpp ../PacMan/game.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
 		../PacMan/distanceartificialintelligence.h \
-		../PacMan/game3d.h
+		../PacMan/game3d.h \
+		../PacMan/map3d.h \
+		../PacMan/pacman3d.h \
+		../PacMan/ghost3d.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../PacMan/main.cpp
 
 release/arduinocontroller.o: ../PacMan/arduinocontroller.cpp ../PacMan/arduinocontroller.h \
@@ -1291,11 +1306,41 @@ release/game3d.o: ../PacMan/game3d.cpp ../PacMan/game3d.h \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QMutex \
 		../PacMan/fakecontroller.h \
 		../PacMan/keyboardcontroller.h \
-		../PacMan/map.h \
-		../PacMan/pacman.h \
-		../PacMan/ghost.h \
+		../PacMan/map3d.h \
+		../PacMan/pacman3d.h \
+		../PacMan/ghost3d.h \
 		../PacMan/distanceartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/game3d.o ../PacMan/game3d.cpp
+
+release/map3d.o: ../PacMan/map3d.cpp ../PacMan/map3d.h \
+		../PacMan/igame.h \
+		../PacMan/icontroller.h \
+		../PacMan/iglut.h \
+		../PacMan/imap.h \
+		../PacMan/ighost.h \
+		../PacMan/ipacman.h \
+		../PacMan/iartificialintelligence.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/map3d.o ../PacMan/map3d.cpp
+
+release/pacman3d.o: ../PacMan/pacman3d.cpp ../PacMan/pacman3d.h \
+		../PacMan/igame.h \
+		../PacMan/icontroller.h \
+		../PacMan/iglut.h \
+		../PacMan/imap.h \
+		../PacMan/ighost.h \
+		../PacMan/ipacman.h \
+		../PacMan/iartificialintelligence.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/pacman3d.o ../PacMan/pacman3d.cpp
+
+release/ghost3d.o: ../PacMan/ghost3d.cpp ../PacMan/ghost3d.h \
+		../PacMan/igame.h \
+		../PacMan/icontroller.h \
+		../PacMan/iglut.h \
+		../PacMan/imap.h \
+		../PacMan/ighost.h \
+		../PacMan/ipacman.h \
+		../PacMan/iartificialintelligence.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/ghost3d.o ../PacMan/ghost3d.cpp
 
 release/moc_arduinocontroller.o: release/moc_arduinocontroller.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/moc_arduinocontroller.o release/moc_arduinocontroller.cpp

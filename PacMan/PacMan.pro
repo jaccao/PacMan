@@ -31,7 +31,10 @@ SOURCES += \
     ghost.cpp \
     distanceartificialintelligence.cpp \
     fakeartificialintelligence.cpp \
-    game3d.cpp
+    game3d.cpp \
+    map3d.cpp \
+    pacman3d.cpp \
+    ghost3d.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -54,6 +57,9 @@ HEADERS += \
     distanceartificialintelligence.h \
     fakeartificialintelligence.h \
     igame.h \
-    game3d.h
+    game3d.h \
+    map3d.h \
+    pacman3d.h \
+    ghost3d.h
 
 DEFINES += NO_USE_QT

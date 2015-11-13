@@ -40,11 +40,11 @@
 
 class Game: public IGame
 {
-private:
+protected:
     vector< IGlut* > gluts;
     struct timeb last;
     Game();
-private:
+protected:
     IGame::State state;
     int ellapsed;
     IController *controller;
@@ -52,7 +52,7 @@ private:
     IPacMan *pacman;
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
-private:
+protected:
     static Game &instance();
 public:
     static int setup(int argc, char *argv[], int cols, int rows, int width, int height);
@@ -60,7 +60,7 @@ public:
     static void keyboard(unsigned char c,int x,int y);
     static void keyboardUp(unsigned char c,int x,int y);
     static void idle();
-private:
+protected:
     void setupImp(int cols,int rows,int width,int height);
     void displayImp();
     void keyboardImp(unsigned char c,int x,int y);

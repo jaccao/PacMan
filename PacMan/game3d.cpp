@@ -1,7 +1,5 @@
 #include "game3d.h"
 
-#define PI 3.1416
-
 Game3D &Game3D::instance()
 {
     static Game3D ctx;
@@ -51,8 +49,8 @@ void Game3D::display()
 
 Game3D::Game3D()
 {
-    anglealpha=90;
-    anglebeta=0;
+    phi=2.49911;
+    theta=0.899557;
     state=Game3D::Running;
     ftime(&last);
     // Controller
@@ -65,17 +63,17 @@ Game3D::Game3D()
     controller=k;
     gluts.push_back(k);
     // Map
-    IMap *m=new Map();
+    IMap *m=new Map3D();
     map=m;
     gluts.push_back(m);
     // PacMan
-    IPacMan *p=new PacMan();
+    IPacMan *p=new PacMan3D();
     pacman=p;
     gluts.push_back(p);
     // Ghosts
     for(int c=0;c<3;c++)
     {
-        IGhost *g=new Ghost();
+        IGhost *g=new Ghost3D();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
@@ -132,43 +130,17 @@ void Game3D::displayText( float x, float y, int r, int g, int b, const char *str
     }
 }
 
-void Game3D::positionObserver(float alpha,float beta,int radi)
+void Game3D::positionObserverZ()
 {
-  float x,y,z;
-  float upx,upy,upz;
-  float modul;
+    double r=450;
 
-  x = (float)radi*cos(alpha*2*PI/360.0)*cos(beta*2*PI/360.0);
-  y = (float)radi*sin(beta*2*PI/360.0);
-  z = (float)radi*sin(alpha*2*PI/360.0)*cos(beta*2*PI/360.0);
+    double eyeY = r*cos(phi)*sin(theta);
+    double eyeX = r*sin(phi)*sin(theta);
 
-  if (beta>0)
-    {
-      upx=-x;
-      upz=-z;
-      upy=(x*x+z*z)/y;
-    }
-  else if(beta==0)
-    {
-      upx=0;
-      upy=1;
-      upz=0;
-    }
-  else
-    {
-      upx=x;
-      upz=z;
-      upy=-(x*x+z*z)/y;
-    }
+    double eyeZ = r*cos(theta);
 
+    gluLookAt(eyeX,eyeY,eyeZ, 0.0,0.0,0.0, 0.0,0.0,1.0);
 
-  modul=sqrt(upx*upx+upy*upy+upz*upz);
-
-  upx=upx/modul;
-  upy=upy/modul;
-  upz=upz/modul;
-
-  gluLookAt(x,y,z, 0.0,0.0,0.0, upx,upy,upz);
 }
 
 void Game3D::displayImp()
@@ -179,14 +151,16 @@ void Game3D::displayImp()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    positionObserver(anglealpha,anglebeta,450);
+    positionObserverZ();
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-//    glOrtho(-width*0.6,width*0.6,-height*0.6,height*0.6,10,2000);
-    glOrtho(0.0f, width, 0.0, height, 0.0f, 1000.0f);
+
+    glOrtho(-width*0.6,width*0.6,-height*0.6,height*0.6,10,2000);
 
     glMatrixMode(GL_MODELVIEW);
+
+    glTranslated(-width/2.0,-height/2.0,0.0);
 
     for(unsigned int i=0;i<gluts.size();i++)
     {
@@ -205,14 +179,27 @@ void Game3D::displayImp()
 
 void Game3D::keyboardImp(unsigned char c, int x, int y)
 {
-    if (c=='i' && anglebeta<=(90-4))
-      anglebeta=(anglebeta+3);
-    else if (c=='k' && anglebeta>=(-90+4))
-      anglebeta=anglebeta-3;
-    else if (c=='j')
-      anglealpha=(anglealpha+3)%360;
-    else if (c=='l')
-      anglealpha=(anglealpha-3+360)%360;
+    double step=0.1;
+    switch(c)
+    {
+    case 'i':
+        theta-=step;
+        break;
+    case 'k':
+        theta+=step;
+        break;
+    case 'j':
+        phi+=step;
+        break;
+    case 'l':
+        phi-=step;
+        break;
+    }
+
+    if(theta>(PI/2.0*0.9)) theta=PI/2.0*0.9;
+    if(theta<(PI/2.0*0.1)) theta=PI/2.0*0.1;
+    if(phi>2*PI) phi=0.0;
+    if(phi<0) phi=2*PI;
 
     if(state==Game3D::Running) for(unsigned int i=0;i<gluts.size();i++)
     {

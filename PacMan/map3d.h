@@ -16,21 +16,25 @@
 # GNU General Public License for more details.
 */
 
-#ifndef IGLUT_H
-#define IGLUT_H
+#ifndef MAP3D_H
+#define MAP3D_H
 
-#define PI 3.141592
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#include <GL/glut.h>
-class IGame;
+#include "map.h"
 
-class IGlut
+class Map3D: public Map
 {
+
 public:
-    virtual void display(IGame &game);
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
-    virtual void idle(IGame &game);
+    Map3D();
+
+    // IGlut interface
+public:
+    void display(IGame &game);
+
 };
 
-#endif // IGLUT_H
+#endif // MAP3D_H

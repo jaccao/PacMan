@@ -16,21 +16,23 @@
 # GNU General Public License for more details.
 */
 
-#ifndef IGLUT_H
-#define IGLUT_H
+#ifndef PACMAN3D_H
+#define PACMAN3D_H
 
-#define PI 3.141592
+#include <sys/timeb.h>
+#include <string.h>
+#include <math.h>
 
-#include <GL/glut.h>
-class IGame;
+#include "pacman.h"
 
-class IGlut
+class PacMan3D: public PacMan
 {
 public:
-    virtual void display(IGame &game);
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
-    virtual void idle(IGame &game);
+    PacMan3D();
+
+    // IGlut interface
+public:
+    void display(IGame &game);
 };
 
-#endif // IGLUT_H
+#endif // PACMAN_H

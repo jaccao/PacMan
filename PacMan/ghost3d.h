@@ -16,21 +16,19 @@
 # GNU General Public License for more details.
 */
 
-#ifndef IGLUT_H
-#define IGLUT_H
+#ifndef GHOST3D_H
+#define GHOST3D_H
 
-#define PI 3.141592
+#include "ghost.h"
 
-#include <GL/glut.h>
-class IGame;
-
-class IGlut
+class Ghost3D: public Ghost
 {
 public:
-    virtual void display(IGame &game);
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
-    virtual void idle(IGame &game);
+    Ghost3D();
+
+    // IGlut interface
+public:
+    void display(IGame &game);
 };
 
-#endif // IGLUT_H
+#endif // GHOST_H
