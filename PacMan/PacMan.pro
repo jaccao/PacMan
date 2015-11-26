@@ -17,7 +17,7 @@
 TEMPLATE = app
 
 CONFIG += c++11
-CONFIG -= qt
+#CONFIG -= qt
 
 #QT += serialport
 

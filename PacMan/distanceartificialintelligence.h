@@ -19,6 +19,8 @@
 #ifndef DISTANCEARTIFICIALINTELLIGENCE_H
 #define DISTANCEARTIFICIALINTELLIGENCE_H
 
+#include <QDebug>
+
 #include "igame.h"
 
 class DistanceArtificialIntelligence: public IArtificialIntelligence

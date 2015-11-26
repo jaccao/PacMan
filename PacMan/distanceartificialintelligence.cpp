@@ -83,7 +83,9 @@ vector< State > DistanceArtificialIntelligence::generateStates(IGame& game, vect
 vector< State > DistanceArtificialIntelligence::generateStates(IGame& game)
 {
     Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
-    vector< Position > ps_pac=game.getMap()->legalMov(p_pac);
+//    vector< Position > ps_pac=game.getMap()->legalMov(p_pac);
+    vector< Position > ps_pac;
+    ps_pac.push_back(p_pac);
     vector< vector< Position > > vps_ghosts;
     for(unsigned int c=0;c<game.getGhosts().size();c++)
     {
@@ -102,11 +104,12 @@ double DistanceArtificialIntelligence::evalState(IGame& game,State& state)
     visited.resize(game.getMap()->cols(),vector<int>(game.getMap()->rows(),0));
     vector< Position > pg=state.ghosts;
     unsigned int visg=0;
-    vector< Position > ps=game.getMap()->legalMov(state.pacman,&visited);
+//    vector< Position > ps=game.getMap()->legalMov(state.pacman,&visited);
+    vector< Position > ps;
+    ps.push_back(state.pacman);
     int steps=0,max_steps=0;
     while(ps.size())
     {
-        steps++;
         for(unsigned int i=0;i<ps.size();i++)
         {
             for(unsigned int g=0;g<pg.size();g++)
@@ -134,8 +137,10 @@ double DistanceArtificialIntelligence::evalState(IGame& game,State& state)
         }
         if(visg>=pg.size()) break;
         ps=game.getMap()->legalMov(ps,&visited);
+        steps++;
     }
-    return (double)max_steps/(double)game.getGhosts().size();
+    double ret= (double)max_steps/(double)game.getGhosts().size();
+    return ret;
 }
 
 void DistanceArtificialIntelligence::idle(IGame &game)
