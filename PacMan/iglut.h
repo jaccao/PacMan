@@ -22,15 +22,16 @@
 #define PI 3.141592
 
 #include <GL/glut.h>
+
 class IGame;
 
 class IGlut
 {
 public:
-    virtual void display(IGame &game);
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y);
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y);
-    virtual void idle(IGame &game);
+    virtual void display(IGame &game)=0;
+    virtual void keyboard(IGame &game,unsigned char c,int x,int y)=0;
+    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y)=0;
+    virtual void idle(IGame &game)=0;
 };
 
 #endif // IGLUT_H

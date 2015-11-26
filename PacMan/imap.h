@@ -21,107 +21,27 @@
 
 #include <vector>
 using std::vector;
+
 #include "iglut.h"
 #include "ighost.h"
+#include "position.h"
+#include "state.h"
 
 class Game;
-
-class Position
-{
-public:
-    int x,y;
-    Position* p;
-    IGhost* g;
-    Position(int x,int y)
-    {
-        this->x=x;
-        this->y=y;
-        this->p=NULL;
-        this->g=NULL;
-    }
-    Position():
-        Position(0,0)
-    {
-    }
-    Position(const Position& p,int x,int y):
-        Position(x,y)
-    {
-        this->g=p.g;
-        assign(p);
-    }
-    Position(const Position& p):
-        Position(p.x,p.y)
-    {
-        this->g=p.g;
-        if(p.p) assign(*p.p);
-    }
-    ~Position()
-    {
-        if(p) delete p;
-    }
-    Position& operator=(const Position& o)
-    {
-        if(p) delete p;
-        this->x=o.x;
-        this->y=o.y;
-        this->p=NULL;
-        this->g=o.g;
-        if(o.p) assign(*o.p);
-        return *this;
-    }
-    int directionX()
-    {
-        if(p)
-        {
-            if(p->x>this->x) return 1;
-            else if(p->x<this->x) return -1;
-        }
-        return 0;
-    }
-    int directionY()
-    {
-        if(p)
-        {
-            if(p->y>this->y) return 1;
-            else if(p->y<this->y) return -1;
-        }
-        return 0;
-    }
-private:
-    void assign(const Position& p)
-    {
-        this->p=new Position(p);
-    }
-};
-
-class State
-{
-public:
-    Position pacman;
-    vector< Position > ghosts;
-    State()
-    {
-    }
-    State(Position pacman,vector< Position > ghosts)
-    {
-        this->pacman=pacman;
-        this->ghosts=ghosts;
-    }
-};
 
 class IMap: public IGlut
 {
 public:
     enum Tile{TileNone=0,TileBlock=1,TileFood=2,TilePower=4,TileGate=9,TileDebug=128};
-    virtual void mapgen();
-    virtual void setup(IGame &game,int cols, int rows, int width, int height);
-    virtual vector< vector< int > > &matrix();
-    virtual int cols();
-    virtual int rows();
-    virtual int width();
-    virtual int height();
-    virtual vector<Position> legalMov(Position &p,vector< vector< int > >* visited=NULL);
-    virtual vector<Position> legalMov(vector<Position> &p,vector< vector< int > >* visited=NULL);
+    virtual void mapgen()=0;
+    virtual void setup(IGame &game,int cols, int rows, int width, int height)=0;
+    virtual vector< vector< int > > &matrix()=0;
+    virtual int cols()=0;
+    virtual int rows()=0;
+    virtual int width()=0;
+    virtual int height()=0;
+    virtual vector<Position> legalMov(Position &p,vector< vector< int > >* visited=NULL)=0;
+    virtual vector<Position> legalMov(vector<Position> &p,vector< vector< int > >* visited=NULL)=0;
 };
 
 #endif // IMAP_H

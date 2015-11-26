@@ -17,8 +17,9 @@
 TEMPLATE = app
 
 CONFIG += c++11
+CONFIG -= qt
 
-QT += serialport
+#QT += serialport
 
 SOURCES += \
     main.cpp \
@@ -34,7 +35,9 @@ SOURCES += \
     game3d.cpp \
     map3d.cpp \
     pacman3d.cpp \
-    ghost3d.cpp
+    ghost3d.cpp \
+    position.cpp \
+    state.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -60,6 +63,8 @@ HEADERS += \
     game3d.h \
     map3d.h \
     pacman3d.h \
-    ghost3d.h
+    ghost3d.h \
+    position.h \
+    state.h
 
 DEFINES += NO_USE_QT

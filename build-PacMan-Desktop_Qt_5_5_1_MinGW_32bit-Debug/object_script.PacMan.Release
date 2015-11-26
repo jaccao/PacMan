@@ -15,5 +15,4 @@ INPUT(
 ./release/ghost3d.o
 ./release/position.o
 ./release/state.o
-./release/moc_arduinocontroller.o
 );

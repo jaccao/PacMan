@@ -24,9 +24,9 @@
 class IPacMan: public IGlut
 {
 public:
-    virtual double X(double x=-1);
-    virtual double Y(double y=-1);
-    virtual double speed(double s=-1);
+    virtual double X(double x=-1)=0;
+    virtual double Y(double y=-1)=0;
+    virtual double speed(double s=-1)=0;
 };
 
 #endif // IPACMAN_H

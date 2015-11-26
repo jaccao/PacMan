@@ -24,11 +24,11 @@
 class IGhost: public IGlut
 {
 public:
-    virtual double X(double x=-1);
-    virtual double Y(double y=-1);
-    virtual bool scared(int s=-1);
-    virtual double speed(double s=-1);
-    virtual void setDirection(double x,double y);
+    virtual double X(double x=-1)=0;
+    virtual double Y(double y=-1)=0;
+    virtual bool scared(int s=-1)=0;
+    virtual double speed(double s=-1)=0;
+    virtual void setDirection(double x,double y)=0;
 };
 
 #endif // IGHOST_H
