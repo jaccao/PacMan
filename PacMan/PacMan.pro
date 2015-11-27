@@ -37,7 +37,9 @@ SOURCES += \
     pacman3d.cpp \
     ghost3d.cpp \
     position.cpp \
-    state.cpp
+    state.cpp \
+    node.cpp \
+    minimaxartificialintelligence.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -65,6 +67,8 @@ HEADERS += \
     pacman3d.h \
     ghost3d.h \
     position.h \
-    state.h
+    state.h \
+    node.h \
+    minimaxartificialintelligence.h
 
 DEFINES += NO_USE_QT
