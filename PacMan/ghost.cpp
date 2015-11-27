@@ -143,3 +143,13 @@ bool Ghost::scared(int s)
     }
     return isScared;
 }
+
+double Ghost::getDirectionX()
+{
+    return analogX;
+}
+
+double Ghost::getDirectionY()
+{
+    return analogY;
+}

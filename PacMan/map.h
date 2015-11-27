@@ -34,7 +34,6 @@ protected:
 
 public:
     Map();
-
     // IGlut interface
 public:
     void display(IGame &game);
@@ -53,6 +52,7 @@ public:
     int rows();
     int width();
     int height();
+    int random(int nmax);
 };
 
 #endif // MAP_H

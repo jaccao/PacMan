@@ -88,14 +88,16 @@ Game::Game()
     pacman=p;
     gluts.push_back(p);
     // Ghosts
-    for(int c=0;c<3;c++)
+    for(int c = 0 ; c < 3 ; c++)
     {
-        IGhost *g=new Ghost();
+        IGhost *g = new Ghost();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
     // AI
     IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    //IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
+    //IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 }
@@ -176,6 +178,10 @@ void Game::keyboardImp(unsigned char c, int x, int y)
     {
         map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
         state=Game::Running;
+    }
+    else if(c==27)//esc
+    {
+        exit(0);
     }
     glutPostRedisplay();
 }

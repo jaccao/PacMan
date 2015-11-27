@@ -46,6 +46,8 @@ public:
     double speed(double s=-1);
     bool scared(int s=-1);
     void setDirection(double x, double y);
+    double getDirectionX();
+    double getDirectionY();
 };
 
 #endif // GHOST_H

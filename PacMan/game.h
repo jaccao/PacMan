@@ -37,6 +37,8 @@
 #include "pacman.h"
 #include "ghost.h"
 #include "distanceartificialintelligence.h"
+#include "minimaxartificialintelligence.h"
+#include "aleatoryartificialintelligence.h"
 
 class Game: public IGame
 {

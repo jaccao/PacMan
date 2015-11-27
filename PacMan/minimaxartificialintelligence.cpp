@@ -39,40 +39,41 @@ void MiniMaxArtificialIntelligence::createTree(IGame& game)
 
     Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
     vector< Position > ps=game.getMap()->legalMov(p_pac);
-        for(unsigned int i=0;i<ps.size();i++)
-        {
-            State novoStateAntecipa(ps[i],pg);
-            Position possiblePacmanPos = ps[i];
-            Node child;
-            if(map->matrix()[possiblePacmanPos.x][possiblePacmanPos.y]==IMap::TileFood){
+    for(unsigned int i=0;i<ps.size();i++)
+    {
+        State novoStateAntecipa(ps[i],pg);
+        Position possiblePacmanPos = ps[i];
+        Node child;
+        if(map->matrix()[possiblePacmanPos.x][possiblePacmanPos.y]==IMap::TileFood){
             child.data = 100.0; //se tem comida Movimento + 100 se não pacman -50
-            }
-            else
-                child.data = -50.0;
-            child.atualState=novoStateAntecipa;
-//            for(unsigned int g=0;g<pg.size();g++)
-//            {
-                vector< Position > ghostPositions=game.getMap()->legalMov(pg[0]);// retorna proxima position valida de um fantasma 0
-                for (unsigned int j = 0; j < ghostPositions.size(); j++) {
-                    vector<Position> tempPositions = pg; // para não perder o valor antigo, que ira ser utilizado no proximo node
-                    tempPositions.push_back(ghostPositions[j]); // modificando o valor da posição do fantasma 0
-                    State novoStateGhost(p_pac,tempPositions);
-                    Node childGhostValue;
-                    childGhostValue.atualState = novoStateGhost;
-                    childGhostValue.data =  evalState(game,novoStateGhost);
-                    child.insert(childGhostValue);
-
-                }
-            tree.insert(child);
-           // }
         }
+        else
+            child.data = -50.0;
+        child.atualState=novoStateAntecipa;
+        //            for(unsigned int g=0;g<pg.size();g++)
+        //            {
+        vector< Position > ghostPositions=game.getMap()->legalMov(pg[0]);// retorna proxima position valida de um fantasma 0
+        for (unsigned int j = 0; j < ghostPositions.size(); j++) {
+            vector<Position> tempPositions = pg; // para não perder o valor antigo, que ira ser utilizado no proximo node
+            tempPositions.push_back(ghostPositions[j]); // modificando o valor da posição do fantasma 0
+            State novoStateGhost(p_pac,tempPositions);
+            Node childGhostValue;
+            childGhostValue.atualState = novoStateGhost;
+            childGhostValue.data =  evalState(game,novoStateGhost);
+            child.insert(childGhostValue);
+
+        }
+        tree.insert(child);
+        // }
+    }
 }
 
-Position MiniMaxArtificialIntelligence::getOneGhost(IGame& game, int ghostNumber){ //Retorna Posicao do Ghost que ira executar o miniMax
+Position MiniMaxArtificialIntelligence::getOneGhost(IGame& game, int ghostNumber)
+{ //Retorna Posicao do Ghost que ira executar o miniMax
 
-        IGhost* g=game.getGhosts()[ghostNumber];
-        Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
-        p_ghost.g=g;
+    IGhost* g=game.getGhosts()[ghostNumber];
+    Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
+    p_ghost.g=g;
     return p_ghost;
 }
 
@@ -83,7 +84,7 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 
     if(ellap>200)
     {
-         createTree(game);
+        createTree(game);
         float teste = minimax(tree,2,false);
 
         for(unsigned int c=0;c<bestState.ghosts.size();c++)
@@ -104,7 +105,7 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 
 //minimax(origin, depth, TRUE)
 float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer){
-     float bestValue = 0;
+    float bestValue = 0;
     if(depth = 0 || no.children.empty())
     {
         return no.data;
@@ -112,33 +113,33 @@ float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizin
     if(maximizingPlayer)
     {
         bestValue = 9999999; // considerando como -infinito
-         for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++) {
-             Node child = *it;
+        for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++) {
+            Node child = *it;
             float val = minimax(child,depth-1,false);
-             if(val < bestValue){
-                 bestValue = val;
-                 no.atualState = child.atualState;
-                 bestState = no.atualState;
-             }
-          //  bestValue = std::max(bestValue,val);
+            if(val < bestValue){
+                bestValue = val;
+                no.atualState = child.atualState;
+                bestState = no.atualState;
+            }
+            //  bestValue = std::max(bestValue,val);
         }
-         return bestValue;
+        return bestValue;
     }
     else
     {
         bestValue = -9999999; //considerando como valor +infinito
         for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
         {
-             Node child = *it;
+            Node child = *it;
             float val = minimax(child,depth-1,true);
             if(val > bestValue){
                 bestValue = val;
                 no.atualState = child.atualState;
-                 bestState = no.atualState;
+                bestState = no.atualState;
             }
         }
-           // bestValue = std::min(bestValue,val);
-            return bestValue;
+        // bestValue = std::min(bestValue,val);
+        return bestValue;
     }
     return 0;
 }
@@ -149,7 +150,7 @@ double MiniMaxArtificialIntelligence::evalState(IGame& game,State& state)
     visited.resize(game.getMap()->cols(),vector<int>(game.getMap()->rows(),0));
     vector< Position > pg=state.ghosts;
     unsigned int visg=0;
-//    vector< Position > ps=game.getMap()->legalMov(state.pacman,&visited);
+    //    vector< Position > ps=game.getMap()->legalMov(state.pacman,&visited);
     vector< Position > ps;
     ps.push_back(state.pacman);
     int steps=0,max_steps=0;

@@ -29,6 +29,8 @@ public:
     virtual bool scared(int s=-1)=0;
     virtual double speed(double s=-1)=0;
     virtual void setDirection(double x,double y)=0;
+    virtual double getDirectionX()=0;
+    virtual double getDirectionY()=0;
 };
 
 #endif // IGHOST_H

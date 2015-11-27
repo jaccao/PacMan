@@ -96,7 +96,10 @@ void Map::keyboard(IGame &game, unsigned char c, int x, int y)
     (void)game;
     (void)x;
     (void)y;
-    if(c==' ') mapgen();
+    if(c==' ') {
+        //mapgen();
+        this->setup(game,this->cols(),this->rows(),this->width(),this->height());
+    }
 }
 
 void Map::keyboardUp(IGame &game, unsigned char c, int x, int y)
@@ -292,4 +295,9 @@ vector<Position> Map::legalMov(vector<Position> &p, vector<vector<int> > *visite
         ret.insert(ret.end(), n.begin(), n.end());
     }
     return ret;
+}
+
+int Map::random(int nmax)
+{
+    return rand()%nmax;
 }
