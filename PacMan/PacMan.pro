@@ -39,7 +39,8 @@ SOURCES += \
     position.cpp \
     state.cpp \
     node.cpp \
-    minimaxartificialintelligence.cpp
+    minimaxartificialintelligence.cpp \
+    aleatoryartificialintelligence.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -69,6 +70,7 @@ HEADERS += \
     position.h \
     state.h \
     node.h \
-    minimaxartificialintelligence.h
+    minimaxartificialintelligence.h \
+    aleatoryartificialintelligence.h
 
 DEFINES += NO_USE_QT
