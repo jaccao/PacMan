@@ -95,8 +95,8 @@ Game::Game()
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
-    //IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
+    //IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
     //IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
     ai=a;
     gluts.push_back(a);

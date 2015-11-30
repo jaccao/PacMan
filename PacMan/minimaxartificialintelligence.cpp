@@ -27,6 +27,56 @@ void MiniMaxArtificialIntelligence::keyboardUp(IGame &game, unsigned char c, int
     (void)y;
 }
 
+void MiniMaxArtificialIntelligence::createTree2(IGame &game)
+{
+    tree = Node(0);
+
+    vector<Position> all_ghosts;
+    Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
+
+    for (int var = 0; var < game.getGhosts().size(); var++)
+    {
+        IGhost* g = game.getGhosts()[var];
+        Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
+        p_ghost.g=g;
+        all_ghosts.push_back(p_ghost);
+    }
+
+    State inicial(p_pac, all_ghosts);
+
+    geraStates(game, p_pac, inicial, all_ghosts, 0, all_ghosts.size());
+}
+
+void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, State &move, vector<Position> all_ghosts, int number_of_ghost, int total_of_ghost)
+{
+    if(number_of_ghost == total_of_ghost)
+    {
+        Node childGhostValue;
+        childGhostValue.atualState = move;
+        childGhostValue.data =  -evalState(game,move);
+        tree.insert(childGhostValue);
+        return ;
+    }
+
+    vector< Position > ghostPositions = game.getMap()->legalMov(all_ghosts[number_of_ghost]);// retorna proxima position valida de um fantasma 0
+
+    for (unsigned int j = 0; j < ghostPositions.size(); j++)
+    {
+        Position ghost = ghostPositions[j];
+
+        State new_state = move;
+        new_state.ghosts[number_of_ghost] = ghost;
+
+//        State s = geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
+        geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
+
+        /*Node childGhostValue;
+        childGhostValue.atualState = s;
+        childGhostValue.data =  evalState(game,s);
+        tree.insert(childGhostValue);*/
+    }
+
+}
 
 void MiniMaxArtificialIntelligence::createTree(IGame& game)
 {
@@ -84,8 +134,9 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 
     if(ellap>200)
     {
-        createTree(game);
-        float teste = minimax(tree,2,false);
+        //createTree(game);
+        createTree2(game);
+        float teste = minimax(tree,4,false);
 
         for(unsigned int c=0;c<bestState.ghosts.size();c++)
         {
@@ -100,8 +151,6 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
         ellap = 0;
     }
 }
-
-
 
 //minimax(origin, depth, TRUE)
 float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer){
