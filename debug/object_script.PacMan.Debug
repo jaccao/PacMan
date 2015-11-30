@@ -7,6 +7,16 @@ INPUT(
 ./debug/map.o
 ./debug/pacman.o
 ./debug/ghost.o
+./debug/distanceartificialintelligence.o
 ./debug/fakeartificialintelligence.o
+./debug/game3d.o
+./debug/map3d.o
+./debug/pacman3d.o
+./debug/ghost3d.o
+./debug/position.o
+./debug/state.o
+./debug/node.o
+./debug/minimaxartificialintelligence.o
+./debug/aleatoryartificialintelligence.o
 ./debug/moc_arduinocontroller.o
 );
