@@ -17,5 +17,6 @@ INPUT(
 ./release\state.o
 ./release\node.o
 ./release\minimaxartificialintelligence.o
+./release\aleatoryartificialintelligence.o
 ./release\moc_arduinocontroller.o
 );

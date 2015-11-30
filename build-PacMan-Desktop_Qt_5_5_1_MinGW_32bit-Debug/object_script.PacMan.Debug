@@ -17,5 +17,6 @@ INPUT(
 ./debug\state.o
 ./debug\node.o
 ./debug\minimaxartificialintelligence.o
+./debug\aleatoryartificialintelligence.o
 ./debug\moc_arduinocontroller.o
 );
