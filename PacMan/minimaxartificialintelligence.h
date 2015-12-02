@@ -22,6 +22,8 @@ private:
     Position getOneGhost(IGame& game, int ghostNumber);
     float minimax(Node &no,int depth,bool maximizingPlayer);
     double evalState(IGame& game,State& state);
+    void createTree2(IGame &game);
+    void geraStates(IGame &game, Position pacman, State &move, vector<Position> all_ghosts, int number_of_ghost, int total_of_ghost);
 };
 
 #endif // MINIMAXARTIFICIALINTELLIGENCE_H
