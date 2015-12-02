@@ -20,14 +20,11 @@
 
 PacMan3D::PacMan3D()
 {
-    tex_2d = SOIL_load_OGL_texture
-        (
-            "../pacman.png",
-            SOIL_LOAD_AUTO,
-            SOIL_CREATE_NEW_ID,
-            SOIL_FLAG_INVERT_Y
-        );
-    if(!tex_2d) exit(1);
+    texUp=SOIL_load_OGL_texture("../pacmanUp.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    texDown=SOIL_load_OGL_texture("../pacmanDown.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    texLeft=SOIL_load_OGL_texture("../pacmanLeft.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    texRight=SOIL_load_OGL_texture("../pacmanRight.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    texLast=texDown;
     quadratic = gluNewQuadric();
     if(!quadratic) exit(2);
     gluQuadricNormals(quadratic, GLU_SMOOTH);
@@ -43,9 +40,26 @@ void PacMan3D::display(IGame &game)
 
     glPushMatrix();
 
+    if(lastX==1)
+    {
+        texLast=texRight;
+    }
+    else if(lastY==1)
+    {
+        texLast=texUp;
+    }
+    else if(lastX==-1)
+    {
+        texLast=texLeft;
+    }
+    else if(lastY==-1)
+    {
+        texLast=texDown;
+    }
+
+    glBindTexture(GL_TEXTURE_2D, texLast);
     glTranslated(pacX,pacY,12.0);
 
-    glBindTexture(GL_TEXTURE_2D, tex_2d);
     gluSphere(quadratic, 12.0f, 8, 8);
 
     glPopMatrix();

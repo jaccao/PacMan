@@ -29,7 +29,11 @@
 class PacMan3D: public PacMan
 {
 private:
-    GLuint tex_2d;
+    GLuint texUp;
+    GLuint texDown;
+    GLuint texLeft;
+    GLuint texRight;
+    GLuint texLast;
     GLUquadric* quadratic;
 public:
     PacMan3D();

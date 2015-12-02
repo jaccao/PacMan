@@ -48,7 +48,7 @@ void PacMan::keyboardUp(IGame &game, unsigned char c, int x, int y)
 
 void PacMan::idle(IGame &game)
 {
-    static int lastX=0,lastY=0;
+//    static int lastX=0,lastY=0;
     IController *controller=game.getController();
     IMap *map=game.getMap();
     int ellap=game.getEllapsed();
