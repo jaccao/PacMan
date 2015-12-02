@@ -19,6 +19,8 @@
 #ifndef GHOST_H
 #define GHOST_H
 
+#include "soil/SOIL.h"
+
 #include "igame.h"
 
 class Ghost: public IGhost

@@ -26,20 +26,32 @@ Ghost3D::Ghost3D()
     analogY=0;
     isScared=false;
     scaredTime=0;
+    tex = SOIL_load_OGL_texture("../ghost.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    if(!tex) exit(1);
+    quadratic = gluNewQuadric();
+    if(!quadratic) exit(2);
+    gluQuadricNormals(quadratic, GLU_SMOOTH);
+    gluQuadricTexture(quadratic, GL_TRUE);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 }
 
 void Ghost3D::display(IGame &game)
 {
     (void)game;
     if(scared())
-        glColor3f(0.8,0.8,0.8);
+        glColor3f(0.2,0.2,0.2);
     else
-        glColor3f(0.0,0.0,0.8);
+        glColor3f(1.0,1.0,1.0);
+
     glPushMatrix();
 
-    glTranslated(ghostX,ghostY,16.0);
-    glScaled(16.0,16.0,16.0);
-    glutSolidTetrahedron();
+    glTranslated(ghostX,ghostY,12.0);
+
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glScaled(12.0,12.0,20.0);
+    gluSphere(quadratic, 1.0, 8, 8);
 
     glPopMatrix();
+
 }

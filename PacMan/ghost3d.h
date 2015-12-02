@@ -23,6 +23,9 @@
 
 class Ghost3D: public Ghost
 {
+private:
+    GLuint tex;
+    GLUquadric* quadratic;
 public:
     Ghost3D();
 

@@ -34,7 +34,7 @@ void Ghost::display(IGame &game)
     if(scared())
         glColor3f(0.8,0.8,0.8);
     else
-        glColor3f(0.0,0.0,0.8);
+        glColor3f(0.0,0.0,1.0);
     glRecti(ghostX-12,ghostY-12,ghostX+12,ghostY+12);
 }
 
