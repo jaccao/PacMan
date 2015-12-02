@@ -227,3 +227,8 @@ void Game::idleImp()
     }
     glutPostRedisplay();
 }
+
+
+void Game::stateChanged()
+{
+}

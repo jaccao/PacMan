@@ -23,11 +23,17 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "soil/SOIL.h"
 #include "map.h"
 
 class Map3D: public Map
 {
-
+private:
+    GLuint texBlock;
+    GLuint texFloor;
+    GLuint texFood;
+    GLUquadric* quadratic;
+    void DrawCube();
 public:
     Map3D();
 

@@ -23,10 +23,14 @@
 #include <string.h>
 #include <math.h>
 
+#include "soil/SOIL.h"
 #include "pacman.h"
 
 class PacMan3D: public PacMan
 {
+private:
+    GLuint tex_2d;
+    GLUquadric* quadratic;
 public:
     PacMan3D();
 

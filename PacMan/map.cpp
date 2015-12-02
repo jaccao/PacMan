@@ -54,7 +54,7 @@ void Map::setup(IGame &game, int cols, int rows, int width, int height)
             if(c<game.getGhosts().size())
             {
                 IGhost *g=game.getGhosts().at(c);
-                g->speed((96-16)+rand()%32);
+                g->speed(96);
                 g->X((cols/2+i+0.5)*width);
                 g->Y((rows/2+j+0.5)*height);
                 c++;
@@ -97,7 +97,6 @@ void Map::keyboard(IGame &game, unsigned char c, int x, int y)
     (void)x;
     (void)y;
     if(c==' ') {
-        //mapgen();
         this->setup(game,this->cols(),this->rows(),this->width(),this->height());
     }
 }

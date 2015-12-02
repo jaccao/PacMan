@@ -29,6 +29,7 @@ int Game3D::setup(int argc,char *argv[],int cols, int rows, int width, int heigh
     glutKeyboardUpFunc(Game3D::keyboardUp);
     glutIdleFunc(Game3D::idle);
 
+    glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
 
     instance().setupImp(cols,rows, width, height);
@@ -49,6 +50,7 @@ void Game3D::display()
 
 Game3D::Game3D()
 {
+    radius=1.0;
     phi=2.49911;
     theta=0.899557;
     state=Game3D::Running;
@@ -132,15 +134,12 @@ void Game3D::displayText( float x, float y, int r, int g, int b, const char *str
 
 void Game3D::positionObserverZ()
 {
-    double r=450;
+    double eyeY = 512*cos(phi)*sin(theta);
+    double eyeX = 512*sin(phi)*sin(theta);
 
-    double eyeY = r*cos(phi)*sin(theta);
-    double eyeX = r*sin(phi)*sin(theta);
-
-    double eyeZ = r*cos(theta);
+    double eyeZ = 512*cos(theta);
 
     gluLookAt(eyeX,eyeY,eyeZ, 0.0,0.0,0.0, 0.0,0.0,1.0);
-
 }
 
 void Game3D::displayImp()
@@ -160,6 +159,7 @@ void Game3D::displayImp()
 
     glMatrixMode(GL_MODELVIEW);
 
+    glScaled(radius,radius,radius);
     glTranslated(-width/2.0,-height/2.0,0.0);
 
     for(unsigned int i=0;i<gluts.size();i++)
@@ -193,6 +193,12 @@ void Game3D::keyboardImp(unsigned char c, int x, int y)
         break;
     case 'l':
         phi-=step;
+        break;
+    case 'o':
+        radius+=step;
+        break;
+    case 'u':
+        radius-=step;
         break;
     }
 
@@ -255,4 +261,9 @@ void Game3D::idleImp()
         if(food==false) state=Game3D::Win;
     }
     glutPostRedisplay();
+}
+
+
+void Game3D::stateChanged()
+{
 }

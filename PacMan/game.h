@@ -79,6 +79,7 @@ public:
     IPacMan *getPacman();
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
+    void stateChanged();
 };
 
 #endif // BOARD_H

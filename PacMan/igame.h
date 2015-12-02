@@ -17,6 +17,7 @@ public:
     virtual IPacMan *getPacman()=0;
     virtual vector< IGhost* > getGhosts()=0;
     virtual IArtificialIntelligence *getAi()=0;
+    virtual void stateChanged()=0;
 };
 
 #endif // IGAME_H

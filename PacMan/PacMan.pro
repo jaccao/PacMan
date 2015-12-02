@@ -40,7 +40,11 @@ SOURCES += \
     state.cpp \
     node.cpp \
     minimaxartificialintelligence.cpp \
-    aleatoryartificialintelligence.cpp
+    aleatoryartificialintelligence.cpp \
+    soil/SOIL.c \
+    soil/image_helper.c \
+    soil/stb_image_aug.c \
+    soil/image_DXT.c
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -71,6 +75,12 @@ HEADERS += \
     state.h \
     node.h \
     minimaxartificialintelligence.h \
-    aleatoryartificialintelligence.h
+    aleatoryartificialintelligence.h \
+    soil/SOIL.h \
+    soil/image_helper.h \
+    soil/stb_image_aug.h \
+    soil/image_DXT.h \
+    soil/stbi_DDS_aug.h \
+    soil/stbi_DDS_aug_c.h
 
 DEFINES += NO_USE_QT

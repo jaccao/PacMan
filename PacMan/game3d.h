@@ -52,6 +52,7 @@ protected:
     IPacMan *pacman;
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
+    double radius;
 protected:
     static Game3D &instance();
 public:
@@ -67,6 +68,10 @@ protected:
     void keyboardUpImp(unsigned char c,int x,int y);
     void idleImp();
     void displayText(float x, float y, int r, int g, int b, const char *string);
+private:
+    void positionObserverZ();
+    int width,height;
+    double phi,theta;
 
     // IGame interface
 public:
@@ -77,10 +82,7 @@ public:
     IPacMan *getPacman();
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
-private:
-    void positionObserverZ();
-    int width,height;
-    double phi,theta;
+    void stateChanged();
 };
 
 #endif // BOARD_H

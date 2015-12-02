@@ -62,6 +62,9 @@ void Ghost::idle(IGame &game)
     if(scaredTime) scaredTime-=ellap;
     if(scaredTime<0){scaredTime=0;isScared=false;}
 
+    int lx=(int)(ghostX/map->width());
+    int ly=(int)(ghostY/map->height());
+
     if(true)
     {
         int dx=analogX;
@@ -83,8 +86,8 @@ void Ghost::idle(IGame &game)
         }
     }
 
-    int x=((int)(ghostX/map->width()))+(int)lastX;
-    int y=((int)(ghostY/map->height()))+(int)lastY;
+    int x=lx+(int)lastX;
+    int y=ly+(int)lastY;
     if((map->matrix()[x][y])&IMap::TileBlock) if((map->matrix()[x][y])!=IMap::TileGate)
     {
         if(lastX)
@@ -106,8 +109,18 @@ void Ghost::idle(IGame &game)
             }
         }
     }
+
     ghostX+=lastX*ghostSpeed*(ellap/1000.0);
     ghostY+=lastY*ghostSpeed*(ellap/1000.0);
+
+    if(((int)(ghostX/map->width()))!=lx)
+    {
+        game.stateChanged();
+    }
+    else if(((int)(ghostY/map->height()))!=ly)
+    {
+        game.stateChanged();
+    }
 }
 
 double Ghost::X(double x)

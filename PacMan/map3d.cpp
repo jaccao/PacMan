@@ -20,6 +20,18 @@
 
 Map3D::Map3D()
 {
+    texBlock = SOIL_load_OGL_texture("../tile.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    if(!texBlock) exit(1);
+    texFloor = SOIL_load_OGL_texture("../floor.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    if(!texFloor) exit(1);
+    texFood = SOIL_load_OGL_texture("../food.png",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
+    if(!texFood) exit(1);
+    quadratic = gluNewQuadric();
+    if(!quadratic) exit(2);
+    gluQuadricNormals(quadratic, GLU_SMOOTH);
+    gluQuadricTexture(quadratic, GL_TRUE);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 }
 
 void Map3D::display(IGame &game)
@@ -33,25 +45,34 @@ void Map3D::display(IGame &game)
             glPushMatrix();
             switch (m[i][j]) {
             case IMap::TileBlock:
-                glColor3f(0.8,0.8,0.8);
                 glTranslated((i+0.5)*w,(j+0.5)*h,8.0);
                 glScaled(w,h,16.0);
+                glBindTexture(GL_TEXTURE_2D, texBlock);
+                DrawCube();
                 break;
             default:
                 glColor3f(0.0,0.0,0.0);
                 glTranslated((i+0.5)*w,(j+0.5)*h,-0.5);
                 glScaled(w,h,1.0);
+                //glBindTexture(GL_TEXTURE_2D, 0);
+                //glutSolidCube(1.0);
+                glBindTexture(GL_TEXTURE_2D, texFloor);
+                DrawCube();
                 break;
             }
-            glutSolidCube(1.0);
             glPopMatrix();
 
             if(m[i][j]==IMap::TileFood)
             {
                 glPushMatrix();
-                glColor3f(0.8,0.0,0.0);
+                glColor3f(1.0,1.0,1.0);
                 glTranslated((i+0.5)*w,(j+0.5)*h,12.0);
-                glutSolidCube(4.0);
+                glBindTexture(GL_TEXTURE_2D, texFood);
+                glScaled(4.0,4.0,4.0);
+                DrawCube();
+                //gluSphere(quadratic, 4.0f, 32, 32);
+                //glBindTexture(GL_TEXTURE_2D, 0);
+                //glutSolidSphere(4.0,32,32);
                 glPopMatrix();
             }
             if(m[i][j]==IMap::TilePower)
@@ -63,5 +84,52 @@ void Map3D::display(IGame &game)
                 glPopMatrix();
             }
         }
+
+}
+
+void Map3D::DrawCube()
+{
+    glColor3f(1.0f,1.0f,1.0f);
+    glScaled(0.5,0.5,0.5);
+    // draw a cube (6 quadrilaterals)
+    glBegin(GL_QUADS);				// start drawing the cube.
+
+    // Front Face
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
+
+    // Back Face
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Right Of The Texture and Quad
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Left Of The Texture and Quad
+
+    // Top Face
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
+
+    // Bottom Face
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Top Right Of The Texture and Quad
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Top Left Of The Texture and Quad
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+
+    // Right face
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Right Of The Texture and Quad
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
+
+    // Left Face
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Left Of The Texture and Quad
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
+
+    glEnd();					// Done Drawing The Cube
 
 }
