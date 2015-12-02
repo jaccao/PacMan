@@ -217,7 +217,19 @@ void Game::idleImp()
             IGhost *g=ghosts.at(i);
             int x=(int)(pacman->X()/map->width())-(int)(g->X()/map->width());
             int y=(int)(pacman->Y()/map->height())-(int)(g->Y()/map->height());
-            if(!x) if(!y) state=Game::GameOver;
+            if(!x) if(!y)
+            {
+                if(g->scared())
+                {
+                    g->scared(false);
+                    g->X((map->cols()/2.0+0.5)*map->width());
+                    g->Y((map->rows()/2.0-1+0.5)*map->height());
+                }
+                else
+                {
+                    state=Game::GameOver;
+                }
+            }
         }
         bool food=false;
         for(int y=0;y<map->rows();y++)

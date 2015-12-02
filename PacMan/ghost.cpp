@@ -59,7 +59,7 @@ void Ghost::idle(IGame &game)
 
     IMap *map=game.getMap();
     int ellap=game.getEllapsed();
-    if(scaredTime) scaredTime-=ellap;
+    if(isScared) scaredTime-=ellap;
     if(scaredTime<0){scaredTime=0;isScared=false;}
 
     int lx=(int)(ghostX/map->width());
