@@ -257,6 +257,7 @@ void Game3D::idleImp()
                 if(g->scared())
                 {
                     g->scared(false);
+                    g->setDirection(0,0);
                     g->X((map->cols()/2.0+0.5)*map->width());
                     g->Y((map->rows()/2.0-1+0.5)*map->height());
                 }

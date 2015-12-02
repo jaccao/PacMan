@@ -34,7 +34,7 @@ void MiniMaxArtificialIntelligence::createTree2(IGame &game)
     vector<Position> all_ghosts;
     Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
 
-    for (int var = 0; var < game.getGhosts().size(); var++)
+    for (unsigned int var = 0; var < game.getGhosts().size(); var++)
     {
         IGhost* g = game.getGhosts()[var];
         Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
@@ -137,6 +137,7 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
         //createTree(game);
         createTree2(game);
         float teste = minimax(tree,4,false);
+        (void)teste;
 
         for(unsigned int c=0;c<bestState.ghosts.size();c++)
         {
@@ -155,7 +156,8 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 //minimax(origin, depth, TRUE)
 float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer){
     float bestValue = 0;
-    if(depth = 0 || no.children.empty())
+//  depth is never true:  if(depth = 0 || no.children.empty())
+    if(depth == 0 || no.children.empty())
     {
         return no.data;
     }

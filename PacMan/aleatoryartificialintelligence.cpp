@@ -42,7 +42,7 @@ void AleatoryArtificialIntelligence::idle(IGame &game)
 
             bool colision_wall = true;
 
-            for (int var = 0; var < psg.size(); var++)
+            for (unsigned int var = 0; var < psg.size(); var++)
             {
                 if(psg[var].directionX())if(psg[var].directionX() == g->getDirectionX()*-1) colision_wall = false;
                 if(psg[var].directionY())if(psg[var].directionY() == g->getDirectionY()*-1) colision_wall = false;

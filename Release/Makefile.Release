@@ -381,27 +381,14 @@ release/main.o: ../PacMan/main.cpp ../PacMan/game.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/distanceartificialintelligence.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDebug \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h \
 		../PacMan/minimaxartificialintelligence.h \
 		../PacMan/node.h \
 		../PacMan/aleatoryartificialintelligence.h \
 		../PacMan/game3d.h \
 		../PacMan/map3d.h \
 		../PacMan/pacman3d.h \
-		../PacMan/soil/SOIL.h \
 		../PacMan/ghost3d.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../PacMan/main.cpp
 
@@ -583,20 +570,8 @@ release/game.o: ../PacMan/game.cpp ../PacMan/game.h \
 		../PacMan/map.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/distanceartificialintelligence.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDebug \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h \
 		../PacMan/minimaxartificialintelligence.h \
 		../PacMan/node.h \
 		../PacMan/aleatoryartificialintelligence.h
@@ -639,6 +614,7 @@ release/pacman.o: ../PacMan/pacman.cpp ../PacMan/pacman.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/pacman.o ../PacMan/pacman.cpp
 
 release/ghost.o: ../PacMan/ghost.cpp ../PacMan/ghost.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/igame.h \
 		../PacMan/icontroller.h \
 		../PacMan/iglut.h \
@@ -651,72 +627,6 @@ release/ghost.o: ../PacMan/ghost.cpp ../PacMan/ghost.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/ghost.o ../PacMan/ghost.cpp
 
 release/distanceartificialintelligence.o: ../PacMan/distanceartificialintelligence.cpp ../PacMan/distanceartificialintelligence.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDebug \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qalgorithms.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobal.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qconfig.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qfeatures.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsystemdetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qprocessordetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcompilerdetection.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypeinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtypetraits.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qsysinfo.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlogging.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qflags.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbasicatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_bootstrap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qgenericatomic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_cxx11.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_gcc.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_msvc.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv7.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv6.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_armv5.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_ia64.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_mips.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_x86.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qatomic_unix.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qglobalstatic.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmutex.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnumeric.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qchar.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiterator.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qrefcount.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qarraydata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearraylist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qbytearray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qnamespace.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstring.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringbuilder.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringlist.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qregexp.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qstringmatcher.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpair.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobjectdefs_impl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcoreevent.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qscopedpointer.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmetatype.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvarlengtharray.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontainerfwd.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qisenum.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qobject_impl.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h \
 		../PacMan/igame.h \
 		../PacMan/icontroller.h \
 		../PacMan/iglut.h \
@@ -823,29 +733,17 @@ release/game3d.o: ../PacMan/game3d.cpp ../PacMan/game3d.h \
 		../PacMan/fakecontroller.h \
 		../PacMan/keyboardcontroller.h \
 		../PacMan/map3d.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/map.h \
 		../PacMan/pacman3d.h \
-		../PacMan/soil/SOIL.h \
 		../PacMan/pacman.h \
 		../PacMan/ghost3d.h \
 		../PacMan/ghost.h \
-		../PacMan/distanceartificialintelligence.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/QDebug \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qdebug.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qhash.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qmap.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qtextstream.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qiodevice.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qlocale.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvariant.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qshareddata.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qvector.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qpoint.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qset.h \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/include/QtCore/qcontiguouscache.h
+		../PacMan/distanceartificialintelligence.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/game3d.o ../PacMan/game3d.cpp
 
 release/map3d.o: ../PacMan/map3d.cpp ../PacMan/map3d.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/map.h \
 		../PacMan/igame.h \
 		../PacMan/icontroller.h \
@@ -874,6 +772,7 @@ release/pacman3d.o: ../PacMan/pacman3d.cpp ../PacMan/pacman3d.h \
 
 release/ghost3d.o: ../PacMan/ghost3d.cpp ../PacMan/ghost3d.h \
 		../PacMan/ghost.h \
+		../PacMan/soil/SOIL.h \
 		../PacMan/igame.h \
 		../PacMan/icontroller.h \
 		../PacMan/iglut.h \
