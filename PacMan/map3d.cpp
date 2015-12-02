@@ -51,13 +51,11 @@ void Map3D::display(IGame &game)
                 DrawCube();
                 break;
             default:
-                glColor3f(0.0,0.0,0.0);
+                glColor3f(0.2,0.2,0.2);
                 glTranslated((i+0.5)*w,(j+0.5)*h,-0.5);
                 glScaled(w,h,1.0);
-                //glBindTexture(GL_TEXTURE_2D, 0);
-                //glutSolidCube(1.0);
-                glBindTexture(GL_TEXTURE_2D, texFloor);
-                DrawCube();
+                glBindTexture(GL_TEXTURE_2D, 0);
+                glutSolidCube(1.0);
                 break;
             }
             glPopMatrix();
@@ -68,19 +66,16 @@ void Map3D::display(IGame &game)
                 glColor3f(1.0,1.0,1.0);
                 glTranslated((i+0.5)*w,(j+0.5)*h,12.0);
                 glBindTexture(GL_TEXTURE_2D, texFood);
-                glScaled(4.0,4.0,4.0);
-                DrawCube();
-                //gluSphere(quadratic, 4.0f, 32, 32);
-                //glBindTexture(GL_TEXTURE_2D, 0);
-                //glutSolidSphere(4.0,32,32);
+                gluSphere(quadratic, 4.0f, 4, 4);
                 glPopMatrix();
             }
             if(m[i][j]==IMap::TilePower)
             {
                 glPushMatrix();
-                glColor3f(1,1,1);
+                glColor3f(1.0,1.0,1.0);
                 glTranslated((i+0.5)*w,(j+0.5)*h,12.0);
-                glutSolidCube(8.0);
+                glBindTexture(GL_TEXTURE_2D, texFood);
+                gluSphere(quadratic, 8.0f, 4, 4);
                 glPopMatrix();
             }
         }
