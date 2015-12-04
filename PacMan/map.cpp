@@ -96,9 +96,7 @@ void Map::keyboard(IGame &game, unsigned char c, int x, int y)
     (void)game;
     (void)x;
     (void)y;
-    if(c==' ') {
-        this->setup(game,this->cols(),this->rows(),this->width(),this->height());
-    }
+    (void)c;
 }
 
 void Map::keyboardUp(IGame &game, unsigned char c, int x, int y)

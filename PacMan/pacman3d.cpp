@@ -38,6 +38,7 @@ void PacMan3D::display(IGame &game)
     (void)game;
     glColor3f(1.0,1.0,1.0);
 
+    glDisable(GL_LIGHTING);
     glPushMatrix();
 
     if(lastX==1)
@@ -63,5 +64,6 @@ void PacMan3D::display(IGame &game)
     gluSphere(quadratic, 12.0f, 8, 8);
 
     glPopMatrix();
+    glEnable(GL_LIGHTING);
 
 }

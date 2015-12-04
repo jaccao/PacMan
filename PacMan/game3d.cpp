@@ -31,6 +31,7 @@ int Game3D::setup(int argc,char *argv[],int cols, int rows, int width, int heigh
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
 
     instance().setupImp(cols,rows, width, height);
 
@@ -144,7 +145,7 @@ void Game3D::positionObserverZ()
 
 void Game3D::displayImp()
 {
-    glClearColor(1.0,1.0,1.0,0.0);
+    glClearColor(0.0,0.0,0.0,0.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
@@ -156,9 +157,46 @@ void Game3D::displayImp()
     glLoadIdentity();
 
     glOrtho(-width*0.6,width*0.6,-height*0.6,height*0.6,10,2000);
-
     glMatrixMode(GL_MODELVIEW);
+/*
+ * disable: over the pacman light
+    // Ambient light
+    glEnable(GL_LIGHT0);
+    position[0]=0; position[1]=0; position[2]=300; position[3]=0;
+    glLightiv(GL_LIGHT0,GL_POSITION,position);
+    color[0]=0.01; color[1]=0.01; color[2]=0.01; color[3]=1.0;
+    glLightfv(GL_LIGHT0,GL_AMBIENT,color);
+*/
+    // Pacman light
+    GLfloat qaAmbientLight[] = {0.1, 0.1, 0.1, 1.0};
+    GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
+    GLfloat qaSpecularLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat qaLightPosition[4];
+    GLfloat dirVector0[4];
+    glEnable(GL_LIGHT1);
 
+    glLightfv(GL_LIGHT1, GL_AMBIENT, qaAmbientLight);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, qaDiffuseLight);
+    qaLightPosition[0]=pacman->X()-width/2.0;
+    qaLightPosition[1]=pacman->Y()-height/2.0;
+    qaLightPosition[2]=12.0;
+    qaLightPosition[3]=1.0;
+    glLightfv(GL_LIGHT1, GL_POSITION, qaLightPosition);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, qaSpecularLight);
+
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
+    dirVector0[0]=pacman->lastDirectionX();
+    dirVector0[1]=pacman->lastDirectionY();
+    dirVector0[2]=0.0;
+    dirVector0[3]=0.0;
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, dirVector0);
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 1);
+
+    glLightf (GL_LIGHT1,GL_CONSTANT_ATTENUATION, 1.0);
+    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, 0.0);
+    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.00002);
+
+    // code
     glScaled(radius,radius,radius);
     glTranslated(-width/2.0,-height/2.0,0.0);
 
@@ -211,10 +249,14 @@ void Game3D::keyboardImp(unsigned char c, int x, int y)
     {
         gluts.at(i)->keyboard(*this,c,x,y);
     }
-    else if(c==' ')
+    if(c==' ')
     {
         map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
         state=Game3D::Running;
+    }
+    if(c==27)//esc
+    {
+        exit(0);
     }
     glutPostRedisplay();
 }

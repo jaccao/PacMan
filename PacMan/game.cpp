@@ -174,12 +174,12 @@ void Game::keyboardImp(unsigned char c, int x, int y)
     {
         gluts.at(i)->keyboard(*this,c,x,y);
     }
-    else if(c==' ')
+    if(c==' ')
     {
         map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
         state=Game::Running;
     }
-    else if(c==27)//esc
+    if(c==27)//esc
     {
         exit(0);
     }

@@ -48,9 +48,6 @@ void KeyboardController::keyboard(IGame &game, unsigned char c, int x, int y)
     case 'w':
         dAnalogY = 1;
         break;
-    case 27://esc
-        exit(0);
-        break;
     }
 }
 

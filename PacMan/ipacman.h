@@ -27,6 +27,10 @@ public:
     virtual double X(double x=-1)=0;
     virtual double Y(double y=-1)=0;
     virtual double speed(double s=-1)=0;
+    virtual int getDirectionX()=0;
+    virtual int getDirectionY()=0;
+    virtual int lastDirectionX()=0;
+    virtual int lastDirectionY()=0;
 };
 
 #endif // IPACMAN_H

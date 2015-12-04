@@ -48,7 +48,6 @@ void PacMan::keyboardUp(IGame &game, unsigned char c, int x, int y)
 
 void PacMan::idle(IGame &game)
 {
-//    static int lastX=0,lastY=0;
     IController *controller=game.getController();
     IMap *map=game.getMap();
     int ellap=game.getEllapsed();
@@ -107,6 +106,16 @@ void PacMan::idle(IGame &game)
     }
     pacX+=lastX*pacSpeed*(ellap/1000.0);
     pacY+=lastY*pacSpeed*(ellap/1000.0);
+    if(lastX)
+    {
+        lastDirX=lastX;
+        lastDirY=0;
+    }
+    else if(lastY)
+    {
+        lastDirY=lastY;
+        lastDirX=0;
+    }
     x=((int)(pacX/map->width()));
     y=((int)(pacY/map->height()));
     if(map->matrix()[x][y]==IMap::TileFood) map->matrix()[x][y]=IMap::TileNone;
@@ -133,4 +142,24 @@ double PacMan::speed(double s)
 {
     if(s>=0) pacSpeed=s;
     return pacSpeed;
+}
+
+int PacMan::getDirectionX()
+{
+    return lastX;
+}
+
+int PacMan::getDirectionY()
+{
+    return lastY;
+}
+
+int PacMan::lastDirectionX()
+{
+    return lastDirX;
+}
+
+int PacMan::lastDirectionY()
+{
+    return lastDirY;
 }

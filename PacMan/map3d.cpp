@@ -38,6 +38,7 @@ void Map3D::display(IGame &game)
 {
     (void)game;
     int i,j;
+    GLfloat color[4];
 
     for(i=0;i<c;i++)
         for(j=0;j<r;j++)
@@ -51,7 +52,8 @@ void Map3D::display(IGame &game)
                 DrawCube();
                 break;
             default:
-                glColor3f(0.2,0.2,0.2);
+                color[0]=0.2; color[1]=0.2; color[2]=0.2; color[3]=1.0;
+                glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,color);
                 glTranslated((i+0.5)*w,(j+0.5)*h,-0.5);
                 glScaled(w,h,1.0);
                 glBindTexture(GL_TEXTURE_2D, 0);
@@ -63,16 +65,19 @@ void Map3D::display(IGame &game)
             if(m[i][j]==IMap::TileFood)
             {
                 glPushMatrix();
-                glColor3f(1.0,1.0,1.0);
+                color[0]=1.0; color[1]=0.2; color[2]=0.0; color[3]=1.0;
+                glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,color);
                 glTranslated((i+0.5)*w,(j+0.5)*h,12.0);
-                glBindTexture(GL_TEXTURE_2D, texFood);
+                // this make a delay in game
+//                glBindTexture(GL_TEXTURE_2D, texFood);
                 gluSphere(quadratic, 4.0f, 4, 4);
                 glPopMatrix();
             }
             if(m[i][j]==IMap::TilePower)
             {
                 glPushMatrix();
-                glColor3f(1.0,1.0,1.0);
+                color[0]=1.0; color[1]=1.0; color[2]=1.0; color[3]=1.0;
+                glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,color);
                 glTranslated((i+0.5)*w,(j+0.5)*h,12.0);
                 glBindTexture(GL_TEXTURE_2D, texFood);
                 gluSphere(quadratic, 8.0f, 4, 4);
@@ -84,7 +89,9 @@ void Map3D::display(IGame &game)
 
 void Map3D::DrawCube()
 {
-    glColor3f(1.0f,1.0f,1.0f);
+    GLfloat color[4];
+    color[0]=1.0; color[1]=1.0; color[2]=1.0; color[3]=1.0;
+    glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,color);
     glScaled(0.5,0.5,0.5);
     // draw a cube (6 quadrilaterals)
     glBegin(GL_QUADS);				// start drawing the cube.

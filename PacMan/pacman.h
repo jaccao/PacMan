@@ -30,6 +30,7 @@ class PacMan: public IPacMan
 protected:
     double pacX,pacY,pacSpeed;
     int lastX=0,lastY=0;
+    int lastDirX=0,lastDirY=0;
 public:
     PacMan();
 
@@ -45,6 +46,10 @@ public:
     double X(double x=-1);
     double Y(double y=-1);
     double speed(double s=-1);
+    int getDirectionX();
+    int getDirectionY();
+    int lastDirectionX();
+    int lastDirectionY();
 };
 
 #endif // PACMAN_H
