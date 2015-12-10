@@ -56,34 +56,27 @@ void PacMan::idle(IGame &game)
     if(controller)
     {
         double ax=controller->analogX();
-if(Util::isDebugTime(true)) qDebug()<<"start";
-if(Util::isDebugTime()) qDebug()<<"ax:"<<ax;
         double ay=controller->analogY();
         // only legal directions
         if((map->matrix()[x+Util::topInt(ax)][y])&IMap::TileBlock) ax=0;
         if((map->matrix()[x][y+Util::topInt(ay)])&IMap::TileBlock) ay=0;
-if(Util::isDebugTime()) qDebug()<<"legal ax:"<<ax;
         // only one direction
         if(Util::abs(ax)>Util::abs(ay))
             ay=0;
         else
             ax=0;
-if(Util::isDebugTime()) qDebug()<<"only ax:"<<ax;
         // if pacman is in position to change X
         if(ax) if(((((int)pacY)-map->height()/2)%map->height()<2))
         {
-if(Util::isDebugTime()) qDebug()<<"iam x:"<<lastX;
             // if change direction
             if(Util::topInt(ax)!=Util::topInt(lastX))
             {
                 lastX=ax;
-if(Util::isDebugTime()) qDebug()<<"change dir x:"<<lastX;
             }
             // if increase speed
             else if(Util::abs(ax)>Util::abs(lastX))
             {
                 lastX=ax;
-if(Util::isDebugTime()) qDebug()<<"increase x:"<<lastX;
             }
             lastY=0;
         }
