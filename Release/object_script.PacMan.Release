@@ -22,5 +22,7 @@ INPUT(
 ./release/image_helper.o
 ./release/stb_image_aug.o
 ./release/image_DXT.o
-./release/moc_arduinocontroller.o
+./release/arduino.o
+./release/util.o
+./release/moc_arduino.o
 );

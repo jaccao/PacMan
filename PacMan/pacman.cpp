@@ -51,77 +51,105 @@ void PacMan::idle(IGame &game)
     IController *controller=game.getController();
     IMap *map=game.getMap();
     int ellap=game.getEllapsed();
+    int x=((int)(pacX/map->width()));
+    int y=((int)(pacY/map->height()));
     if(controller)
     {
-        double ax=controller->analogX()*controller->digitalX();
-        double ay=controller->analogY()*controller->digitalY();
-        int dx=controller->digitalX();
-        int dy=controller->digitalY();
-        if(ax>ay)
-        {
-            dy=0;
-        }
+        double ax=controller->analogX();
+if(Util::isDebugTime(true)) qDebug()<<"start";
+if(Util::isDebugTime()) qDebug()<<"ax:"<<ax;
+        double ay=controller->analogY();
+        // only legal directions
+        if((map->matrix()[x+Util::topInt(ax)][y])&IMap::TileBlock) ax=0;
+        if((map->matrix()[x][y+Util::topInt(ay)])&IMap::TileBlock) ay=0;
+if(Util::isDebugTime()) qDebug()<<"legal ax:"<<ax;
+        // only one direction
+        if(Util::abs(ax)>Util::abs(ay))
+            ay=0;
         else
+            ax=0;
+if(Util::isDebugTime()) qDebug()<<"only ax:"<<ax;
+        // if pacman is in position to change X
+        if(ax) if(((((int)pacY)-map->height()/2)%map->height()<2))
         {
-            dx=0;
+if(Util::isDebugTime()) qDebug()<<"iam x:"<<lastX;
+            // if change direction
+            if(Util::topInt(ax)!=Util::topInt(lastX))
+            {
+                lastX=ax;
+if(Util::isDebugTime()) qDebug()<<"change dir x:"<<lastX;
+            }
+            // if increase speed
+            else if(Util::abs(ax)>Util::abs(lastX))
+            {
+                lastX=ax;
+if(Util::isDebugTime()) qDebug()<<"increase x:"<<lastX;
+            }
+            lastY=0;
         }
-        int x=((int)(pacX/map->width()))+dx;
-        int y=((int)(pacY/map->height()))+dy;
-        if(!((map->matrix()[x][y])&IMap::TileBlock))
+        // if pacman is in position to change Y
+        if(ay) if(((((int)pacX)-map->width()/2)%map->width()<2))
         {
-            if(dx) if(((((int)pacY)-map->height()/2)%map->height()<2))
+            // if change direction
+            if(Util::topInt(ay)!=Util::topInt(lastY))
             {
-                lastX=dx;
-                lastY=0;
+                lastY=ay;
             }
-            if(dy) if(((((int)pacX)-map->width()/2)%map->width()<2))
+            // if increase speed
+            else if(Util::abs(ay)>Util::abs(lastY))
             {
-                lastY=dy;
-                lastX=0;
+                lastY=ay;
             }
+            lastX=0;
         }
     }
-    int x=((int)(pacX/map->width()))+(int)lastX;
-    int y=((int)(pacY/map->height()))+(int)lastY;
-    if((map->matrix()[x][y])&IMap::TileBlock)
+    // if is upon to collision
+    if((map->matrix()[x+Util::topInt(lastX)][y+Util::topInt(lastY)])&IMap::TileBlock)
     {
         if(lastX)
         {
-            double d=(pacX-(x+0.5)*map->width())/map->width();
-            if(-1.0<d&&d<1.0)
+            double d=(pacX-(x+Util::topInt(lastX)+0.5)*map->width())/map->width();
+            // if distance is minor than one block
+            if(Util::abs(d)<1.0)
             {
+                // stop in center
                 pacX=((int)(pacX/map->width()))*map->width()+map->width()/2.0;
                 lastX=0;
             }
         }
         if(lastY)
         {
-            double d=(pacY-(y+0.5)*map->height())/map->height();
-            if(-1.0<d&&d<1.0)
+            double d=(pacY-(y+Util::topInt(lastY)+0.5)*map->height())/map->height();
+            // if distance is minor than one block
+            if(Util::abs(d)<1.0)
             {
+                // stop in center
                 pacY=((int)(pacY/map->height()))*map->height()+map->height()/2.0;
                 lastY=0;
             }
         }
     }
+    // walk
     pacX+=lastX*pacSpeed*(ellap/1000.0);
     pacY+=lastY*pacSpeed*(ellap/1000.0);
+    // set direction for the light
     if(lastX)
     {
-        lastDirX=lastX;
+        lastDirX=Util::topInt(lastX);
         lastDirY=0;
     }
     else if(lastY)
     {
-        lastDirY=lastY;
+        lastDirY=Util::topInt(lastY);
         lastDirX=0;
     }
-    x=((int)(pacX/map->width()));
-    y=((int)(pacY/map->height()));
+    // eat the food
     if(map->matrix()[x][y]==IMap::TileFood) map->matrix()[x][y]=IMap::TileNone;
+    // eat the power
     if(map->matrix()[x][y]==IMap::TilePower)
     {
         map->matrix()[x][y]=IMap::TileNone;
+        // scare all ghost
         for(unsigned int c=0;c<game.getGhosts().size();c++) game.getGhosts()[c]->scared(true);
     }
 }

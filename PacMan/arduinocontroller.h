@@ -18,30 +18,14 @@
 
 #ifndef ARDUINOCONTROLLER_H
 #define ARDUINOCONTROLLER_H
-#ifdef USE_QT
 
-#include <QtSerialPort>
-#include <QObject>
-#include <QThread>
-#include <QTimer>
-#include <QCoreApplication>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonDocument>
-#include <QMutex>
-
+#include "arduino.h"
 #include "igame.h"
 
-class ArduinoController : public QThread,public IController
+class ArduinoController : public IController
 {
-    Q_OBJECT
-private:
-    QSerialPort serialPort;
-    QJsonObject obj;
-    QMutex mutex;
-    void run();
 public:
-    explicit ArduinoController(QObject *parent = 0);
+    ArduinoController();
 
     // IController interface
 public:
@@ -52,11 +36,12 @@ public:
 
     // IGlut interface
 public:
-    void display(Game &game);
-    void keyboard(Game &game, unsigned char c, int x, int y);
-    void keyboardUp(Game &game, unsigned char c, int x, int y);
-    void idle(Game &game);
+    void display(IGame &game);
+    void keyboard(IGame &game, unsigned char c, int x, int y);
+    void keyboardUp(IGame &game, unsigned char c, int x, int y);
+    void idle(IGame &game);
+private:
+    double analog(const char *value);
 };
 
-#endif
 #endif // ARDUINOCONTROLLER_H

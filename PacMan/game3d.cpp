@@ -81,7 +81,7 @@ Game3D::Game3D()
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    IArtificialIntelligence *a=new FakeArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 }

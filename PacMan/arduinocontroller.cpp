@@ -16,77 +16,37 @@
 # GNU General Public License for more details.
 */
 
-#ifdef USE_QT
-
 #include "arduinocontroller.h"
 
-void ArduinoController::run()
+ArduinoController::ArduinoController()
 {
-    serialPort.setPortName("COM3");
-    serialPort.setBaudRate(9600);
-    serialPort.setDataBits(QSerialPort::Data8);
-    serialPort.setParity(QSerialPort::NoParity);
-    serialPort.setStopBits(QSerialPort::OneStop);
-    if(!serialPort.open(QIODevice::ReadWrite))
-    {
-        qDebug()<<"ArduinoController::run: serial port not open";
-        return;
-    }
-    QByteArray data;
-    while(true)
-    {
-        if(serialPort.waitForReadyRead(2000))
-        {
-            data.append(serialPort.readLine());
-            if(data.right(1)=="\n")
-            {
-                QJsonDocument doc=QJsonDocument::fromJson(data);
-                if(!doc.isNull())
-                {
-                    mutex.lock();
-                    obj=doc.object();
-                    mutex.unlock();
-                }
-                data.clear();
-            }
-        }
-        else
-        {
-            qDebug()<<"ArduinoController::run: serial port not read";
-        }
-    }
 }
 
-ArduinoController::ArduinoController(QObject *parent) : QThread(parent)
+double ArduinoController::analog(const char *value)
 {
-    serialPort.moveToThread(this);
-    start();
+    double o=Arduino::getDoubleValue(value)/512.0;
+    double m=0.05;
+    if(Util::abs(o)<m){return(0.0);}
+    if(Util::abs(o)>(1.0-m)){return(Util::topInt(o));}
+    return((Util::abs(o)-m)/(1.0-2.0*m)*Util::topInt(o));
 }
 
 double ArduinoController::analogX()
 {
-    double r=0;
-    mutex.lock();
-    if(obj.contains("analogX")) r=obj["analogX"].toDouble()/obj["scale"].toDouble();
-    mutex.unlock();
-    return r;
+    return analog("analogX");
 }
 
 double ArduinoController::analogY()
 {
-    double r=0;
-    mutex.lock();
-    if(obj.contains("analogY")) r=obj["analogY"].toDouble()/obj["scale"].toDouble();
-    mutex.unlock();
-    return r;
+    return analog("analogY");
 }
 
-void ArduinoController::display(Game &game)
+void ArduinoController::display(IGame &game)
 {
     (void)game;
 }
 
-void ArduinoController::keyboard(Game &game, unsigned char c, int x, int y)
+void ArduinoController::keyboard(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -94,7 +54,7 @@ void ArduinoController::keyboard(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void ArduinoController::keyboardUp(Game &game, unsigned char c, int x, int y)
+void ArduinoController::keyboardUp(IGame &game, unsigned char c, int x, int y)
 {
     (void)game;
     (void)c;
@@ -102,7 +62,7 @@ void ArduinoController::keyboardUp(Game &game, unsigned char c, int x, int y)
     (void)y;
 }
 
-void ArduinoController::idle(Game &game)
+void ArduinoController::idle(IGame &game)
 {
     (void)game;
 }
@@ -116,5 +76,3 @@ int ArduinoController::digitalY()
 {
     return((int)(analogY()*1.9));
 }
-
-#endif

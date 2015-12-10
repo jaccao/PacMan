@@ -16,22 +16,21 @@
 # GNU General Public License for more details.
 */
 
-#ifndef IGLUT_H
-#define IGLUT_H
+int joyPinH = 0;
+int joyPinV = 1;
 
-#include "util.h"
+void setup() {
+  Serial.begin(9600);
+}
 
-#include <GL/glut.h>
+char buf[256];
 
-class IGame;
+void loop() {
+  int valueH = analogRead(joyPinH);   
+  delay(100);             
+  int valueV = analogRead(joyPinV);   
+  sprintf(buf,"{\"scale\":512,\"analogX\":%i,\"analogY\":%i}",valueH-512,(valueV-512)*-1);
+  Serial.println(buf);
+  delay(100);             
+}
 
-class IGlut
-{
-public:
-    virtual void display(IGame &game)=0;
-    virtual void keyboard(IGame &game,unsigned char c,int x,int y)=0;
-    virtual void keyboardUp(IGame &game,unsigned char c,int x,int y)=0;
-    virtual void idle(IGame &game)=0;
-};
-
-#endif // IGLUT_H

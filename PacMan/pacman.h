@@ -29,7 +29,7 @@ class PacMan: public IPacMan
 {
 protected:
     double pacX,pacY,pacSpeed;
-    int lastX=0,lastY=0;
+    double lastX=0,lastY=0;
     int lastDirX=0,lastDirY=0;
 public:
     PacMan();

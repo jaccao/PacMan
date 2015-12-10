@@ -41,19 +41,19 @@ void PacMan3D::display(IGame &game)
     glDisable(GL_LIGHTING);
     glPushMatrix();
 
-    if(lastX==1)
+    if(lastDirectionX()==1)
     {
         texLast=texRight;
     }
-    else if(lastY==1)
+    else if(lastDirectionY()==1)
     {
         texLast=texUp;
     }
-    else if(lastX==-1)
+    else if(lastDirectionX()==-1)
     {
         texLast=texLeft;
     }
-    else if(lastY==-1)
+    else if(lastDirectionY()==-1)
     {
         texLast=texDown;
     }

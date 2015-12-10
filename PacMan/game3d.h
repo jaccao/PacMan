@@ -37,6 +37,7 @@
 #include "pacman3d.h"
 #include "ghost3d.h"
 #include "distanceartificialintelligence.h"
+#include "fakeartificialintelligence.h"
 
 class Game3D: public IGame
 {

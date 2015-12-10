@@ -19,7 +19,9 @@ TEMPLATE = app
 CONFIG += c++11
 #CONFIG -= qt
 
-#QT += serialport
+#Comment the two follow lines to skip Arduino dependence
+DEFINES += USE_QT
+QT += serialport
 
 SOURCES += \
     main.cpp \
@@ -44,7 +46,9 @@ SOURCES += \
     soil/SOIL.c \
     soil/image_helper.c \
     soil/stb_image_aug.c \
-    soil/image_DXT.c
+    soil/image_DXT.c \
+    arduino.cpp \
+    util.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -81,6 +85,6 @@ HEADERS += \
     soil/stb_image_aug.h \
     soil/image_DXT.h \
     soil/stbi_DDS_aug.h \
-    soil/stbi_DDS_aug_c.h
-
-DEFINES += NO_USE_QT
+    soil/stbi_DDS_aug_c.h \
+    arduino.h \
+    util.h
