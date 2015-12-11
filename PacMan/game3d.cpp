@@ -1,56 +1,16 @@
 #include "game3d.h"
 
-Game3D &Game3D::instance()
+void Game3D::setup(int cols, int rows, int width, int height)
 {
-    static Game3D ctx;
-    return(ctx);
-}
-
-void Game3D::keyboard(unsigned char c, int x, int y)
-{
-    instance().keyboardImp(c,x,y);
-}
-
-void Game3D::keyboardUp(unsigned char c, int x, int y)
-{
-    instance().keyboardUpImp(c,x,y);
-}
-
-int Game3D::setup(int argc,char *argv[],int cols, int rows, int width, int height)
-{
-    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(64,64);
     glutInitWindowSize(width*cols, height*rows);
     glutCreateWindow("PacMan");
 
-    glutDisplayFunc(Game3D::display);
-    glutKeyboardFunc(Game3D::keyboard);
-    glutKeyboardUpFunc(Game3D::keyboardUp);
-    glutIdleFunc(Game3D::idle);
-
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
-    instance().setupImp(cols,rows, width, height);
-
-    glutMainLoop();
-    return 0;
-}
-
-void Game3D::idle()
-{
-    instance().idleImp();
-}
-
-void Game3D::display()
-{
-    instance().displayImp();
-}
-
-Game3D::Game3D()
-{
     radius=1.0;
     phi=2.49911;
     theta=0.899557;
@@ -81,56 +41,17 @@ Game3D::Game3D()
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new FakeArtificialIntelligence();
+    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
+
+    this->width=cols*width;
+    this->height=rows*height;
+    map->setup(*this, cols, rows, width, height);
 }
 
-int Game3D::getEllapsed()
+Game3D::Game3D()
 {
-    return ellapsed;
-}
-
-Game3D::State Game3D::getState()
-{
-    return state;
-}
-
-IController *Game3D::getController()
-{
-    return controller;
-}
-
-IMap *Game3D::getMap()
-{
-    return map;
-}
-
-IPacMan *Game3D::getPacman()
-{
-    return pacman;
-}
-
-vector<IGhost *> Game3D::getGhosts()
-{
-    return ghosts;
-}
-
-IArtificialIntelligence *Game3D::getAi()
-{
-    return ai;
-}
-
-void Game3D::displayText( float x, float y, int r, int g, int b, const char *string )
-{
-    int j = strlen( string );
-
-    glColor3f( r, g, b );
-    glRasterPos2f( x, y );
-    for( int i = 0; i < j; i++ )
-    {
-        glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, string[i] );
-    }
 }
 
 void Game3D::positionObserverZ()
@@ -143,7 +64,7 @@ void Game3D::positionObserverZ()
     gluLookAt(eyeX,eyeY,eyeZ, 0.0,0.0,0.0, 0.0,0.0,1.0);
 }
 
-void Game3D::displayImp()
+void Game3D::display()
 {
     glClearColor(0.0,0.0,0.0,0.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -215,7 +136,7 @@ void Game3D::displayImp()
     glutSwapBuffers();
 }
 
-void Game3D::keyboardImp(unsigned char c, int x, int y)
+void Game3D::keyboard(unsigned char c, int x, int y)
 {
     double step=0.1;
     switch(c)
@@ -259,66 +180,4 @@ void Game3D::keyboardImp(unsigned char c, int x, int y)
         exit(0);
     }
     glutPostRedisplay();
-}
-
-void Game3D::keyboardUpImp(unsigned char c, int x, int y)
-{
-    if(state==Game3D::Running) for(unsigned int i=0;i<gluts.size();i++)
-    {
-        gluts.at(i)->keyboardUp(*this,c,x,y);
-    }
-    glutPostRedisplay();
-}
-
-void Game3D::setupImp(int cols, int rows, int width, int height)
-{
-    this->width=cols*width;
-    this->height=rows*height;
-    map->setup(*this, cols, rows, width, height);
-}
-
-void Game3D::idleImp()
-{
-    struct timeb now;
-    ftime(&now);
-    ellapsed=(now.time-last.time)*1000.0+now.millitm-last.millitm;
-    last=now;
-    if(state==Game3D::Running)
-    {
-        for(unsigned int i=0;i<gluts.size();i++)
-        {
-            gluts.at(i)->idle(*this);
-        }
-        for(unsigned int i=0;i<ghosts.size();i++)
-        {
-            IGhost *g=ghosts.at(i);
-            int x=(int)(pacman->X()/map->width())-(int)(g->X()/map->width());
-            int y=(int)(pacman->Y()/map->height())-(int)(g->Y()/map->height());
-            if(!x) if(!y)
-            {
-                if(g->scared())
-                {
-                    g->scared(false);
-                    g->setDirection(0,0);
-                    g->X((map->cols()/2.0+0.5)*map->width());
-                    g->Y((map->rows()/2.0-1+0.5)*map->height());
-                }
-                else
-                {
-                    state=Game3D::GameOver;
-                }
-            }
-        }
-        bool food=false;
-        for(int y=0;y<map->rows();y++)
-            for(int x=0;x<map->cols();x++)
-                if(map->matrix()[x][y]==2) food=true;
-        if(food==false) state=Game3D::Win;
-    }
-    glutPostRedisplay();
-}
-
-
-void Game3D::stateChanged()
-{
 }

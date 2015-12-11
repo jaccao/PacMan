@@ -16,27 +16,23 @@
 # GNU General Public License for more details.
 */
 
-#ifndef GAME3D_H
-#define GAME3D_H
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
-#include "game.h"
+#include "game3d.h"
 
-#include "map3d.h"
-#include "pacman3d.h"
-#include "ghost3d.h"
-
-class Game3D: public Game
+class Application
 {
-public:
-    Game3D();
-protected:
-    void setup(int cols,int rows,int width,int height);
-    void display();
-    void keyboard(unsigned char c,int x,int y);
 private:
-    void positionObserverZ();
-    int width,height;
-    double phi,theta,radius;
+    IGame* game;
+    Application();
+    static Application &instance();
+public:
+    static int setup(int argc, char *argv[], int cols, int rows, int width, int height);
+    static void display();
+    static void keyboard(unsigned char c,int x,int y);
+    static void keyboardUp(unsigned char c,int x,int y);
+    static void idle();
 };
 
-#endif // BOARD_H
+#endif // APPLICATION_H

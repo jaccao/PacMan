@@ -24,5 +24,6 @@ INPUT(
 ./release/image_DXT.o
 ./release/arduino.o
 ./release/util.o
+./release/application.o
 ./release/moc_arduino.o
 );

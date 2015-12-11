@@ -18,6 +18,12 @@ public:
     virtual vector< IGhost* > getGhosts()=0;
     virtual IArtificialIntelligence *getAi()=0;
     virtual void stateChanged()=0;
+    virtual void setup(int cols,int rows,int width,int height)=0;
+    virtual void display()=0;
+    virtual void keyboard(unsigned char c,int x,int y)=0;
+    virtual void keyboardUp(unsigned char c,int x,int y)=0;
+    virtual void idle()=0;
+    virtual void displayText(float x, float y, int r, int g, int b, const char *string)=0;
 };
 
 #endif // IGAME_H

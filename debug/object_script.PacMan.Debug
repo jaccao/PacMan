@@ -18,5 +18,12 @@ INPUT(
 ./debug/node.o
 ./debug/minimaxartificialintelligence.o
 ./debug/aleatoryartificialintelligence.o
-./debug/moc_arduinocontroller.o
+./debug/SOIL.o
+./debug/image_helper.o
+./debug/stb_image_aug.o
+./debug/image_DXT.o
+./debug/arduino.o
+./debug/util.o
+./debug/application.o
+./debug/moc_arduino.o
 );

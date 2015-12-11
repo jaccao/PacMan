@@ -32,6 +32,7 @@
 
 #include "arduinocontroller.h"
 #include "fakecontroller.h"
+#include "fakeartificialintelligence.h"
 #include "keyboardcontroller.h"
 #include "map.h"
 #include "pacman.h"
@@ -45,8 +46,6 @@ class Game: public IGame
 protected:
     vector< IGlut* > gluts;
     struct timeb last;
-    Game();
-protected:
     IGame::State state;
     int ellapsed;
     IController *controller;
@@ -54,24 +53,9 @@ protected:
     IPacMan *pacman;
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
-protected:
-    static Game &instance();
-public:
-    static int setup(int argc, char *argv[], int cols, int rows, int width, int height);
-    static void display();
-    static void keyboard(unsigned char c,int x,int y);
-    static void keyboardUp(unsigned char c,int x,int y);
-    static void idle();
-protected:
-    void setupImp(int cols,int rows,int width,int height);
-    void displayImp();
-    void keyboardImp(unsigned char c,int x,int y);
-    void keyboardUpImp(unsigned char c,int x,int y);
-    void idleImp();
-    void displayText(float x, float y, int r, int g, int b, const char *string);
-
     // IGame interface
 public:
+    Game();
     int getEllapsed();
     State getState();
     IController *getController();
@@ -80,6 +64,12 @@ public:
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
     void stateChanged();
+    void setup(int cols,int rows,int width,int height);
+    void display();
+    void keyboard(unsigned char c,int x,int y);
+    void keyboardUp(unsigned char c,int x,int y);
+    void idle();
+    void displayText(float x, float y, int r, int g, int b, const char *string);
 };
 
 #endif // BOARD_H

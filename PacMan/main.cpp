@@ -16,8 +16,7 @@
 # GNU General Public License for more details.
 */
 
-#include "game.h"
-#include "game3d.h"
+#include "application.h"
 
 #define V_COLUMNS 31
 #define V_ROWS 19
@@ -26,5 +25,5 @@
 
 int main(int argc,char *argv[])
 {
-    return Game3D::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
+    return Application::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
 }

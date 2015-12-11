@@ -18,5 +18,12 @@ INPUT(
 ./release/node.o
 ./release/minimaxartificialintelligence.o
 ./release/aleatoryartificialintelligence.o
-./release/moc_arduinocontroller.o
+./release/SOIL.o
+./release/image_helper.o
+./release/stb_image_aug.o
+./release/image_DXT.o
+./release/arduino.o
+./release/util.o
+./release/application.o
+./release/moc_arduino.o
 );

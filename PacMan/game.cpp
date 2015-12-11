@@ -18,56 +18,16 @@
 
 #include "game.h"
 
-Game &Game::instance()
+void Game::setup(int cols, int rows, int width, int height)
 {
-    static Game ctx;
-    return(ctx);
-}
-
-void Game::keyboard(unsigned char c, int x, int y)
-{
-    instance().keyboardImp(c,x,y);
-}
-
-void Game::keyboardUp(unsigned char c, int x, int y)
-{
-    instance().keyboardUpImp(c,x,y);
-}
-
-int Game::setup(int argc,char *argv[],int cols, int rows, int width, int height)
-{
-    glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(64,64);
     glutInitWindowSize(width*cols, height*rows);
     glutCreateWindow("PacMan");
 
-    glutDisplayFunc(Game::display);
-    glutKeyboardFunc(Game::keyboard);
-    glutKeyboardUpFunc(Game::keyboardUp);
-    glutIdleFunc(Game::idle);
-
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0,width*cols-1,0,height*rows-1);
 
-    instance().setupImp(cols,rows, width, height);
-
-    glutMainLoop();
-    return 0;
-}
-
-void Game::idle()
-{
-    instance().idleImp();
-}
-
-void Game::display()
-{
-    instance().displayImp();
-}
-
-Game::Game()
-{
     state=Game::Running;
     ftime(&last);
     // Controller
@@ -100,6 +60,12 @@ Game::Game()
     //IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
+
+    map->setup(*this, cols, rows, width, height);
+}
+
+Game::Game()
+{
 }
 
 int Game::getEllapsed()
@@ -149,7 +115,7 @@ void Game::displayText( float x, float y, int r, int g, int b, const char *strin
     }
 }
 
-void Game::displayImp()
+void Game::display()
 {
     glClearColor(0.8,0.8,0.8,0.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -168,7 +134,7 @@ void Game::displayImp()
     glutSwapBuffers();
 }
 
-void Game::keyboardImp(unsigned char c, int x, int y)
+void Game::keyboard(unsigned char c, int x, int y)
 {
     if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
@@ -186,7 +152,7 @@ void Game::keyboardImp(unsigned char c, int x, int y)
     glutPostRedisplay();
 }
 
-void Game::keyboardUpImp(unsigned char c, int x, int y)
+void Game::keyboardUp(unsigned char c, int x, int y)
 {
     if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
@@ -195,12 +161,7 @@ void Game::keyboardUpImp(unsigned char c, int x, int y)
     glutPostRedisplay();
 }
 
-void Game::setupImp(int cols, int rows, int width, int height)
-{
-    map->setup(*this, cols, rows, width, height);
-}
-
-void Game::idleImp()
+void Game::idle()
 {
     struct timeb now;
     ftime(&now);
@@ -240,7 +201,6 @@ void Game::idleImp()
     }
     glutPostRedisplay();
 }
-
 
 void Game::stateChanged()
 {

@@ -48,7 +48,8 @@ SOURCES += \
     soil/stb_image_aug.c \
     soil/image_DXT.c \
     arduino.cpp \
-    util.cpp
+    util.cpp \
+    application.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -87,4 +88,5 @@ HEADERS += \
     soil/stbi_DDS_aug.h \
     soil/stbi_DDS_aug_c.h \
     arduino.h \
-    util.h
+    util.h \
+    application.h
