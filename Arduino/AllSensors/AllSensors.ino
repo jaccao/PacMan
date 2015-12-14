@@ -30,6 +30,8 @@
 #define trigerPin 8
 // Hearth
 #define pulsePin 3
+// Delay
+#define delayTime 5
 
 // these variables are volatile because they are used during the interrupt service routine!
 volatile int BPM;
@@ -73,7 +75,7 @@ int getDistance(int trigP,int echoP)
 void loop()
 {
   // Temperature
-  delay(100);             
+  delay(delayTime);             
   float temperature = dht.readTemperature();
   if(isnan(temperature))
   {
@@ -81,15 +83,15 @@ void loop()
   }
   int valueTemperature=temperature;
   // Joystick
-  delay(100);             
+  delay(delayTime);             
   int valueH = analogRead(joyPinH);
-  delay(100);
+  delay(delayTime);
   int valueV = analogRead(joyPinV);
   // Skin
-  delay(100);
+  delay(delayTime);
   int valueSkinRes = analogRead(skinPin);
   // Distance
-  delay(100);
+  delay(delayTime);
   int valueDistance=getDistance(trigerPin,echoPin);
   // Hearth
   if (QS == true) QS = false;
