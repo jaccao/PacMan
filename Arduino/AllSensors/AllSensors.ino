@@ -16,21 +16,86 @@
 # GNU General Public License for more details.
 */
 
-int joyPinH = 0;
-int joyPinV = 1;
+#include "DHT.h"
 
-void setup() {
+// Temperature
+#define DHTPIN 2
+// Joystick
+#define joyPinV 0
+#define joyPinH 1
+// Skin
+#define skinPin 2
+// Distance
+#define echoPin 7
+#define trigerPin 8
+// Hearth
+#define pulsePin 3
+
+// these variables are volatile because they are used during the interrupt service routine!
+volatile int BPM;
+volatile int Signal;
+volatile int IBI = 600;
+volatile boolean Pulse = false;
+volatile boolean QS = false;
+
+int maximumRange = 100;
+int minimumRange = 0;
+long duration, distance;
+
+#define DHTTYPE DHT11   // DHT 11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup()
+{
   Serial.begin(9600);
+  pinMode(trigerPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  interruptSetup();
+  dht.begin();
 }
 
-char buf[256];
+char buf[1024];
 
-void loop() {
-  int valueH = analogRead(joyPinH);   
+int getDistance(int trigP,int echoP)
+{
+ digitalWrite(trigP, LOW); 
+ delayMicroseconds(2);
+ digitalWrite(trigP, HIGH);
+ delayMicroseconds(10);
+ digitalWrite(trigP, LOW);
+ duration = pulseIn(echoP, HIGH);
+ distance = duration/58.2;
+ if (distance >= maximumRange || distance <= minimumRange) return 100;
+ return(distance);
+}
+
+void loop()
+{
+  // Temperature
   delay(100);             
-  int valueV = analogRead(joyPinV);   
-  sprintf(buf,"{\"scale\":512,\"analogX\":%i,\"analogY\":%i}",valueH-512,(valueV-512)*-1);
+  float temperature = dht.readTemperature();
+  if(isnan(temperature))
+  {
+    temperature=0;
+  }
+  int valueTemperature=temperature;
+  // Joystick
+  delay(100);             
+  int valueH = analogRead(joyPinH);
+  delay(100);
+  int valueV = analogRead(joyPinV);
+  // Skin
+  delay(100);
+  int valueSkinRes = analogRead(skinPin);
+  // Distance
+  delay(100);
+  int valueDistance=getDistance(trigerPin,echoPin);
+  // Hearth
+  if (QS == true) QS = false;
+  int valuePulse=BPM;
+  // Json
+  sprintf(buf,"{\"temperature\":%i,\"analogX\":%i,\"analogY\":%i,\"skinResistence\":%i,\"distance\":%i,\"pulse\":%i}",valueTemperature,valueH-512,(valueV-512)*-1,valueSkinRes,valueDistance,valuePulse);
   Serial.println(buf);
-  delay(100);             
 }
 
