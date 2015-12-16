@@ -52,7 +52,7 @@ void Map3D::display(IGame &game)
                 DrawCube();
                 break;
             default:
-                color[0]=0.2; color[1]=0.2; color[2]=0.2; color[3]=1.0;
+                color[0]=0.0; color[1]=0.0; color[2]=0.0; color[3]=1.0;
                 glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,color);
                 glTranslated((i+0.5)*w,(j+0.5)*h,-0.5);
                 glScaled(w,h,1.0);

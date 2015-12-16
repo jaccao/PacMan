@@ -24,6 +24,7 @@
 #include "map3d.h"
 #include "pacman3d.h"
 #include "ghost3d.h"
+#include "arduino.h"
 
 class Game3D: public Game
 {
@@ -37,6 +38,8 @@ private:
     void positionObserverZ();
     int width,height;
     double phi,theta,radius;
+    int lastTemperature;
+    double lastColorRed;
 };
 
 #endif // BOARD_H

@@ -39,10 +39,12 @@ Ghost3D::Ghost3D()
 void Ghost3D::display(IGame &game)
 {
     (void)game;
+    GLfloat colorGray[] = {0.7, 0.7, 0.7, 1.0};
+    GLfloat colorWhite[] = {1.0, 1.0, 1.0, 1.0};
     if(scared())
-        glColor3f(0.2,0.2,0.2);
+        glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,colorGray);
     else
-        glColor3f(1.0,1.0,1.0);
+        glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,colorWhite);
 
     glPushMatrix();
 

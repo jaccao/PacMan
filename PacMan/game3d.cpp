@@ -11,6 +11,8 @@ void Game3D::setup(int cols, int rows, int width, int height)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
+    lastColorRed=0.0;
+    lastTemperature=0;
     radius=1.0;
     phi=2.49911;
     theta=0.899557;
@@ -34,14 +36,14 @@ void Game3D::setup(int cols, int rows, int width, int height)
     pacman=p;
     gluts.push_back(p);
     // Ghosts
-    for(int c=0;c<3;c++)
+    for(int c=0;c<1;c++)
     {
         IGhost *g=new Ghost3D();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    IArtificialIntelligence *a=new FakeArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
@@ -79,18 +81,29 @@ void Game3D::display()
 
     glOrtho(-width*0.6,width*0.6,-height*0.6,height*0.6,10,2000);
     glMatrixMode(GL_MODELVIEW);
-/*
- * disable: over the pacman light
+
     // Ambient light
     glEnable(GL_LIGHT0);
-    position[0]=0; position[1]=0; position[2]=300; position[3]=0;
-    glLightiv(GL_LIGHT0,GL_POSITION,position);
-    color[0]=0.01; color[1]=0.01; color[2]=0.01; color[3]=1.0;
-    glLightfv(GL_LIGHT0,GL_AMBIENT,color);
-*/
+    GLint pAmbientLight[] = {0, 0, 300, 0};
+    glLightiv(GL_LIGHT0,GL_POSITION,pAmbientLight);
+    GLfloat cAmbientLight[] = {0.0, 0.0, 0.0, 1.0};
+    // 4 degrees change the color: 0.25 by degree
+    int temperature=Arduino::getDoubleValue("temperature");
+    if(temperature>10)
+    {
+        if(!lastTemperature) lastTemperature=temperature;
+        lastColorRed-=(lastTemperature-temperature)*0.25;
+        lastTemperature=temperature;
+    }
+    if(lastColorRed<0.0) lastColorRed=0.0;
+    if(lastColorRed>1.0) lastColorRed=1.0;
+    cAmbientLight[0]=0.2*lastColorRed;
+    cAmbientLight[2]=0.2*(1-lastColorRed);
+    glLightfv(GL_LIGHT0,GL_AMBIENT,cAmbientLight);
+
     // Pacman light
-    GLfloat qaAmbientLight[] = {0.1, 0.1, 0.1, 1.0};
-    GLfloat qaDiffuseLight[] = {1, 1, 1, 1.0};
+    GLfloat qaAmbientLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat qaDiffuseLight[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat qaSpecularLight[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat qaLightPosition[4];
     GLfloat dirVector0[4];
@@ -111,11 +124,11 @@ void Game3D::display()
     dirVector0[2]=0.0;
     dirVector0[3]=0.0;
     glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, dirVector0);
-    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 1);
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 1.0);
 
-    glLightf (GL_LIGHT1,GL_CONSTANT_ATTENUATION, 1.0);
-    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, 0.0);
-    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.00002);
+    glLightf (GL_LIGHT1,GL_CONSTANT_ATTENUATION, 0.0);
+    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, -2.0);
+    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001);
 
     // code
     glScaled(radius,radius,radius);

@@ -31,6 +31,7 @@ void Arduino::run()
         qDebug()<<"ArduinoController::run: serial port not open";
         return;
     }
+    connected=true;
     QByteArray data;
     while(true)
     {
@@ -58,6 +59,7 @@ void Arduino::run()
 
 Arduino::Arduino()
 {
+    connected=false;
     serialPort.moveToThread(this);
     start();
 }
@@ -75,6 +77,7 @@ double Arduino::getDoubleValueImp(const char *value)
 
 Arduino::Arduino()
 {
+    connected=false;
 }
 
 double Arduino::getDoubleValueImp(const char *value)
@@ -87,6 +90,11 @@ double Arduino::getDoubleValueImp(const char *value)
 double Arduino::getDoubleValue(const char *value)
 {
     return getInstance().getDoubleValueImp(value);
+}
+
+bool Arduino::isConnect()
+{
+    return getInstance().connected;
 }
 
 Arduino &Arduino::getInstance()

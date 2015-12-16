@@ -44,11 +44,13 @@ class Arduino
 {
 #endif
 private:
+    bool connected;
     Arduino();
     static Arduino &getInstance();
     double getDoubleValueImp(const char* value);
 public:
     static double getDoubleValue(const char* value);
+    static bool isConnect();
 };
 
 #endif // ARDUINO_H
