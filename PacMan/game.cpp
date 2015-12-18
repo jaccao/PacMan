@@ -242,8 +242,8 @@ double Game::getStressPercent()
     double skin=Arduino::getDoubleValue("skinResistence");
     if(skin)
     {
-        if(skin<minResistence) minResistence=skin-2;
-        if(skin>maxResistence) maxResistence=skin+2;
+        if(skin<minResistence) minResistence=skin-3;
+        if(skin>maxResistence) maxResistence=skin+3;
         skinPercent=1.0-(skin-minResistence)/(maxResistence-minResistence);
     }
     double r=((heartPercent>skinPercent)?heartPercent:skinPercent);

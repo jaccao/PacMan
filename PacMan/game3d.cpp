@@ -41,7 +41,7 @@ void Game3D::setup(int cols, int rows, int width, int height)
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
+    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
@@ -90,6 +90,14 @@ void Game3D::display()
     cAmbientLight[2]=0.2*(1-getTemperaturePercent());
     glLightfv(GL_LIGHT0,GL_AMBIENT,cAmbientLight);
 
+    // code
+    // TODO: distance change to first person, not the zoom
+    static double lastDistancePercent=1.0;
+    lastDistancePercent=(lastDistancePercent*3.0+getDistancePercent())/4.0;
+    radius=1.0-lastDistancePercent*0.2;
+    glScaled(radius,radius,radius);
+    glTranslated(-width/2.0,-height/2.0,0.0);
+
     // Pacman light
     GLfloat qaAmbientLight[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat qaDiffuseLight[] = {1.0, 1.0, 1.0, 1.0};
@@ -100,8 +108,8 @@ void Game3D::display()
 
     glLightfv(GL_LIGHT1, GL_AMBIENT, qaAmbientLight);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, qaDiffuseLight);
-    qaLightPosition[0]=pacman->X()-width/2.0;
-    qaLightPosition[1]=pacman->Y()-height/2.0;
+    qaLightPosition[0]=pacman->X();
+    qaLightPosition[1]=pacman->Y();
     qaLightPosition[2]=12.0;
     qaLightPosition[3]=1.0;
     glLightfv(GL_LIGHT1, GL_POSITION, qaLightPosition);
@@ -116,13 +124,8 @@ void Game3D::display()
     glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 1.0);
 
     glLightf (GL_LIGHT1,GL_CONSTANT_ATTENUATION, 0.0);
-    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, -2.0);
-    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001);
-
-    // code
-    radius=1.0-getDistancePercent()*0.5;
-    glScaled(radius,radius,radius);
-    glTranslated(-width/2.0,-height/2.0,0.0);
+    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, -2.0/radius);
+    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001/radius);
 
     for(unsigned int i=0;i<gluts.size();i++)
     {

@@ -132,6 +132,7 @@ double DistanceArtificialIntelligence::evalState(IGame& game,State& state)
                     {
                         max_steps+=steps;
                     }
+                    break;
                 }
             }
         }

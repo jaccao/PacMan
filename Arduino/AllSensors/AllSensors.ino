@@ -31,7 +31,7 @@
 // Hearth
 #define pulsePin 3
 // Delay
-#define delayTime 5
+#define delayTime 1
 
 // these variables are volatile because they are used during the interrupt service routine!
 volatile int BPM;
