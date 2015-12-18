@@ -20,7 +20,7 @@
 
 Application::Application()
 {
-    game=new Game3D;
+    game=new Game3D(35);
 }
 
 Application &Application::instance()

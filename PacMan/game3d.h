@@ -29,7 +29,7 @@
 class Game3D: public Game
 {
 public:
-    Game3D();
+    Game3D(int playerAge);
 protected:
     void setup(int cols,int rows,int width,int height);
     void display();
@@ -38,8 +38,6 @@ private:
     void positionObserverZ();
     int width,height;
     double phi,theta,radius;
-    int lastTemperature;
-    double lastColorRed;
 };
 
 #endif // BOARD_H

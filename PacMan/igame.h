@@ -9,7 +9,7 @@
 class IGame
 {
 public:
-    enum State{Running,Win,GameOver};
+    enum State{NotStarted,Running,Win,GameOver};
     virtual int getEllapsed()=0;
     virtual State getState()=0;
     virtual IController *getController()=0;

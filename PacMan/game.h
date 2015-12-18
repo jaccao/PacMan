@@ -53,9 +53,10 @@ protected:
     IPacMan *pacman;
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
-    // IGame interface
+    int playerAge;
+    double getColorPercent();
 public:
-    Game();
+    Game(int playerAge);
     int getEllapsed();
     State getState();
     IController *getController();
@@ -63,6 +64,7 @@ public:
     IPacMan *getPacman();
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
+    // IGame interface
     void stateChanged();
     void setup(int cols,int rows,int width,int height);
     void display();

@@ -28,7 +28,7 @@ void Game::setup(int cols, int rows, int width, int height)
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0,width*cols-1,0,height*rows-1);
 
-    state=Game::Running;
+    state=IGame::Running;
     ftime(&last);
     // Controller
     IController* k;
@@ -64,8 +64,10 @@ void Game::setup(int cols, int rows, int width, int height)
     map->setup(*this, cols, rows, width, height);
 }
 
-Game::Game()
+Game::Game(int playerAge)
 {
+    state=IGame::NotStarted;
+    this->playerAge=playerAge;
 }
 
 int Game::getEllapsed()
@@ -123,11 +125,11 @@ void Game::display()
     {
         gluts.at(i)->display(*this);
     }
-    if(state==Game::Win)
+    if(state==IGame::Win)
     {
         displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1," YOU WIN ");
     }
-    if(state==Game::GameOver)
+    if(state==IGame::GameOver)
     {
         displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1,"GAME OVER");
     }
@@ -136,14 +138,14 @@ void Game::display()
 
 void Game::keyboard(unsigned char c, int x, int y)
 {
-    if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
+    if(state==IGame::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
         gluts.at(i)->keyboard(*this,c,x,y);
     }
     if(c==' ')
     {
         map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
-        state=Game::Running;
+        state=IGame::Running;
     }
     if(c==27)//esc
     {
@@ -154,7 +156,7 @@ void Game::keyboard(unsigned char c, int x, int y)
 
 void Game::keyboardUp(unsigned char c, int x, int y)
 {
-    if(state==Game::Running) for(unsigned int i=0;i<gluts.size();i++)
+    if(state==IGame::Running) for(unsigned int i=0;i<gluts.size();i++)
     {
         gluts.at(i)->keyboardUp(*this,c,x,y);
     }
@@ -167,7 +169,7 @@ void Game::idle()
     ftime(&now);
     ellapsed=(now.time-last.time)*1000.0+now.millitm-last.millitm;
     last=now;
-    if(state==Game::Running)
+    if(state==IGame::Running)
     {
         for(unsigned int i=0;i<gluts.size();i++)
         {
@@ -189,7 +191,7 @@ void Game::idle()
                 }
                 else
                 {
-                    state=Game::GameOver;
+                    state=IGame::GameOver;
                 }
             }
         }
@@ -204,4 +206,21 @@ void Game::idle()
 
 void Game::stateChanged()
 {
+}
+
+double Game::getColorPercent()
+{
+    static double lastColorPercent=0.0;
+    static int lastTemperature=0;
+    // 4 degrees change the color: 0.25 by degree
+    int temperature=Arduino::getDoubleValue("temperature");
+    if(temperature)
+    {
+        if(!lastTemperature) lastTemperature=temperature;
+        lastColorPercent-=(lastTemperature-temperature)*0.25;
+        lastTemperature=temperature;
+    }
+    if(lastColorPercent<0.0) lastColorPercent=0.0;
+    if(lastColorPercent>1.0) lastColorPercent=1.0;
+    return lastColorPercent;
 }

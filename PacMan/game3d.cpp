@@ -11,12 +11,10 @@ void Game3D::setup(int cols, int rows, int width, int height)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
-    lastColorRed=0.0;
-    lastTemperature=0;
     radius=1.0;
     phi=2.49911;
     theta=0.899557;
-    state=Game3D::Running;
+    state=IGame::Running;
     ftime(&last);
     // Controller
     IController* k;
@@ -36,14 +34,14 @@ void Game3D::setup(int cols, int rows, int width, int height)
     pacman=p;
     gluts.push_back(p);
     // Ghosts
-    for(int c=0;c<1;c++)
+    for(int c=0;c<3;c++)
     {
         IGhost *g=new Ghost3D();
         ghosts.push_back(g);
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new FakeArtificialIntelligence();
+    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
@@ -52,7 +50,8 @@ void Game3D::setup(int cols, int rows, int width, int height)
     map->setup(*this, cols, rows, width, height);
 }
 
-Game3D::Game3D()
+Game3D::Game3D(int playerAge):
+    Game(playerAge)
 {
 }
 
@@ -87,18 +86,8 @@ void Game3D::display()
     GLint pAmbientLight[] = {0, 0, 300, 0};
     glLightiv(GL_LIGHT0,GL_POSITION,pAmbientLight);
     GLfloat cAmbientLight[] = {0.0, 0.0, 0.0, 1.0};
-    // 4 degrees change the color: 0.25 by degree
-    int temperature=Arduino::getDoubleValue("temperature");
-    if(temperature>10)
-    {
-        if(!lastTemperature) lastTemperature=temperature;
-        lastColorRed-=(lastTemperature-temperature)*0.25;
-        lastTemperature=temperature;
-    }
-    if(lastColorRed<0.0) lastColorRed=0.0;
-    if(lastColorRed>1.0) lastColorRed=1.0;
-    cAmbientLight[0]=0.2*lastColorRed;
-    cAmbientLight[2]=0.2*(1-lastColorRed);
+    cAmbientLight[0]=0.2*getColorPercent();
+    cAmbientLight[2]=0.2*(1-getColorPercent());
     glLightfv(GL_LIGHT0,GL_AMBIENT,cAmbientLight);
 
     // Pacman light
@@ -186,7 +175,7 @@ void Game3D::keyboard(unsigned char c, int x, int y)
     if(c==' ')
     {
         map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
-        state=Game3D::Running;
+        state=IGame::Running;
     }
     if(c==27)//esc
     {

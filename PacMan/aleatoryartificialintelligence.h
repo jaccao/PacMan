@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include "igame.h"
 
+
+// TODO: goto next tile
 class AleatoryArtificialIntelligence: public IArtificialIntelligence
 {
 public:

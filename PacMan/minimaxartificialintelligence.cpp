@@ -163,7 +163,7 @@ float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizin
     }
     if(maximizingPlayer)
     {
-        bestValue = 9999999; // considerando como -infinito
+        bestValue = 9999999; // considerando como infinito
         for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++) {
             Node child = *it;
             float val = minimax(child,depth-1,false);
@@ -178,7 +178,7 @@ float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizin
     }
     else
     {
-        bestValue = -9999999; //considerando como valor +infinito
+        bestValue = -9999999; //considerando como valor -infinito
         for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
         {
             Node child = *it;
