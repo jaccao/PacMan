@@ -86,8 +86,8 @@ void Game3D::display()
     GLint pAmbientLight[] = {0, 0, 300, 0};
     glLightiv(GL_LIGHT0,GL_POSITION,pAmbientLight);
     GLfloat cAmbientLight[] = {0.0, 0.0, 0.0, 1.0};
-    cAmbientLight[0]=0.2*getColorPercent();
-    cAmbientLight[2]=0.2*(1-getColorPercent());
+    cAmbientLight[0]=0.2*getTemperaturePercent();
+    cAmbientLight[2]=0.2*(1-getTemperaturePercent());
     glLightfv(GL_LIGHT0,GL_AMBIENT,cAmbientLight);
 
     // Pacman light
@@ -120,6 +120,7 @@ void Game3D::display()
     glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001);
 
     // code
+    radius=1.0-getDistancePercent()*0.5;
     glScaled(radius,radius,radius);
     glTranslated(-width/2.0,-height/2.0,0.0);
 

@@ -47,14 +47,15 @@ void Map::setup(IGame &game, int cols, int rows, int width, int height)
     mapgen();
     game.getPacman()->X((cols/2+0.5)*width);
     game.getPacman()->Y(1.5*height);
-    game.getPacman()->speed(96);
+    game.getPacman()->speed(width*3.0);
     unsigned int c=0;
     for(int j=-2;j<=0;j++)
         for(int i=-2;i<=2;i++)
             if(c<game.getGhosts().size())
             {
                 IGhost *g=game.getGhosts().at(c);
-                g->speed(96);
+                // ghost's speed is dynamic
+                //g->speed(game.getPacman()->speed()*1.5);
                 g->X((cols/2+i+0.5)*width);
                 g->Y((rows/2+j+0.5)*height);
                 c++;

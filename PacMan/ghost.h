@@ -26,7 +26,7 @@
 class Ghost: public IGhost
 {
 protected:
-    double ghostX,ghostY,ghostSpeed;
+    double ghostX,ghostY;
     double lastX,lastY;
     double analogX,analogY;
     bool isScared;

@@ -178,6 +178,7 @@ void Game::idle()
         for(unsigned int i=0;i<ghosts.size();i++)
         {
             IGhost *g=ghosts.at(i);
+            if(!i){g->speed(getStressPercent()*getPacman()->speed()*1.5);}
             int x=(int)(pacman->X()/map->width())-(int)(g->X()/map->width());
             int y=(int)(pacman->Y()/map->height())-(int)(g->Y()/map->height());
             if(!x) if(!y)
@@ -208,7 +209,7 @@ void Game::stateChanged()
 {
 }
 
-double Game::getColorPercent()
+double Game::getTemperaturePercent()
 {
     static double lastColorPercent=0.0;
     static int lastTemperature=0;
@@ -223,4 +224,43 @@ double Game::getColorPercent()
     if(lastColorPercent<0.0) lastColorPercent=0.0;
     if(lastColorPercent>1.0) lastColorPercent=1.0;
     return lastColorPercent;
+}
+
+double Game::getStressPercent()
+{
+    static int minResistence=999999;
+    static int maxResistence=-1;
+    double maxHR=220.0-playerAge;
+    int pulse=Arduino::getDoubleValue("pulse");
+    double heartPercent=0.5;
+    if(pulse)
+    {
+        double p=pulse/maxHR;
+        if(p>0.5) if(p<1.0) heartPercent=p;
+    }
+    double skinPercent=0.0;
+    double skin=Arduino::getDoubleValue("skinResistence");
+    if(skin)
+    {
+        if(skin<minResistence) minResistence=skin-2;
+        if(skin>maxResistence) maxResistence=skin+2;
+        skinPercent=1.0-(skin-minResistence)/(maxResistence-minResistence);
+    }
+    double r=((heartPercent>skinPercent)?heartPercent:skinPercent);
+    return r;
+}
+
+double Game::getDistancePercent()
+{
+    static int maxRange=30;
+    static int minRange=10;
+    double distance=Arduino::getDoubleValue("distance");
+    double distancePercent=1.0;
+    if(distance)
+    {
+        if(distance<minRange) distance=minRange;
+        if(distance>maxRange) distance=maxRange;
+        distancePercent=(distance-minRange)/(maxRange-minRange);
+    }
+    return distancePercent;
 }

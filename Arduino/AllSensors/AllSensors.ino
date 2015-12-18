@@ -48,8 +48,23 @@ long duration, distance;
 
 DHT dht(DHTPIN, DHTTYPE);
 
+#define maxPulse 32
+unsigned char arrayPulse[maxPulse];
+unsigned char posPulse;
+
+#define maxSkin 64
+unsigned int arraySkin[maxSkin];
+unsigned char posSkin;
+
+#define maxDistance 8
+unsigned int arrayDistance[maxDistance];
+unsigned char posDistance;
+
 void setup()
 {
+  for(int i=0;i<maxPulse;i++) arrayPulse[i]=0;
+  for(int i=0;i<maxSkin;i++) arraySkin[i]=0;
+  for(int i=0;i<maxDistance;i++) arrayDistance[i]=0;
   Serial.begin(9600);
   pinMode(trigerPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -57,7 +72,7 @@ void setup()
   dht.begin();
 }
 
-char buf[1024];
+char buf[256];
 
 int getDistance(int trigP,int echoP)
 {
@@ -89,13 +104,64 @@ void loop()
   int valueV = analogRead(joyPinV);
   // Skin
   delay(delayTime);
-  int valueSkinRes = analogRead(skinPin);
+  if(posSkin>=maxSkin) posSkin=0;
+  arraySkin[posSkin]=analogRead(skinPin);
+  posSkin++;
+  unsigned long sumSkin=0;
+  int countSkin=0;
+  for(int i=0;i<maxSkin;i++)
+  {
+    if(arraySkin[i])
+    {
+      sumSkin+=arraySkin[i];
+      countSkin++;
+    }
+  }
+  int valueSkinRes = 1023;
+  if(countSkin) valueSkinRes=sumSkin/countSkin;
   // Distance
   delay(delayTime);
-  int valueDistance=getDistance(trigerPin,echoPin);
+  if(posDistance>=maxDistance) posDistance=0;
+  int readDistance=getDistance(trigerPin,echoPin);
+  if(readDistance>=5) if(readDistance<=90)
+  {
+    arrayDistance[posDistance]=readDistance;
+    posDistance++;
+  }
+  unsigned long sumDistance=0;
+  int countDistance=0;
+  for(int i=0;i<maxDistance;i++)
+  {
+    if(arrayDistance[i])
+    {
+      sumDistance+=arrayDistance[i];
+      countDistance++;
+    }
+  }
+  int valueDistance=0;
+  if(countDistance) valueDistance=sumDistance/countDistance;
   // Hearth
+  // average of last maxPulse reads
+  if(posPulse>=maxPulse) posPulse=0;
+  // only valid pulses!
+  if(BPM>=75) if(BPM<=200)
+  {
+    arrayPulse[posPulse]=BPM;
+    posPulse++;
+  }
+  int sumPulse=0;
+  int countPulse=0;
+  for(int i=0;i<maxPulse;i++)
+  {
+    if(arrayPulse[i])
+    {
+      sumPulse+=arrayPulse[i];
+      countPulse++;
+    }
+  }
   if (QS == true) QS = false;
-  int valuePulse=BPM;
+  int valuePulse=75;
+  if(countPulse) valuePulse=sumPulse/countPulse;
   // Json
   sprintf(buf,"{\"temperature\":%i,\"analogX\":%i,\"analogY\":%i,\"skinResistence\":%i,\"distance\":%i,\"pulse\":%i}",valueTemperature,valueH-512,(valueV-512)*-1,valueSkinRes,valueDistance,valuePulse);
   Serial.println(buf);

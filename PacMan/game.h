@@ -54,7 +54,9 @@ protected:
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
     int playerAge;
-    double getColorPercent();
+    double getTemperaturePercent();
+    double getStressPercent();
+    double getDistancePercent();
 public:
     Game(int playerAge);
     int getEllapsed();

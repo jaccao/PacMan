@@ -110,8 +110,8 @@ void Ghost::idle(IGame &game)
         }
     }
 
-    ghostX+=lastX*ghostSpeed*(ellap/1000.0);
-    ghostY+=lastY*ghostSpeed*(ellap/1000.0);
+    ghostX+=lastX*speed()*(ellap/1000.0);
+    ghostY+=lastY*speed()*(ellap/1000.0);
 
     if(((int)(ghostX/map->width()))!=lx)
     {
@@ -137,6 +137,7 @@ double Ghost::Y(double y)
 
 double Ghost::speed(double s)
 {
+    static int ghostSpeed=0;
     if(s>=0) ghostSpeed=s;
     return ghostSpeed;
 }
