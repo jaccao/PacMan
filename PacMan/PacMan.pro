@@ -20,8 +20,8 @@ CONFIG += c++11
 #CONFIG -= qt
 
 #Comment the two follow lines to skip Arduino dependence
-DEFINES += USE_QT
-QT += serialport
+#DEFINES += USE_QT
+#QT += serialport
 
 SOURCES += \
     main.cpp \

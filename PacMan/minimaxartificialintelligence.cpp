@@ -1,6 +1,5 @@
 #include "minimaxartificialintelligence.h"
-#include "node.h"
-#include "imap.h"
+
 MiniMaxArtificialIntelligence::MiniMaxArtificialIntelligence(void)
 {
 
@@ -31,9 +30,12 @@ void MiniMaxArtificialIntelligence::createTree2(IGame &game)
 {
     tree = Node(0);
 
+    //vector all ghosts positions
     vector<Position> all_ghosts;
+    //object Pacman
     Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
 
+    //insert all ghosts in vector positions of ghosts
     for (unsigned int var = 0; var < game.getGhosts().size(); var++)
     {
         IGhost* g = game.getGhosts()[var];
@@ -42,89 +44,39 @@ void MiniMaxArtificialIntelligence::createTree2(IGame &game)
         all_ghosts.push_back(p_ghost);
     }
 
+    //initialize the inicial state with atual position of pacman and atual position of all ghosts
     State inicial(p_pac, all_ghosts);
-
+    //start recursive function to create tree
     geraStates(game, p_pac, inicial, all_ghosts, 0, all_ghosts.size());
 }
 
 void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, State &move, vector<Position> all_ghosts, int number_of_ghost, int total_of_ghost)
 {
+    //if it's the last node branch of tree return this node
     if(number_of_ghost == total_of_ghost)
     {
         Node childGhostValue;
         childGhostValue.atualState = move;
+        //save result of heurist
         childGhostValue.data =  -evalState(game,move);
+        //insert node in treee
         tree.insert(childGhostValue);
         return ;
     }
 
+    //find all posibles moves of ghosts
     vector< Position > ghostPositions = game.getMap()->legalMov(all_ghosts[number_of_ghost]);// retorna proxima position valida de um fantasma 0
 
+    //iterate with all posibles moves of ghosts
     for (unsigned int j = 0; j < ghostPositions.size(); j++)
     {
         Position ghost = ghostPositions[j];
 
         State new_state = move;
         new_state.ghosts[number_of_ghost] = ghost;
-
-//        State s = geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
+        //generate next states started this moving
         geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
-
-        /*Node childGhostValue;
-        childGhostValue.atualState = s;
-        childGhostValue.data =  evalState(game,s);
-        tree.insert(childGhostValue);*/
     }
-
-}
-
-void MiniMaxArtificialIntelligence::createTree(IGame& game)
-{
-    tree = Node(0);
-    vector< vector< int > > visited;
-    visited.resize(game.getMap()->cols(),vector<int>(game.getMap()->rows(),0));
-    IMap *map = game.getMap();
-    vector< Position > pg;
-    pg.push_back(getOneGhost(game,0));// adicionando apenas o ghost 0 na lista
-
-    Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
-    vector< Position > ps=game.getMap()->legalMov(p_pac);
-    for(unsigned int i=0;i<ps.size();i++)
-    {
-        State novoStateAntecipa(ps[i],pg);
-        Position possiblePacmanPos = ps[i];
-        Node child;
-        if(map->matrix()[possiblePacmanPos.x][possiblePacmanPos.y]==IMap::TileFood){
-            child.data = 100.0; //se tem comida Movimento + 100 se não pacman -50
-        }
-        else
-            child.data = -50.0;
-        child.atualState=novoStateAntecipa;
-        //            for(unsigned int g=0;g<pg.size();g++)
-        //            {
-        vector< Position > ghostPositions=game.getMap()->legalMov(pg[0]);// retorna proxima position valida de um fantasma 0
-        for (unsigned int j = 0; j < ghostPositions.size(); j++) {
-            vector<Position> tempPositions = pg; // para não perder o valor antigo, que ira ser utilizado no proximo node
-            tempPositions.push_back(ghostPositions[j]); // modificando o valor da posição do fantasma 0
-            State novoStateGhost(p_pac,tempPositions);
-            Node childGhostValue;
-            childGhostValue.atualState = novoStateGhost;
-            childGhostValue.data =  evalState(game,novoStateGhost);
-            child.insert(childGhostValue);
-
-        }
-        tree.insert(child);
-        // }
-    }
-}
-
-Position MiniMaxArtificialIntelligence::getOneGhost(IGame& game, int ghostNumber)
-{ //Retorna Posicao do Ghost que ira executar o miniMax
-
-    IGhost* g=game.getGhosts()[ghostNumber];
-    Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
-    p_ghost.g=g;
-    return p_ghost;
 }
 
 void MiniMaxArtificialIntelligence::idle(IGame &game)
@@ -134,12 +86,14 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 
     if(ellap>200)
     {
-        //createTree(game);
         createTree2(game);
-        float teste = minimax(tree,4,false);
-        (void)teste;
+        //execute of minimax
+        //minimax(tree, 4, true);
+        //execute of minimax alpha beta pruning
+        minimaxAlfaBeta(tree, 4, -999999, 999999, true);
 
-        for(unsigned int c=0;c<bestState.ghosts.size();c++)
+        //assigns for all ghosts the news positions
+        for(unsigned int c = 0 ; c < bestState.ghosts.size() ; c++)
         {
             Position* pa=&bestState.ghosts[c];
 
@@ -153,46 +107,75 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
     }
 }
 
-//minimax(origin, depth, TRUE)
-float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer){
-    float bestValue = 0;
-//  depth is never true:  if(depth = 0 || no.children.empty())
+float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer)
+{
+    float maxbestValue = -9999999, minbestValue = 9999999;
+    State maxbestState, minbestState;
     if(depth == 0 || no.children.empty())
     {
         return no.data;
     }
-    if(maximizingPlayer)
+    //iterate with all children nodes find the max best player and the min best player
+    for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
     {
-        bestValue = 9999999; // considerando como infinito
-        for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++) {
-            Node child = *it;
-            float val = minimax(child,depth-1,false);
-            if(val < bestValue){
-                bestValue = val;
-                no.atualState = child.atualState;
-                bestState = no.atualState;
-            }
-            //  bestValue = std::max(bestValue,val);
-        }
-        return bestValue;
-    }
-    else
-    {
-        bestValue = -9999999; //considerando como valor -infinito
-        for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
+        Node child = *it;
+        //execute minimax for all children
+        float val = minimax(child, depth-1, maximizingPlayer ? false : true);
+        if(val > maxbestValue)
         {
-            Node child = *it;
-            float val = minimax(child,depth-1,true);
-            if(val > bestValue){
-                bestValue = val;
-                no.atualState = child.atualState;
-                bestState = no.atualState;
-            }
+            maxbestValue = val;
+            no.atualState = child.atualState;
+            maxbestState = no.atualState;
         }
-        // bestValue = std::min(bestValue,val);
-        return bestValue;
+        if(val < minbestValue)
+        {
+            minbestValue = val;
+            no.atualState = child.atualState;
+            minbestState = no.atualState;
+        }
     }
-    return 0;
+
+    bestState = maximizingPlayer ? maxbestState : minbestState;
+    return maximizingPlayer ? maxbestValue : minbestValue;
+}
+
+float MiniMaxArtificialIntelligence::minimaxAlfaBeta(Node &no,int depth, float alpha, float beta, bool maximizingPlayer)
+{
+    float maxbestValue = -9999999, minbestValue = 9999999;
+    State maxbestState, minbestState;
+    if(depth == 0 || no.children.empty())
+    {
+        return no.data;
+    }
+
+    for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
+    {
+        Node child = *it;
+        float val = minimaxAlfaBeta(child, depth-1, alpha, beta, maximizingPlayer ? false : true);
+        if(val > maxbestValue)
+        {
+            maxbestValue = val;
+            no.atualState = child.atualState;
+            maxbestState = no.atualState;
+        }
+        if(val < minbestValue)
+        {
+            minbestValue = val;
+            no.atualState = child.atualState;
+            minbestState = no.atualState;
+        }
+
+        if(maximizingPlayer)
+            alpha = std::max(maxbestValue, alpha);
+        else
+            beta = std::min(minbestValue, beta);
+        //when max beta cut-off, when min alpha cut-off
+        if(beta <= alpha)
+            break;
+    }
+
+    bestState = maximizingPlayer ? maxbestState : minbestState;
+    return maximizingPlayer ? maxbestValue : minbestValue;
 }
 
 double MiniMaxArtificialIntelligence::evalState(IGame& game,State& state)

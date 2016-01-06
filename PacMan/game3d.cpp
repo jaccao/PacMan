@@ -41,7 +41,8 @@ void Game3D::setup(int cols, int rows, int width, int height)
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    //IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    MiniMaxArtificialIntelligence *a = new MiniMaxArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
