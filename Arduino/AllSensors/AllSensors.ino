@@ -19,10 +19,11 @@
 #include "DHT.h"
 
 // Temperature
-#define DHTPIN 2
+#define DHTPIN 4
 // Joystick
 #define joyPinV 0
 #define joyPinH 1
+#define buttonPin 4
 // Skin
 #define skinPin 2
 // Distance
@@ -44,7 +45,7 @@ int maximumRange = 100;
 int minimumRange = 0;
 long duration, distance;
 
-#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -60,14 +61,23 @@ unsigned char posSkin;
 unsigned int arrayDistance[maxDistance];
 unsigned char posDistance;
 
+#define keyD 13
+
 void setup()
 {
   for(int i=0;i<maxPulse;i++) arrayPulse[i]=0;
   for(int i=0;i<maxSkin;i++) arraySkin[i]=0;
   for(int i=0;i<maxDistance;i++) arrayDistance[i]=0;
-  Serial.begin(9600);
+  pinMode(keyD, OUTPUT);
   pinMode(trigerPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  digitalWrite(keyD, HIGH);
+  Serial.begin(38400);
+  Serial.print("AT\r\n");
+  delay(1000);
+  Serial.print("AT+UART=38400,1,0\r\n");
+  delay(1000);
+  digitalWrite(keyD, LOW);
   interruptSetup();
   dht.begin();
 }
@@ -87,83 +97,174 @@ int getDistance(int trigP,int echoP)
  return(distance);
 }
 
+int count=0;
+int valueTemperature;
+int valueH;
+int valueV;
+int valueButton;
+int valueSkinRes;
+int valueDistance;
+int valuePulse;
+#define lowPriority 50
+#define mediumPriority 25
+#define highPriority 12
+#define realPriority 5
+
+#define debug 0
+
 void loop()
 {
-  // Temperature
-  delay(delayTime);             
-  float temperature = dht.readTemperature();
-  if(isnan(temperature))
+  int haveChange;
+  int tmp;
+  haveChange=0;
+  if(count%lowPriority==0)
   {
-    temperature=0;
+    // Temperature
+    float temperature = dht.readTemperature();
+    if(isnan(temperature))
+    {
+      temperature=0;
+    }
+    tmp=temperature;
+    if(valueTemperature!=tmp)
+    {
+      if(debug) Serial.println("Changed by valueTemperature");
+      valueTemperature=tmp;
+      haveChange=1;
+     }
   }
-  int valueTemperature=temperature;
   // Joystick
-  delay(delayTime);             
-  int valueH = analogRead(joyPinH);
-  delay(delayTime);
-  int valueV = analogRead(joyPinV);
+  if(count%realPriority==0)
+  {
+    tmp = analogRead(joyPinH) & 0b1111111111111000;
+    tmp-=512;
+    if(valueH!=tmp)
+    {
+      if(debug) Serial.println("Changed by valueH");
+      valueH=tmp;
+      haveChange=1;
+     }
+  }
+  if(count%realPriority==1)
+  {
+    tmp = analogRead(joyPinV) & 0b1111111111111000;
+    tmp-=512;
+    tmp*=-1;
+    if(valueV!=tmp)
+    {
+      if(debug) Serial.println("Changed by valueV");
+      valueV=tmp;
+      haveChange=1;
+    }
+  }
+  if(count%realPriority==2)
+  {
+    tmp = analogRead(buttonPin);
+    tmp = (tmp<128?1:0);
+    if(valueButton!=tmp)
+    {
+      if(debug) Serial.println("Changed by valueButton");
+      valueButton=tmp;
+      haveChange=1;
+    }
+  }
   // Skin
-  delay(delayTime);
-  if(posSkin>=maxSkin) posSkin=0;
-  arraySkin[posSkin]=analogRead(skinPin);
-  posSkin++;
-  unsigned long sumSkin=0;
-  int countSkin=0;
-  for(int i=0;i<maxSkin;i++)
+  if(count%mediumPriority==0)
   {
-    if(arraySkin[i])
+    if(posSkin>=maxSkin) posSkin=0;
+    arraySkin[posSkin]=analogRead(skinPin);
+    posSkin++;
+    unsigned long sumSkin=0;
+    int countSkin=0;
+    for(int i=0;i<maxSkin;i++)
     {
-      sumSkin+=arraySkin[i];
-      countSkin++;
+      if(arraySkin[i])
+      {
+        sumSkin+=arraySkin[i];
+        countSkin++;
+      }
+    }
+    if(countSkin)
+    {
+      tmp=sumSkin/countSkin;
+      if(valueSkinRes!=tmp)
+      {
+        if(debug) Serial.println("Changed by valueSkin");
+        valueSkinRes=tmp;
+        haveChange=1;
+      }
     }
   }
-  int valueSkinRes = 1023;
-  if(countSkin) valueSkinRes=sumSkin/countSkin;
-  // Distance
-  delay(delayTime);
-  if(posDistance>=maxDistance) posDistance=0;
-  int readDistance=getDistance(trigerPin,echoPin);
-  if(readDistance>=5) if(readDistance<=90)
+  if(count%mediumPriority==0)
   {
-    arrayDistance[posDistance]=readDistance;
-    posDistance++;
-  }
-  unsigned long sumDistance=0;
-  int countDistance=0;
-  for(int i=0;i<maxDistance;i++)
-  {
-    if(arrayDistance[i])
+    // Distance
+    if(posDistance>=maxDistance) posDistance=0;
+    int readDistance=getDistance(trigerPin,echoPin);
+    if(readDistance>=5) if(readDistance<=90)
     {
-      sumDistance+=arrayDistance[i];
-      countDistance++;
+      arrayDistance[posDistance]=readDistance;
+      posDistance++;
+    }
+    unsigned long sumDistance=0;
+    int countDistance=0;
+    for(int i=0;i<maxDistance;i++)
+    {
+      if(arrayDistance[i])
+      {
+        sumDistance+=arrayDistance[i];
+        countDistance++;
+      }
+    }
+    if(countDistance)
+    {
+      tmp=(sumDistance/countDistance) & 0b1111111111111100;
+      if(valueDistance!=tmp)
+      {
+        if(debug) Serial.println("Changed by valueDist");
+        valueDistance=tmp;
+        haveChange=1;
+      }
     }
   }
-  int valueDistance=0;
-  if(countDistance) valueDistance=sumDistance/countDistance;
-  // Hearth
-  // average of last maxPulse reads
-  if(posPulse>=maxPulse) posPulse=0;
-  // only valid pulses!
-  if(BPM>=75) if(BPM<=200)
+  if(count%highPriority==0)
   {
-    arrayPulse[posPulse]=BPM;
-    posPulse++;
-  }
-  int sumPulse=0;
-  int countPulse=0;
-  for(int i=0;i<maxPulse;i++)
-  {
-    if(arrayPulse[i])
+    // Hearth
+    // average of last maxPulse reads
+    if(posPulse>=maxPulse) posPulse=0;
+    // only valid pulses!
+    if(BPM>=75) if(BPM<=200)
     {
-      sumPulse+=arrayPulse[i];
-      countPulse++;
+      arrayPulse[posPulse]=BPM;
+      posPulse++;
+    }
+    int sumPulse=0;
+    int countPulse=0;
+    for(int i=0;i<maxPulse;i++)
+    {
+      if(arrayPulse[i])
+      {
+        sumPulse+=arrayPulse[i];
+        countPulse++;
+      }
+    }
+    if (QS == true) QS = false;
+    if(countPulse)
+    {
+      tmp=(sumPulse/countPulse) & 0b1111111111111100;
+      if(valuePulse!=tmp)
+      {
+        if(debug) Serial.println("Changed by valuePulse");
+        valuePulse=tmp;
+        haveChange=1;
+      }
     }
   }
-  if (QS == true) QS = false;
-  int valuePulse=75;
-  if(countPulse) valuePulse=sumPulse/countPulse;
-  // Json
-  sprintf(buf,"{\"temperature\":%i,\"analogX\":%i,\"analogY\":%i,\"skinResistence\":%i,\"distance\":%i,\"pulse\":%i}",valueTemperature,valueH-512,(valueV-512)*-1,valueSkinRes,valueDistance,valuePulse);
-  Serial.println(buf);
+  if(haveChange==1)
+  {
+    // Json
+    sprintf(buf,"{\"temperature\":%i,\"analogX\":%i,\"analogY\":%i,\"button\":%i,\"skinResistence\":%i,\"distance\":%i,\"pulse\":%i}",valueTemperature,valueH,valueV,valueButton,valueSkinRes,valueDistance,valuePulse);
+    Serial.println(buf);
+  }
+  count++;
 }
 

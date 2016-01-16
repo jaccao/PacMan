@@ -76,3 +76,8 @@ int ArduinoController::digitalY()
 {
     return((int)(analogY()*1.9));
 }
+
+int ArduinoController::button()
+{
+    return((int)Arduino::getDoubleValue("button"));
+}

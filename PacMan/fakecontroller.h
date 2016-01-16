@@ -33,6 +33,7 @@ public:
     double analogY();
     int digitalX();
     int digitalY();
+    int button();
 
     // IGlut interface
 public:

@@ -202,6 +202,14 @@ void Game::idle()
                 if(map->matrix()[x][y]==2) food=true;
         if(food==false) state=Game::Win;
     }
+    else if(state==IGame::GameOver)
+    {
+        if(getController()->button())
+        {
+            map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
+            state=IGame::Running;
+        }
+    }
     glutPostRedisplay();
 }
 

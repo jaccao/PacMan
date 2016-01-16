@@ -21,8 +21,8 @@
 #ifdef USE_QT
 void Arduino::run()
 {
-    serialPort.setPortName("COM3");
-    serialPort.setBaudRate(9600);
+    serialPort.setPortName(QSettings("../arduino.ini",QSettings::IniFormat).value("Serial","COM4").toString());
+    serialPort.setBaudRate(QSettings("../arduino.ini",QSettings::IniFormat).value("Baud",38400).toInt());
     serialPort.setDataBits(QSerialPort::Data8);
     serialPort.setParity(QSerialPort::NoParity);
     serialPort.setStopBits(QSerialPort::OneStop);

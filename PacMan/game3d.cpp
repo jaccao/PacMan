@@ -4,8 +4,11 @@ void Game3D::setup(int cols, int rows, int width, int height)
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(64,64);
-    glutInitWindowSize(width*cols, height*rows);
+//    glutInitWindowSize(width*cols, height*rows);
+    glutInitWindowSize(1024, 768);
     glutCreateWindow("PacMan");
+
+    //glutFullScreen();
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
@@ -172,18 +175,5 @@ void Game3D::keyboard(unsigned char c, int x, int y)
     if(phi>2*PI) phi=0.0;
     if(phi<0) phi=2*PI;
 
-    if(state==Game3D::Running) for(unsigned int i=0;i<gluts.size();i++)
-    {
-        gluts.at(i)->keyboard(*this,c,x,y);
-    }
-    if(c==' ')
-    {
-        map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
-        state=IGame::Running;
-    }
-    if(c==27)//esc
-    {
-        exit(0);
-    }
-    glutPostRedisplay();
+    Game::keyboard(c,x,y);
 }

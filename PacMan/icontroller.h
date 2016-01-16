@@ -28,6 +28,7 @@ public:
     virtual double analogY()=0;
     virtual int digitalX()=0;
     virtual int digitalY()=0;
+    virtual int button()=0;
 };
 
 #endif // ICONTROLLER_H

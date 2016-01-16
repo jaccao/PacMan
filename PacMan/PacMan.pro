@@ -90,3 +90,6 @@ HEADERS += \
     arduino.h \
     util.h \
     application.h
+
+DISTFILES += \
+    ../arduino.ini

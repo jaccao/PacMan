@@ -64,3 +64,8 @@ int FakeController::digitalY()
 {
     return analogY();
 }
+
+int FakeController::button()
+{
+    return 0;
+}
