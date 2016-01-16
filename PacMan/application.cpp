@@ -39,6 +39,7 @@ int Application::setup(int argc, char *argv[], int cols, int rows, int width, in
     glutKeyboardFunc(Application::keyboard);
     glutKeyboardUpFunc(Application::keyboardUp);
     glutIdleFunc(Application::idle);
+    glutReshapeFunc(Application::reshape);
 
     glutMainLoop();
     return 0;
@@ -62,4 +63,9 @@ void Application::keyboardUp(unsigned char c, int x, int y)
 void Application::idle()
 {
     instance().game->idle();
+}
+
+void Application::reshape(int w, int h)
+{
+    instance().game->reshape(w,h);
 }

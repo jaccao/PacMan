@@ -33,6 +33,7 @@ public:
     static void keyboard(unsigned char c,int x,int y);
     static void keyboardUp(unsigned char c,int x,int y);
     static void idle();
+    static void reshape(int w, int h);
 };
 
 #endif // APPLICATION_H

@@ -20,7 +20,8 @@
 
 PacMan::PacMan()
 {
-
+    lastDirX=0;
+    lastDirY=1;
 }
 
 void PacMan::display(IGame &game)
@@ -57,6 +58,40 @@ void PacMan::idle(IGame &game)
     {
         double ax=controller->analogX();
         double ay=controller->analogY();
+        if(game.isFirstPerson())
+        {
+            static int lastAX,lastAY,lastLX,lastLY;
+            if(lastAX==controller->digitalX()&&lastAY==controller->digitalY()&&(lastLX!=lastDirectionX()||lastLY!=lastDirectionY()))
+            {
+                ax=0;
+                ay=0;
+            }
+            else
+            {
+                double tx;
+                if(lastDirectionX()==-1)
+                {
+                    tx=ax;
+                    ax=-ay;
+                    ay=tx;
+                }
+                if(lastDirectionX()==1)
+                {
+                    tx=ax;
+                    ax=ay;
+                    ay=-tx;
+                }
+                if(lastDirectionY()==-1)
+                {
+                    ax=-ax;
+                    ay=-ay;
+                }
+                lastAX=controller->digitalX();
+                lastAY=controller->digitalY();
+                lastLX=lastDirectionX();
+                lastLY=lastDirectionY();
+            }
+        }
         // only legal directions
         if((map->matrix()[x+Util::topInt(ax)][y])&IMap::TileBlock) ax=0;
         if((map->matrix()[x][y+Util::topInt(ay)])&IMap::TileBlock) ay=0;

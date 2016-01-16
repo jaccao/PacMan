@@ -42,6 +42,7 @@ public:
     double analogY();
     int digitalX();
     int digitalY();
+    int button();
 };
 
 #endif // KEYBOARDCONTROLLER_H

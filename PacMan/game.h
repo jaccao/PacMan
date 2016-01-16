@@ -74,6 +74,11 @@ public:
     void keyboardUp(unsigned char c,int x,int y);
     void idle();
     void displayText(float x, float y, int r, int g, int b, const char *string);
+    void reshape(int w, int h);
+
+    // IGame interface
+public:
+    bool isFirstPerson();
 };
 
 #endif // BOARD_H

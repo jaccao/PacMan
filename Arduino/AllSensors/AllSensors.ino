@@ -78,6 +78,7 @@ void setup()
   Serial.print("AT+UART=38400,1,0\r\n");
   delay(1000);
   digitalWrite(keyD, LOW);
+//  Serial.begin(9600);
   interruptSetup();
   dht.begin();
 }

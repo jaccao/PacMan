@@ -56,8 +56,8 @@ void Game::setup(int cols, int rows, int width, int height)
     }
     // AI
     //IArtificialIntelligence *a=new DistanceArtificialIntelligence();
-    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
-    //IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
+    //IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
+    IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
@@ -271,4 +271,14 @@ double Game::getDistancePercent()
         distancePercent=(distance-minRange)/(maxRange-minRange);
     }
     return distancePercent;
+}
+
+
+void Game::reshape(int w, int h)
+{
+}
+
+bool Game::isFirstPerson()
+{
+    return false;
 }

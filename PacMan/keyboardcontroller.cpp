@@ -99,3 +99,9 @@ int KeyboardController::digitalY()
 {
     return((int)analogY());
 }
+
+
+int KeyboardController::button()
+{
+    return 0;
+}

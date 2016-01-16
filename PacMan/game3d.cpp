@@ -4,18 +4,19 @@ void Game3D::setup(int cols, int rows, int width, int height)
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(64,64);
-//    glutInitWindowSize(width*cols, height*rows);
-    glutInitWindowSize(1024, 768);
+    glutInitWindowSize(width*cols, height*rows);
     glutCreateWindow("PacMan");
 
-    //glutFullScreen();
+    glutFullScreen();
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
+    firstPerson=false;
     radius=1.0;
     phi=2.49911;
+    test=1.0;
     theta=0.899557;
     state=IGame::Running;
     ftime(&last);
@@ -44,7 +45,7 @@ void Game3D::setup(int cols, int rows, int width, int height)
         gluts.push_back(g);
     }
     // AI
-    IArtificialIntelligence *a=new DistanceArtificialIntelligence();
+    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
     ai=a;
     gluts.push_back(a);
 
@@ -60,12 +61,49 @@ Game3D::Game3D(int playerAge):
 
 void Game3D::positionObserverZ()
 {
-    double eyeY = 512*cos(phi)*sin(theta);
-    double eyeX = 512*sin(phi)*sin(theta);
+    static double lastEyeX=0;
+    static double lastEyeY=0;
+    static double lastEyeZ=0;
+    static double lastTargetX=0;
+    static double lastTargetY=0;
+    static double lastTargetZ=0;
 
-    double eyeZ = 512*cos(theta);
+    double eyeX=0;
+    double eyeY=0;
+    double eyeZ=0;
+    double targetX=0;
+    double targetY=0;
+    double targetZ=0;
 
-    gluLookAt(eyeX,eyeY,eyeZ, 0.0,0.0,0.0, 0.0,0.0,1.0);
+    if(firstPerson)
+    {
+        eyeX = getPacman()->X()-(getPacman()->lastDirectionX()*32.0);
+        eyeY = getPacman()->Y()-(getPacman()->lastDirectionY()*32.0);
+        eyeZ = 32.0;
+
+        targetX=getPacman()->X();
+        targetY=getPacman()->Y();
+        targetZ=16.0;
+    }
+    else
+    {
+        eyeX = width*0.5+width*radius*sin(phi)*sin(theta);
+        eyeY = height*0.5+width*radius*cos(phi)*sin(theta);
+        eyeZ = width*radius*cos(theta);
+
+        targetX=width*0.5;
+        targetY=height*0.5;
+        targetZ=0.0;
+    }
+    lastEyeX=(lastEyeX*63.0+eyeX)/64.0;
+    lastEyeY=(lastEyeY*63.0+eyeY)/64.0;
+    lastEyeZ=(lastEyeZ*63.0+eyeZ)/64.0;
+
+    lastTargetX=(lastTargetX*63.0+targetX)/64.0;
+    lastTargetY=(lastTargetY*63.0+targetY)/64.0;
+    lastTargetZ=(lastTargetZ*63.0+targetZ)/64.0;
+
+    gluLookAt(lastEyeX,lastEyeY,lastEyeZ, lastTargetX,lastTargetY,lastTargetZ, 0.0,0.0,1.0);
 }
 
 void Game3D::display()
@@ -78,12 +116,6 @@ void Game3D::display()
 
     positionObserverZ();
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(-width*0.6,width*0.6,-height*0.6,height*0.6,10,2000);
-    glMatrixMode(GL_MODELVIEW);
-
     // Ambient light
     glEnable(GL_LIGHT0);
     GLint pAmbientLight[] = {0, 0, 300, 0};
@@ -92,14 +124,6 @@ void Game3D::display()
     cAmbientLight[0]=0.2*getTemperaturePercent();
     cAmbientLight[2]=0.2*(1-getTemperaturePercent());
     glLightfv(GL_LIGHT0,GL_AMBIENT,cAmbientLight);
-
-    // code
-    // TODO: distance change to first person, not the zoom
-    static double lastDistancePercent=1.0;
-    lastDistancePercent=(lastDistancePercent*3.0+getDistancePercent())/4.0;
-    radius=1.0-lastDistancePercent*0.2;
-    glScaled(radius,radius,radius);
-    glTranslated(-width/2.0,-height/2.0,0.0);
 
     // Pacman light
     GLfloat qaAmbientLight[] = {1.0, 1.0, 1.0, 1.0};
@@ -127,8 +151,8 @@ void Game3D::display()
     glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 1.0);
 
     glLightf (GL_LIGHT1,GL_CONSTANT_ATTENUATION, 0.0);
-    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, -2.0/radius);
-    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001/radius);
+    glLightf (GL_LIGHT1,GL_LINEAR_ATTENUATION, -2.0);
+    glLightf (GL_LIGHT1,GL_QUADRATIC_ATTENUATION, 0.0001);
 
     for(unsigned int i=0;i<gluts.size();i++)
     {
@@ -169,11 +193,47 @@ void Game3D::keyboard(unsigned char c, int x, int y)
         radius-=step;
         break;
     }
-
     if(theta>(PI/2.0*0.9)) theta=PI/2.0*0.9;
     if(theta<(PI/2.0*0.1)) theta=PI/2.0*0.1;
     if(phi>2*PI) phi=0.0;
     if(phi<0) phi=2*PI;
 
     Game::keyboard(c,x,y);
+}
+
+void Game3D::reshape(int w, int h)
+{
+    glViewport(0,0,(GLsizei)w,(GLsizei)h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, (width>height?width:height)*2.0);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void Game3D::idle()
+{
+    if(Arduino::getDoubleValue("distance")>0.0)
+    {
+        if(Arduino::getDoubleValue("distance")>18.0)
+        {
+            firstPerson=false;
+        }
+        else
+        {
+            firstPerson=true;
+        }
+    }
+
+    if(false) if(getState()==IGame::Running) if(getController()->button())
+    {
+        phi=getController()->analogX()*PI*-0.5+PI;
+        theta=getController()->analogY()*PI*-0.2+PI*0.25;
+    }
+    Game::idle();
+}
+
+
+bool Game3D::isFirstPerson()
+{
+    return firstPerson;
 }

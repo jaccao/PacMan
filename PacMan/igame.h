@@ -24,6 +24,8 @@ public:
     virtual void keyboardUp(unsigned char c,int x,int y)=0;
     virtual void idle()=0;
     virtual void displayText(float x, float y, int r, int g, int b, const char *string)=0;
+    virtual void reshape(int w, int h);
+    virtual bool isFirstPerson();
 };
 
 #endif // IGAME_H

@@ -30,14 +30,25 @@ class Game3D: public Game
 {
 public:
     Game3D(int playerAge);
+private:
+    void positionObserverZ();
+    int width,height;
+    double phi,theta;
+    bool firstPerson;
+    double radius;
+    double test;
+
+    // IGame interface
 protected:
     void setup(int cols,int rows,int width,int height);
     void display();
     void keyboard(unsigned char c,int x,int y);
-private:
-    void positionObserverZ();
-    int width,height;
-    double phi,theta,radius;
+    void reshape(int w, int h);
+    void idle();
+
+    // IGame interface
+public:
+    bool isFirstPerson();
 };
 
 #endif // BOARD_H
