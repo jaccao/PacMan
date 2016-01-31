@@ -21,6 +21,8 @@
 
 #include <sys/timeb.h>
 #include <string.h>
+#include <algorithm>
+#include <iostream>
 
 #include "igame.h"
 #include "imap.h"
@@ -40,11 +42,13 @@
 #include "distanceartificialintelligence.h"
 #include "minimaxartificialintelligence.h"
 #include "aleatoryartificialintelligence.h"
+#include "level.h"
 
 class Game: public IGame
 {
 protected:
     vector< IGlut* > gluts;
+    vector< Level* > levels;
     struct timeb last;
     IGame::State state;
     int ellapsed;
@@ -54,11 +58,16 @@ protected:
     vector< IGhost* > ghosts;
     IArtificialIntelligence *ai;
     int playerAge;
+    std::string playerName;
     double getTemperaturePercent();
     double getStressPercent();
     double getDistancePercent();
+    int width();
+    int height();
+    int lives;
+    int score;
 public:
-    Game(int playerAge);
+    Game(int playerAge,std::string playerName);
     int getEllapsed();
     State getState();
     IController *getController();
@@ -67,18 +76,22 @@ public:
     vector<IGhost *> getGhosts();
     IArtificialIntelligence *getAi();
     // IGame interface
-    void stateChanged();
-    void setup(int cols,int rows,int width,int height);
-    void display();
-    void keyboard(unsigned char c,int x,int y);
-    void keyboardUp(unsigned char c,int x,int y);
-    void idle();
-    void displayText(float x, float y, int r, int g, int b, const char *string);
-    void reshape(int w, int h);
+    virtual void stateChanged();
+    virtual void setup();
+    virtual void display();
+    virtual void keyboard(unsigned char c,int x,int y);
+    virtual void keyboardUp(unsigned char c,int x,int y);
+    virtual void idle();
+    virtual void displayText(float x, float y, float r, float g, float b, const char *string);
+    virtual void reshape(int w, int h);
 
     // IGame interface
 public:
     bool isFirstPerson();
+
+    // IGame interface
+public:
+    int addScore(int s = -1);
 };
 
 #endif // BOARD_H

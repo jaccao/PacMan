@@ -15,12 +15,13 @@
 # GNU General Public License for more details.
 
 TEMPLATE = app
+CONFIG += console
 
 CONFIG += c++11
 #CONFIG -= qt
 
 #Comment the two follow lines to skip Arduino dependence
-DEFINES += USE_QT
+DEFINES += NO_USE_QT
 QT += serialport
 
 SOURCES += \
@@ -49,7 +50,11 @@ SOURCES += \
     soil/image_DXT.c \
     arduino.cpp \
     util.cpp \
-    application.cpp
+    application.cpp \
+    glWindowPos.cpp \
+    level.cpp \
+    sqlite3.c \
+    sql.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -89,7 +94,12 @@ HEADERS += \
     soil/stbi_DDS_aug_c.h \
     arduino.h \
     util.h \
-    application.h
+    application.h \
+    glWindowPos.h \
+    level.h \
+    sqlite3.h \
+    sqlite3ext.h \
+    sql.h
 
 DISTFILES += \
     ../arduino.ini

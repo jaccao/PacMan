@@ -34,6 +34,7 @@ int Map::sumArea(int px,int py)
 
 Map::Map()
 {
+    srand(1234);
 }
 
 void Map::setup(IGame &game, int cols, int rows, int width, int height)
@@ -42,8 +43,10 @@ void Map::setup(IGame &game, int cols, int rows, int width, int height)
     this->r=rows;
     this->w=width;
     this->h=height;
+    m.clear();
     m.resize(cols,vector<int>(rows,0));
-    srand(time(NULL));
+    // Changed for use a same seed
+    //srand(time(NULL));
     mapgen();
     game.getPacman()->X((cols/2+0.5)*width);
     game.getPacman()->Y(1.5*height);
@@ -60,6 +63,7 @@ void Map::setup(IGame &game, int cols, int rows, int width, int height)
                 g->Y((rows/2+j+0.5)*height);
                 c++;
             }
+    game.reshape(0,0);
 }
 
 void Map::display(IGame &game)

@@ -1,10 +1,11 @@
 #include "game3d.h"
+#include "glWindowPos.h"
 
-void Game3D::setup(int cols, int rows, int width, int height)
+void Game3D::setup()
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(64,64);
-    glutInitWindowSize(width*cols, height*rows);
+    glutInitWindowSize(1024, 768);
     glutCreateWindow("PacMan");
 
     glutFullScreen();
@@ -13,30 +14,12 @@ void Game3D::setup(int cols, int rows, int width, int height)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
-    firstPerson=false;
-    radius=1.0;
-    phi=2.49911;
-    test=1.0;
-    theta=0.899557;
-    state=IGame::Running;
-    ftime(&last);
-    // Controller
-    IController* k;
-#ifdef USE_QT
-    k=new ArduinoController();
-#else
-    k=new KeyboardController();
-#endif
-    controller=k;
-    gluts.push_back(k);
     // Map
-    IMap *m=new Map3D();
-    map=m;
-    gluts.push_back(m);
+    map=new Map3D();
+    gluts.push_back(map);
     // PacMan
-    IPacMan *p=new PacMan3D();
-    pacman=p;
-    gluts.push_back(p);
+    pacman=new PacMan3D();
+    gluts.push_back(pacman);
     // Ghosts
     for(int c=0;c<3;c++)
     {
@@ -44,30 +27,28 @@ void Game3D::setup(int cols, int rows, int width, int height)
         ghosts.push_back(g);
         gluts.push_back(g);
     }
-    // AI
-    IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
-    ai=a;
-    gluts.push_back(a);
 
-    this->width=cols*width;
-    this->height=rows*height;
-    map->setup(*this, cols, rows, width, height);
+    state=IGame::Reset;
 }
 
-Game3D::Game3D(int playerAge):
-    Game(playerAge)
+Game3D::Game3D(int playerAge,std::string playerName):
+    Game(playerAge,playerName)
 {
+    lastEyeX=0;
+    lastEyeY=0;
+    lastEyeZ=0;
+    lastTargetX=0;
+    lastTargetY=0;
+    lastTargetZ=0;
+    firstPerson=false;
+    radius=1.0;
+    phi=2.49911;
+    test=1.0;
+    theta=0.899557;
 }
 
 void Game3D::positionObserverZ()
 {
-    static double lastEyeX=0;
-    static double lastEyeY=0;
-    static double lastEyeZ=0;
-    static double lastTargetX=0;
-    static double lastTargetY=0;
-    static double lastTargetZ=0;
-
     double eyeX=0;
     double eyeY=0;
     double eyeZ=0;
@@ -87,12 +68,12 @@ void Game3D::positionObserverZ()
     }
     else
     {
-        eyeX = width*0.5+width*radius*sin(phi)*sin(theta);
-        eyeY = height*0.5+width*radius*cos(phi)*sin(theta);
-        eyeZ = width*radius*cos(theta);
+        eyeX = width()*0.5+width()*radius*sin(phi)*sin(theta);
+        eyeY = height()*0.5+width()*radius*cos(phi)*sin(theta);
+        eyeZ = width()*radius*cos(theta);
 
-        targetX=width*0.5;
-        targetY=height*0.5;
+        targetX=width()*0.5;
+        targetY=height()*0.5;
         targetZ=0.0;
     }
     lastEyeX=(lastEyeX*63.0+eyeX)/64.0;
@@ -160,12 +141,25 @@ void Game3D::display()
     }
     if(state==IGame::Win)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1," YOU WIN ");
+        displayText(1024.0/2.0-4*14,768.0/2.0-9,1,1,1," YOU WIN ");
     }
-    if(state==IGame::GameOver)
+    else if(state==IGame::GameOver)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1,"GAME OVER");
+        displayText(1024.0/2.0-4*14,768.0/2.0-9,1,1,1,"GAME OVER");
     }
+    char buf[256];
+    char tmp[256];
+    // Lives
+    itoa(lives,tmp,10);
+    strcpy(buf,"LIVES: ");
+    strcat(buf,tmp);
+    displayText(16,64,1,1,1,buf);
+    // Score
+    itoa(score,tmp,10);
+    strcpy(buf,"SCORE: ");
+    strcat(buf,tmp);
+    displayText(16,32,1,1,1,buf);
+    // swap
     glutSwapBuffers();
 }
 
@@ -192,6 +186,9 @@ void Game3D::keyboard(unsigned char c, int x, int y)
     case 'u':
         radius-=step;
         break;
+    case 'p':
+        firstPerson=!firstPerson;
+        break;
     }
     if(theta>(PI/2.0*0.9)) theta=PI/2.0*0.9;
     if(theta<(PI/2.0*0.1)) theta=PI/2.0*0.1;
@@ -203,10 +200,10 @@ void Game3D::keyboard(unsigned char c, int x, int y)
 
 void Game3D::reshape(int w, int h)
 {
-    glViewport(0,0,(GLsizei)w,(GLsizei)h);
+    if(w) glViewport(0,0,(GLsizei)w,(GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, (width>height?width:height)*2.0);
+    glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, (width()>height()?width():height())*2.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -236,4 +233,20 @@ void Game3D::idle()
 bool Game3D::isFirstPerson()
 {
     return firstPerson;
+}
+
+void Game3D::displayText( float x, float y, float r, float g, float b, const char *string )
+{
+    int j = strlen( string );
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f( r, g, b );
+    glWindowPos2i(x,y);
+    for( int i = 0; i < j; i++ )
+    {
+        glutBitmapCharacter( GLUT_BITMAP_9_BY_15, string[i] );
+    }
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
 }

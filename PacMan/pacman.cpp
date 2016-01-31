@@ -20,8 +20,10 @@
 
 PacMan::PacMan()
 {
-    lastDirX=0;
-    lastDirY=1;
+    lastDirX=1;
+    lastDirY=0;
+    lastX=1;
+    lastY=0;
 }
 
 void PacMan::display(IGame &game)
@@ -172,11 +174,16 @@ void PacMan::idle(IGame &game)
         lastDirX=0;
     }
     // eat the food
-    if(map->matrix()[x][y]==IMap::TileFood) map->matrix()[x][y]=IMap::TileNone;
+    if(map->matrix()[x][y]==IMap::TileFood)
+    {
+        map->matrix()[x][y]=IMap::TileNone;
+        game.addScore(5);
+    }
     // eat the power
     if(map->matrix()[x][y]==IMap::TilePower)
     {
         map->matrix()[x][y]=IMap::TileNone;
+        game.addScore(50);
         // scare all ghost
         for(unsigned int c=0;c<game.getGhosts().size();c++) game.getGhosts()[c]->scared(true);
     }

@@ -25,5 +25,9 @@ INPUT(
 ./release/arduino.o
 ./release/util.o
 ./release/application.o
+./release/glWindowPos.o
+./release/level.o
+./release/sqlite3.o
+./release/sql.o
 ./release/moc_arduino.o
 );

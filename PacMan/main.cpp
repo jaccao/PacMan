@@ -18,12 +18,7 @@
 
 #include "application.h"
 
-#define V_COLUMNS 31
-#define V_ROWS 19
-#define V_WIDTH 32
-#define V_HEIGHT 32
-
 int main(int argc,char *argv[])
 {
-    return Application::setup(argc,argv,V_COLUMNS,V_ROWS,V_WIDTH,V_HEIGHT);
+    return Application::setup(argc,argv);
 }

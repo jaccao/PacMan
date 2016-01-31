@@ -179,6 +179,7 @@ Makefile: ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf \
+		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/console.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf \
@@ -186,13 +187,11 @@ Makefile: ../PacMan/PacMan.pro F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/win32
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resources.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/moc.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/opengl.prf \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/windows.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/testcase_targets.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exceptions.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/yacc.prf \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/lex.prf \
 		../PacMan/PacMan.pro \
-		F:/programs/Qt5.5.1/5.5/mingw492_32/lib/qtmain.prl \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Gui.prl \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5SerialPort.prl \
 		F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Core.prl
@@ -317,6 +316,7 @@ F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resolve_config.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exclusive_builds_post.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/default_post.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/c++11.prf:
+F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/console.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/rtti.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/precompile_header.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/warn_on.prf:
@@ -324,13 +324,11 @@ F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/qt.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/resources.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/moc.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/opengl.prf:
-F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/win32/windows.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/testcase_targets.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/exceptions.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/yacc.prf:
 F:/programs/Qt5.5.1/5.5/mingw492_32/mkspecs/features/lex.prf:
 ../PacMan/PacMan.pro:
-F:/programs/Qt5.5.1/5.5/mingw492_32/lib/qtmain.prl:
 F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Gui.prl:
 F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5SerialPort.prl:
 F:/programs/Qt5.5.1/5.5/mingw492_32/lib/Qt5Core.prl:

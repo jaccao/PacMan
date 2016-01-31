@@ -17,36 +17,25 @@
 */
 
 #include "game.h"
+#include <sqlite3.h>
 
-void Game::setup(int cols, int rows, int width, int height)
+
+void Game::setup()
 {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(64,64);
-    glutInitWindowSize(width*cols, height*rows);
+    glutInitWindowSize(1024, 768);
     glutCreateWindow("PacMan");
 
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0,width*cols-1,0,height*rows-1);
+    gluOrtho2D(0,1023,0,767);
 
-    state=IGame::Running;
-    ftime(&last);
-    // Controller
-    IController* k;
-#ifdef USE_QT
-    k=new ArduinoController();
-#else
-    k=new KeyboardController();
-#endif
-    controller=k;
-    gluts.push_back(k);
     // Map
-    IMap *m=new Map();
-    map=m;
-    gluts.push_back(m);
+    map=new Map();
+    gluts.push_back(map);
     // PacMan
-    IPacMan *p=new PacMan();
-    pacman=p;
-    gluts.push_back(p);
+    pacman=new PacMan();
+    gluts.push_back(pacman);
     // Ghosts
     for(int c = 0 ; c < 3 ; c++)
     {
@@ -54,20 +43,19 @@ void Game::setup(int cols, int rows, int width, int height)
         ghosts.push_back(g);
         gluts.push_back(g);
     }
-    // AI
-    //IArtificialIntelligence *a=new DistanceArtificialIntelligence();
-    //IArtificialIntelligence *a=new MiniMaxArtificialIntelligence();
-    IArtificialIntelligence *a=new AleatoryArtificialIntelligence();
-    ai=a;
-    gluts.push_back(a);
 
-    map->setup(*this, cols, rows, width, height);
+    state=IGame::Reset;
 }
 
-Game::Game(int playerAge)
+Game::Game(int playerAge, std::string playerName)
 {
     state=IGame::NotStarted;
+    ai=NULL;
+    controller=NULL;
+    map=NULL;
+    pacman=NULL;
     this->playerAge=playerAge;
+    this->playerName=playerName;
 }
 
 int Game::getEllapsed()
@@ -105,7 +93,7 @@ IArtificialIntelligence *Game::getAi()
     return ai;
 }
 
-void Game::displayText( float x, float y, int r, int g, int b, const char *string )
+void Game::displayText(float x, float y, float r, float g, float b, const char *string )
 {
     int j = strlen( string );
 
@@ -113,7 +101,7 @@ void Game::displayText( float x, float y, int r, int g, int b, const char *strin
     glRasterPos2f( x, y );
     for( int i = 0; i < j; i++ )
     {
-        glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18, string[i] );
+        glutBitmapCharacter( GLUT_BITMAP_9_BY_15, string[i] );
     }
 }
 
@@ -127,11 +115,11 @@ void Game::display()
     }
     if(state==IGame::Win)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1," YOU WIN ");
+        displayText(map->width()*map->cols()/2.0-4*9,map->height()*map->rows()/2.0-8,1,1,1," YOU WIN ");
     }
-    if(state==IGame::GameOver)
+    else if(state==IGame::GameOver)
     {
-        displayText(map->width()*map->cols()/2.0-4*14,map->height()*map->rows()/2.0-9,1,1,1,"GAME OVER");
+        displayText(map->width()*map->cols()/2.0-4*9,map->height()*map->rows()/2.0-8,1.0,1.0,1.0,"GAME OVER");
     }
     glutSwapBuffers();
 }
@@ -144,12 +132,19 @@ void Game::keyboard(unsigned char c, int x, int y)
     }
     if(c==' ')
     {
-        map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
-        state=IGame::Running;
+        state=IGame::Reset;
     }
     if(c==27)//esc
     {
         exit(0);
+    }
+    if(state==IGame::Win)
+    {
+        state=IGame::Start;
+    }
+    if(state==IGame::GameOver)
+    {
+        state=IGame::Reset;
     }
     glutPostRedisplay();
 }
@@ -185,6 +180,7 @@ void Game::idle()
             {
                 if(g->scared())
                 {
+                    addScore(100);
                     g->scared(false);
                     g->setDirection(0,0);
                     g->X((map->cols()/2.0+0.5)*map->width());
@@ -192,21 +188,97 @@ void Game::idle()
                 }
                 else
                 {
-                    state=IGame::GameOver;
+                    lives--;
+                    if(lives<=0)
+                    {
+                        state=IGame::GameOver;
+                    }
+                    else
+                    {
+                        getPacman()->X((map->cols()/2+0.5)*map->width());
+                        getPacman()->Y(1.5*map->height());
+                    }
                 }
             }
         }
         bool food=false;
         for(int y=0;y<map->rows();y++)
             for(int x=0;x<map->cols();x++)
-                if(map->matrix()[x][y]==2) food=true;
-        if(food==false) state=Game::Win;
+                if(map->matrix()[x][y]==IMap::TileFood) food=true;
+        if(food==false)
+        {
+            state=Game::Win;
+        }
     }
     else if(state==IGame::GameOver)
     {
         if(getController()->button())
         {
-            map->setup(*this,map->cols(),map->rows(),map->width(),map->height());
+            state=IGame::Reset;
+        }
+    }
+    else if(state==IGame::Win)
+    {
+        if(getController()->button())
+        {
+            state=IGame::Start;
+        }
+    }
+    else if(state==IGame::Reset)
+    {
+        state=IGame::Start;
+        lives=3;
+        score=0;
+        levels.clear();
+
+        levels.push_back(new Level(15+8,11+8,3,new MiniMaxArtificialIntelligence()));
+        levels.push_back(new Level(15+8,11+8,3,new DistanceArtificialIntelligence()));
+        levels.push_back(new Level(15+8,11+8,3,new FakeArtificialIntelligence()));
+        levels.push_back(new Level(15+8,11+8,3,new AleatoryArtificialIntelligence()));
+
+        levels.push_back(new Level(15+4,11+4,3,new MiniMaxArtificialIntelligence()));
+        levels.push_back(new Level(15+4,11+4,3,new DistanceArtificialIntelligence()));
+        levels.push_back(new Level(15+4,11+4,3,new FakeArtificialIntelligence()));
+        levels.push_back(new Level(15+4,11+4,3,new AleatoryArtificialIntelligence()));
+
+        levels.push_back(new Level(15,11,3,new MiniMaxArtificialIntelligence()));
+        levels.push_back(new Level(15,11,3,new DistanceArtificialIntelligence()));
+        levels.push_back(new Level(15,11,3,new FakeArtificialIntelligence()));
+        levels.push_back(new Level(15,11,3,new AleatoryArtificialIntelligence()));
+        ftime(&last);
+    }
+    else if(state==IGame::Start)
+    {
+        if(levels.size()==0)
+        {
+            state=IGame::GameOver;
+        }
+        else
+        {
+            Level* level=levels.back();
+            levels.pop_back();
+            // AI
+            if(ai)
+            {
+                gluts.erase(std::remove(gluts.begin(), gluts.end(), ai), gluts.end());
+    //            delete ai;
+            }
+            ai=level->ai;
+            gluts.push_back(ai);
+            // Controller
+            if(controller)
+            {
+                gluts.erase(std::remove(gluts.begin(), gluts.end(), controller), gluts.end());
+    //            delete controller;
+            }
+    #ifdef USE_QT
+            controller=new ArduinoController();
+    #else
+            controller=new KeyboardController();
+    #endif
+            gluts.push_back(controller);
+
+            map->setup(*this,level->cols,level->rows,level->width,level->height);
             state=IGame::Running;
         }
     }
@@ -273,12 +345,31 @@ double Game::getDistancePercent()
     return distancePercent;
 }
 
+int Game::width()
+{
+    return getMap()->cols()*getMap()->width();
+}
+
+int Game::height()
+{
+    return getMap()->rows()*getMap()->height();
+}
+
 
 void Game::reshape(int w, int h)
 {
+    (void)w;
+    (void)h;
 }
 
 bool Game::isFirstPerson()
 {
     return false;
+}
+
+
+int Game::addScore(int s)
+{
+    score+=s;
+    return score;
 }

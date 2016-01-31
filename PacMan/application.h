@@ -28,7 +28,7 @@ private:
     Application();
     static Application &instance();
 public:
-    static int setup(int argc, char *argv[], int cols, int rows, int width, int height);
+    static int setup(int argc, char *argv[]);
     static void display();
     static void keyboard(unsigned char c,int x,int y);
     static void keyboardUp(unsigned char c,int x,int y);

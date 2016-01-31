@@ -61,7 +61,7 @@ void PacMan3D::display(IGame &game)
     glBindTexture(GL_TEXTURE_2D, texLast);
     glTranslated(pacX,pacY,12.0);
 
-    gluSphere(quadratic, 12.0f, 8, 8);
+    gluSphere(quadratic, 12.0f, 24, 24);
 
     glPopMatrix();
     glEnable(GL_LIGHTING);

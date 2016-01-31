@@ -117,7 +117,7 @@ void loop()
 {
   int haveChange;
   int tmp;
-  haveChange=0;
+  haveChange=1;
   if(count%lowPriority==0)
   {
     // Temperature

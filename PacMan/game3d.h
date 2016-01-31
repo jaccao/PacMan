@@ -29,26 +29,29 @@
 class Game3D: public Game
 {
 public:
-    Game3D(int playerAge);
+    Game3D(int playerAge, std::string playerName);
 private:
     void positionObserverZ();
-    int width,height;
     double phi,theta;
     bool firstPerson;
     double radius;
     double test;
+    double lastEyeX;
+    double lastEyeY;
+    double lastEyeZ;
+    double lastTargetX;
+    double lastTargetY;
+    double lastTargetZ;
 
     // IGame interface
 protected:
-    void setup(int cols,int rows,int width,int height);
+    void setup();
     void display();
     void keyboard(unsigned char c,int x,int y);
     void reshape(int w, int h);
     void idle();
-
-    // IGame interface
-public:
     bool isFirstPerson();
+    void displayText(float x, float y, float r, float g, float b, const char *string);
 };
 
 #endif // BOARD_H

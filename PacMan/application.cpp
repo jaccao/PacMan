@@ -17,10 +17,10 @@
 */
 
 #include "application.h"
+#include <iostream>
 
 Application::Application()
 {
-    game=new Game3D(35);
 }
 
 Application &Application::instance()
@@ -29,11 +29,19 @@ Application &Application::instance()
     return app;
 }
 
-int Application::setup(int argc, char *argv[], int cols, int rows, int width, int height)
+int Application::setup(int argc, char *argv[])
 {
+    std::string name;
+    int age;
+    std::cout << std::endl << "Your name: ";
+    std::cin >> name;
+    std::cout << std::endl << "Your age: ";
+    std::cin >> age;
+
     glutInit(&argc, argv);
 
-    instance().game->setup(cols, rows, width, height);
+    instance().game=new Game3D(age,name);
+    instance().game->setup();
 
     glutDisplayFunc(Application::display);
     glutKeyboardFunc(Application::keyboard);
