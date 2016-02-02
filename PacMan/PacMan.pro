@@ -54,7 +54,8 @@ SOURCES += \
     glWindowPos.cpp \
     level.cpp \
     sqlite3.c \
-    sql.cpp
+    sql.cpp \
+    heuristicfunction.cpp
 
 LIBS += -lglutk32
 LIBS += -lopengl32
@@ -99,7 +100,8 @@ HEADERS += \
     level.h \
     sqlite3.h \
     sqlite3ext.h \
-    sql.h
+    sql.h \
+    heuristicfunction.h
 
 DISTFILES += \
     ../arduino.ini
