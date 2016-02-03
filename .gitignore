@@ -14,3 +14,4 @@ PacMan/PacMan.pro.user.2175245
 *.o
 build-PacMan-Desktop_Qt_5_5_1_MinGW_32bit-Release/object_script.PacMan.Release
 *.Release
+*.o

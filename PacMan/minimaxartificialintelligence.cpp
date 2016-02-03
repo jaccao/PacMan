@@ -31,9 +31,12 @@ void MiniMaxArtificialIntelligence::createTree(IGame &game)
 {
     tree = Node(0);
 
+    //vector all ghosts positions
     vector<Position> all_ghosts;
+    //object Pacman
     Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
 
+    //insert all ghosts in vector positions of ghosts
     for (unsigned int var = 0; var < game.getGhosts().size(); var++)
     {
         IGhost* g = game.getGhosts()[var];
@@ -41,9 +44,9 @@ void MiniMaxArtificialIntelligence::createTree(IGame &game)
         p_ghost.g=g;
         all_ghosts.push_back(p_ghost);
     }
-
+    //initialize the inicial state with atual position of pacman and atual position of all ghosts
     State inicial(p_pac, all_ghosts);
-
+    //start recursive function to create tree
     geraStates(game, p_pac, inicial, all_ghosts, 0, all_ghosts.size());
 }
 
@@ -53,7 +56,8 @@ void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, Sta
     {
         Node childGhostValue;
         childGhostValue.atualState = move;
-        childGhostValue.data =  -evalState(game,move);
+        //childGhostValue.data =  -evalState(game,move);
+        childGhostValue.data =  -evalState2(game,move);
         tree.insert(childGhostValue);
         return ;
     }
@@ -67,7 +71,6 @@ void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, Sta
         State new_state = move;
         new_state.ghosts[number_of_ghost] = ghost;
 
-//        State s = geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
         geraStates(game, pacman, new_state, all_ghosts, number_of_ghost+1, total_of_ghost);
 
         /*Node childGhostValue;
@@ -75,16 +78,6 @@ void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, Sta
         childGhostValue.data =  evalState(game,s);
         tree.insert(childGhostValue);*/
     }
-
-}
-
-Position MiniMaxArtificialIntelligence::getOneGhost(IGame& game, int ghostNumber)
-{ //Retorna Posicao do Ghost que ira executar o miniMax
-
-    IGhost* g=game.getGhosts()[ghostNumber];
-    Position p_ghost(g->X()/game.getMap()->width(),g->Y()/game.getMap()->height());
-    p_ghost.g=g;
-    return p_ghost;
 }
 
 void MiniMaxArtificialIntelligence::idle(IGame &game)
@@ -104,7 +97,10 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
             if(pa->g)
             {
                 IGhost *g=pa->g;
-                g->setDirection(pa->directionX()*-1,pa->directionY()*-1);
+                //if(g->scared())
+                    //g->setDirection(pa->directionX(),pa->directionY());
+                //else
+                    g->setDirection(pa->directionX()*-1,pa->directionY()*-1);
             }
         }
         ellap = 0;
@@ -198,4 +194,18 @@ float MiniMaxArtificialIntelligence::minimaxAlfaBeta(Node &no,int depth, float a
 
     bestState = maximizingPlayer ? maxbestState : minbestState;
     return maximizingPlayer ? maxbestValue : minbestValue;
+}
+
+double MiniMaxArtificialIntelligence::evalState2(IGame& game, State& state)
+{
+    vector< Position > pg = state.ghosts;
+    vector< Position > ps;
+    ps.push_back(state.pacman);
+
+    int menor_distance1 = game.getHeuristica()->findWay(state.pacman,pg[0], pg);
+    int menor_distance2 = game.getHeuristica()->findWay(state.pacman,pg[1], pg);
+    int menor_distance3 = game.getHeuristica()->findWay(state.pacman,pg[2], pg);
+
+    double ret =(menor_distance1 + menor_distance2 + menor_distance3)/3;
+    return ret;
 }

@@ -106,9 +106,9 @@ int HeuristicFunction::findWay(Position& p, Position& g, vector<Position> &all_g
                 {
                     distance += 1000;
                 }
-                if(m[nameChild.first][nameChild.second] == 4) //food
+                if(map_game->matrix()[nameChild.first][nameChild.second] == IMap::TileFood) //food
                 {
-                    distance -= 100;
+                    distance -= 10;
                 }*/
                 distancia[indiceChild] = distancia[indice] + distance;
 
@@ -125,7 +125,7 @@ int HeuristicFunction::findWay(Position& p, Position& g, vector<Position> &all_g
     }
 
 
-    int indice = mapeamento[ghost];
+    /*int indice = mapeamento[ghost];
     pair<int,int> dad = padre[indice];
     //qDebug() << "(" << ghost.first << "," << ghost.second << ")";
     while(dad != pacman)
@@ -134,7 +134,7 @@ int HeuristicFunction::findWay(Position& p, Position& g, vector<Position> &all_g
         indice = mapeamento[dad];
         dad = padre[indice];
 
-    }
+    }*/
     //qDebug() << "(" << dad.first << "," << dad.second << ")";
 
     return distancia[mapeamento[ghost]];

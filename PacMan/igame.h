@@ -1,6 +1,7 @@
 #ifndef IGAME_H
 #define IGAME_H
 
+#include "heuristicfunction.h"
 #include "icontroller.h"
 #include "imap.h"
 #include "ipacman.h"
@@ -17,6 +18,7 @@ public:
     virtual IPacMan *getPacman()=0;
     virtual vector< IGhost* > getGhosts()=0;
     virtual IArtificialIntelligence *getAi()=0;
+    virtual HeuristicFunction *getHeuristica()=0;
     virtual void stateChanged()=0;
     virtual void setup()=0;
     virtual void display()=0;

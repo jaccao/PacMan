@@ -280,6 +280,7 @@ void Game::idle()
 
             map->setup(*this,level->cols,level->rows,level->width,level->height);
             state=IGame::Running;
+            heuris = new HeuristicFunction(map);
         }
     }
     glutPostRedisplay();
@@ -372,4 +373,10 @@ int Game::addScore(int s)
 {
     score+=s;
     return score;
+}
+
+
+HeuristicFunction *Game::getHeuristica()
+{
+    return heuris;
 }

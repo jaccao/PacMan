@@ -66,6 +66,8 @@ protected:
     int height();
     int lives;
     int score;
+
+    HeuristicFunction *heuris;
 public:
     Game(int playerAge,std::string playerName);
     int getEllapsed();
@@ -88,10 +90,8 @@ public:
     // IGame interface
 public:
     bool isFirstPerson();
-
-    // IGame interface
-public:
-    int addScore(int s = -1);
+    int addScore(int s = -1);    
+    HeuristicFunction *getHeuristica();
 };
 
 #endif // BOARD_H
