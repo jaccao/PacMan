@@ -27,7 +27,7 @@ void MiniMaxArtificialIntelligence::keyboardUp(IGame &game, unsigned char c, int
     (void)y;
 }
 
-void MiniMaxArtificialIntelligence::createTree2(IGame &game)
+void MiniMaxArtificialIntelligence::createTree(IGame &game)
 {
     tree = Node(0);
 
@@ -78,46 +78,6 @@ void MiniMaxArtificialIntelligence::geraStates(IGame &game, Position pacman, Sta
 
 }
 
-void MiniMaxArtificialIntelligence::createTree(IGame& game)
-{
-    tree = Node(0);
-    vector< vector< int > > visited;
-    visited.resize(game.getMap()->cols(),vector<int>(game.getMap()->rows(),0));
-    IMap *map = game.getMap();
-    vector< Position > pg;
-    pg.push_back(getOneGhost(game,0));// adicionando apenas o ghost 0 na lista
-
-    Position p_pac(game.getPacman()->X()/game.getMap()->width(),game.getPacman()->Y()/game.getMap()->height());
-    vector< Position > ps=game.getMap()->legalMov(p_pac);
-    for(unsigned int i=0;i<ps.size();i++)
-    {
-        State novoStateAntecipa(ps[i],pg);
-        Position possiblePacmanPos = ps[i];
-        Node child;
-        if(map->matrix()[possiblePacmanPos.x][possiblePacmanPos.y]==IMap::TileFood){
-            child.data = 100.0; //se tem comida Movimento + 100 se não pacman -50
-        }
-        else
-            child.data = -50.0;
-        child.atualState=novoStateAntecipa;
-        //            for(unsigned int g=0;g<pg.size();g++)
-        //            {
-        vector< Position > ghostPositions=game.getMap()->legalMov(pg[0]);// retorna proxima position valida de um fantasma 0
-        for (unsigned int j = 0; j < ghostPositions.size(); j++) {
-            vector<Position> tempPositions = pg; // para não perder o valor antigo, que ira ser utilizado no proximo node
-            tempPositions.push_back(ghostPositions[j]); // modificando o valor da posição do fantasma 0
-            State novoStateGhost(p_pac,tempPositions);
-            Node childGhostValue;
-            childGhostValue.atualState = novoStateGhost;
-            childGhostValue.data =  evalState(game,novoStateGhost);
-            child.insert(childGhostValue);
-
-        }
-        tree.insert(child);
-        // }
-    }
-}
-
 Position MiniMaxArtificialIntelligence::getOneGhost(IGame& game, int ghostNumber)
 { //Retorna Posicao do Ghost que ira executar o miniMax
 
@@ -134,10 +94,8 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
 
     if(ellap>200)
     {
-        //createTree(game);
-        createTree2(game);
-        float teste = minimax(tree,4,false);
-        (void)teste;
+        createTree(game);
+        minimaxAlfaBeta(tree, 4, -999999, 999999, true);
 
         for(unsigned int c=0;c<bestState.ghosts.size();c++)
         {
@@ -151,48 +109,6 @@ void MiniMaxArtificialIntelligence::idle(IGame &game)
         }
         ellap = 0;
     }
-}
-
-//minimax(origin, depth, TRUE)
-float MiniMaxArtificialIntelligence::minimax(Node &no, int depth, bool maximizingPlayer){
-    float bestValue = 0;
-//  depth is never true:  if(depth = 0 || no.children.empty())
-    if(depth == 0 || no.children.empty())
-    {
-        return no.data;
-    }
-    if(maximizingPlayer)
-    {
-        bestValue = 9999999; // considerando como infinito
-        for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++) {
-            Node child = *it;
-            float val = minimax(child,depth-1,false);
-            if(val < bestValue){
-                bestValue = val;
-                no.atualState = child.atualState;
-                bestState = no.atualState;
-            }
-            //  bestValue = std::max(bestValue,val);
-        }
-        return bestValue;
-    }
-    else
-    {
-        bestValue = -9999999; //considerando como valor -infinito
-        for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
-        {
-            Node child = *it;
-            float val = minimax(child,depth-1,true);
-            if(val > bestValue){
-                bestValue = val;
-                no.atualState = child.atualState;
-                bestState = no.atualState;
-            }
-        }
-        // bestValue = std::min(bestValue,val);
-        return bestValue;
-    }
-    return 0;
 }
 
 double MiniMaxArtificialIntelligence::evalState(IGame& game,State& state)
@@ -238,4 +154,48 @@ double MiniMaxArtificialIntelligence::evalState(IGame& game,State& state)
     }
     double ret= (double)max_steps/(double)game.getGhosts().size();
     return ret;
+}
+
+float MiniMaxArtificialIntelligence::minimaxAlfaBeta(Node &no,int depth, float alpha, float beta, bool maximizingPlayer)
+{
+    float maxbestValue = -9999999, minbestValue = 9999999;
+    State maxbestState, minbestState;
+    if(depth == 0 || no.children.empty())
+    {
+        return no.data;
+    }
+
+    for(std::vector<Node>::iterator it=no.children.begin(); it!=no.children.end(); it++)
+    {
+        Node child = *it;
+        float val = minimaxAlfaBeta(child, depth-1, alpha, beta, maximizingPlayer ? false : true);
+        if(val > maxbestValue)
+        {
+            maxbestValue = val;
+            no.atualState = child.atualState;
+            maxbestState = no.atualState;
+        }
+        if(val < minbestValue)
+        {
+            minbestValue = val;
+            no.atualState = child.atualState;
+            minbestState = no.atualState;
+        }
+
+        if(maximizingPlayer)
+        {
+            alpha = std::max(maxbestValue, alpha);
+        }
+        else
+        {
+            beta = std::min(minbestValue, beta);
+        }
+
+        //when max beta cut-off, when min alpha cut-off
+        if(beta <= alpha)
+            break;
+    }
+
+    bestState = maximizingPlayer ? maxbestState : minbestState;
+    return maximizingPlayer ? maxbestValue : minbestValue;
 }

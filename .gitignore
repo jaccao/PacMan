@@ -10,3 +10,7 @@ build-PacMan-Desktop_Qt_5_5_1_MinGW_32bit-Debug/object_script.PacMan.Release
 *.user
 *.user
 PacMan/PacMan.pro.user.2175245
+*.dll
+*.o
+build-PacMan-Desktop_Qt_5_5_1_MinGW_32bit-Release/object_script.PacMan.Release
+*.Release
